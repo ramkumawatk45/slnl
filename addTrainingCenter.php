@@ -35,7 +35,7 @@ if(isset($_REQUEST['addCenter']))
 				$sql=mysql_query("INSERT INTO branchs(branchName,branchCode,branchAddress,zipCode,phoneNo,areaCode,stateId,districtId,status) VALUES('$branchName','$branchCode','$branchAddress','$zipCode','$phoneNo','$areaCode','$stateId','$districtId','$status')");
 				$sql1=mysql_query("INSERT INTO user(branchCode,usertype,username,password,status) VALUES('$branchCode','BRANCH','$userName','$password','$status')");
 				$msg=inserted;
-				$pageHrefLink ="trainingcenter.php";
+				$pageHrefLink ="trainingCenter.php";
 				}
 		}
 }

@@ -110,7 +110,7 @@
                 <li class="states  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'states.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="states.php"><i class="fa fa-paperclip"></i>States</a></li> 
                 <li class="districts  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'districts.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="districts.php"><i class="fa fa-sliders"></i>Districts</a></li> 
 				<li class="areas  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'areas.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="areas.php"><i class="fa fa-sliders"></i>Areas</a></li> 
-                <li class="trainingcenter  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'trainingcenter.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="trainingcenter.php"><i class="fa fa-university "></i>Branches</a></li> 
+                <li class="trainingcenter  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'trainingCenter.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="trainingCenter.php"><i class="fa fa-university "></i>Branches</a></li> 
 				
 				
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPlans.php"><i class="fa fa-paperclip"></i>Loan Plan</a></li> 

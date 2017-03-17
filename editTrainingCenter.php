@@ -35,7 +35,7 @@ if(isset($_REQUEST['addCenter']))
 				$sql=mysql_query("update branchs set branchName='$branchName',branchCode='$branchCode',branchAddress='$branchAddress',zipCode='$zipCode',phoneNo='$phoneNo',areaCode='$areaCode',stateId='$stateId',districtId='$districtId',status='$status' where branchId='$id'");
 				//$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' where branchId='$id'");
 				$msg=updated;
-				$pageHrefLink ="trainingcenter.php";
+				$pageHrefLink ="trainingCenter.php";
 				//}
 		}
 }

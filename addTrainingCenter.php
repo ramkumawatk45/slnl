@@ -15,7 +15,7 @@ if(isset($_REQUEST['addCenter']))
 	$phoneNo = $_REQUEST['phoneNo'];
 	$status = $_REQUEST['status'];
 	$userName = $_REQUEST['userName'];
-	$password = md5($_REQUEST['password']);
+	$password = trim($_REQUEST['password']);
 	$sql = "select branchName ,branchCode from branchs where branchName='$branchName' or branchCode='$branchCode'";
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res))

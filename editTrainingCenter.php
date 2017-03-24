@@ -15,7 +15,7 @@ if(isset($_REQUEST['addCenter']))
 	$phoneNo = $_REQUEST['phoneNo'];
 	$status = $_REQUEST['status'];
 	$userName = $_REQUEST['userName'];
-	$password = md5($_REQUEST['password']);
+	$password = trim($_REQUEST['password']);
 	$sql = "select branchName ,branchCode from branchs where branchName='$branchName' or branchCode='$branchCode'";
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res) > 1)
@@ -33,7 +33,7 @@ if(isset($_REQUEST['addCenter']))
 				// else
 				// {
 				$sql=mysql_query("update branchs set branchName='$branchName',branchCode='$branchCode',branchAddress='$branchAddress',zipCode='$zipCode',phoneNo='$phoneNo',areaCode='$areaCode',stateId='$stateId',districtId='$districtId',status='$status' where branchId='$id'");
-				//$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' where branchId='$id'");
+				$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' where branchCode='$branchCode'");
 				$msg=updated;
 				$pageHrefLink ="trainingCenter.php";
 				//}
@@ -178,15 +178,15 @@ $(document).ready(function(){
 					foreach($pagessData as $loginData)
 					{
 					?>
-					<h3 class="box-title hide">Branch Login Detail</h3>
+					<h3 class="box-title ">Branch Login Detail</h3>
 					</div>
-					<div class="form-group col-md-6 hide">
+					<div class="form-group col-md-6 ">
                       <label for="pageTitle">User Name </label>
-                      <input type="text" class="form-control" id="userName" name="userName" value="<?php echo $loginData['username'] ?>" maxlength="100" />                  
+                      <input type="text" class="form-control" id="userName" name="userName" value="<?php echo $loginData['username']; ?>" maxlength="100" />                  
                     </div>
-					<div class="form-group col-md-6 hide">
+					<div class="form-group col-md-6 ">
                       <label for="pageTitle">Password </label>
-                      <input type="text" class="form-control" id="password" name="password" value="<?php echo $loginData['password'] ?>"maxlength="15"  />                  
+                      <input type="text" class="form-control" id="password" name="password" value="<?php echo utf8_decode($loginData['password']); ?>"maxlength="15"  />                  
                     </div>
                   <div class="box-footer">
 					<div class="col-md-6">

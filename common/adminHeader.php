@@ -53,7 +53,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
 <!--                  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
--->                  <span class="glyphicon glyphicon-user"> <?php echo $_SESSION['login_user'] ?></span>
+-->                  <span class="glyphicon glyphicon-user"> <?php echo $_SESSION['login_user']; ?></span>
                   <span class="caret"></span>
                   <span class="hidden-xs"></span>
                 </a>

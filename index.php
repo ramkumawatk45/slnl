@@ -10,9 +10,9 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
   $error='';
   if(isset($_REQUEST['submit']))
   {
-	 	 $username = $_REQUEST['username'];
-	 	 $password = md5($_REQUEST['password']);
-		 $sql="SELECT * FROM user WHERE username='$username' and password='$password'";
+	 	 $username = trim($_REQUEST['username']);
+	 	 $password = trim($_REQUEST['password']);
+		 $sql="SELECT * FROM user WHERE username='$username' and password='$password' and deleted='0' and status='0'";
 		 $result=mysql_query($sql);
 		 $userType='';
 		 $branchCode='';
@@ -26,7 +26,7 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 				$branchCode = $tableData['branchCode'];
 			}
 		}
-		 $sql3="SELECT * FROM branchs WHERE branchCode='$branchCode'";
+		 $sql3="SELECT * FROM branchs WHERE branchCode='$branchCode' and deleted='0' and status='0'";
 		 $results3=mysql_query($sql3);
 		 while($result3=mysql_fetch_array($results3)) { $branchId = $result3['branchId']; }  
 		 $myresult = mysql_fetch_row($result);

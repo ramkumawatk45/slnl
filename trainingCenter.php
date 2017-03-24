@@ -47,7 +47,7 @@ $menuType = "viewPages";
                         <td><?php echo $tableData['phoneNo']; ?> </td>
                         <td><?php $status=$tableData['status']; if($status==0){ echo "Enabled"; } else{ echo "Disabled"; } ?></td>
 						<td><a href='editTrainingCenter.php?id=<?php echo  $tableData['branchId'];?>&districtId=<?php echo  $tableData['districtId'];?>&areacode=<?php echo  $tableData['areacode'];?> '>Edit </a></td>
-                        <td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteTrainingCenter.php?id=<?php echo  $tableData['branchId']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a></td> 
+                        <td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteTrainingCenter.php?id=<?php echo  $tableData['branchId']; ?>&branchCode=<?php echo  $tableData['branchCode']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a></td> 
                       </tr>
                     <?php } } ?>
 				   </tbody>	

@@ -20,7 +20,18 @@ $("#loading").removeClass('hide');
     $('#emiReport').DataTable({
         dom: 'Bfrtip',
         buttons: [
-				'pageLength', 'pdf',
+				'pageLength',
+			{
+			extend: 'pdf',
+			footer: true,
+			title: 'EMI Collection Report',
+			exportOptions: {
+			columns: ':visible',
+			modifier: {
+				page: 'current',
+			}
+			}
+			},
             {
                 extend: 'print',
 				footer: true,

@@ -484,7 +484,7 @@ $(document).ready(function(){
 						</select>
 						</div>
 						<?php 
-						$query="SELECT * FROM defaults where type ='LATEFEES' and status='0' ";
+						$query="SELECT * FROM defaults where type ='LATEFEES'";
 						$defaultData=fetchData($query);
 						foreach($defaultData as $defaults)
 						{

@@ -3,15 +3,17 @@
 include("common/conn.php");
 include("class/datalist.php");
 $branchId = $_SESSION['branchId'];	
+$today=date('Y-m-d');
 if($_SESSION['userType']=="ADMIN")
 {
-$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' ";
+$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0'";
 }
 else
 {
-		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0'   and branchCode='$branchId'";
+		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0'   and loans.branchCode='$branchId'";
 }	
 $pageData=fetchData($query);
+var_dump($query);
 if (is_array($pageData) || is_object($pageData))
 {
 $i=1;
@@ -34,9 +36,9 @@ foreach($pageData as $tableData)
 		<td><?php $planId=$tableData['loanPlanId'];
 	$planQuery="SELECT * FROM loanplan where id='$planId' ";$menuDatas=fetchData($planQuery);foreach($menuDatas as $branchData){  echo $branchData['planName']; } ?></td>
 		<td><?php $planId=$tableData['planTypeId'];
-	$planQuery="SELECT * FROM plantypes where id='$planId' ";$menuDatas=fetchData($planQuery);foreach($menuDatas as $branchData){  echo $branchData['planName']; } ?></td>
+	$planQuerys="SELECT * FROM plantypes where id='$planId' ";$menuDatass=fetchData($planQuerys);foreach($menuDatass as $branchDataa){  echo $branchDataa['planName']; } ?></td>
 	<td><?php  $ndd =  explode('-',$tableData['ndd']); echo $ndd[2].'/'.$ndd[1].'/'.$ndd[0]; ?></td>
 	<td><?php  echo $tableData['emiNo']+1; ?></td> 
-	<td><?php echo $tableData['emiAmount']; ?></td>
+	<td><?php echo $tableData['emi']; ?></td>
   </tr>
 <?php } } ?>

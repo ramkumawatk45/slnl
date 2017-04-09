@@ -20,18 +20,33 @@ $("#loading").removeClass('hide');
     $('#emiReport').DataTable({
         dom: 'Bfrtip',
         buttons: [
-				'pageLength', 'pdf',
+				'pageLength',
+			{
+			extend: 'pdf',
+			footer: true,
+			title: 'EMI Due Report',
+			exportOptions: {
+			columns: ':visible',
+			modifier: {
+				page: 'current',
+			}
+			}
+			},
             {
                 extend: 'print',
+				footer: true,
+				title: 'EMI Due Report',
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
-                    page: 'current'
+                    page: 'current',
                 }
 				}
             },
 			{
                 extend: 'copy',
+				footer: true,
+				title: 'EMI Due Report',
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -41,6 +56,8 @@ $("#loading").removeClass('hide');
             },
 			{
                 extend: 'excel',
+				footer: true,
+				title: 'EMI Due Report',
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -72,7 +89,7 @@ $("#loading").removeClass('hide');
 
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">Branch Collection  Report</h3>
+                  <h3 class="box-title">EMI Due  Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
                   <table id="emiReport" class="table table-bordered table-striped">

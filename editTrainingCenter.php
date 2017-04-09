@@ -112,7 +112,7 @@ $(document).ready(function(){
 				<input type="hidden" id="districtId" value="<?php echo $_REQUEST['districtId']; ?>">
 				<input type="hidden" id="areaCode" value="<?php echo $_REQUEST['areacode']; ?>">
 
-                	<?php $query="SELECT * FROM branchs where branchId='$id' ";
+                	<?php $query="SELECT * FROM branchs inner join user on branchs.branchCode=user.branchCode and branchs.branchId='$id' ";
 					$pagesData=fetchData($query);
 					foreach($pagesData as $imagesData)
 					{
@@ -124,7 +124,7 @@ $(document).ready(function(){
                     </div>
 					<div class="form-group col-md-6">
                       <label for="pageTitle">Branch Code </label>
-                      <input type="text" class="form-control" id="branchCode" name="branchCode" placeholder="Branch Code " maxlength="100"  value="<?php echo $imagesData['branchCode'] ?>" required />                  
+                      <input type="text" class="form-control" id="branchCode" name="branchCode" placeholder="Branch Code " maxlength="100"  value="<?php echo $imagesData['branchCode'] ?>" required readonly />                  
                     </div>
 					<div class="form-group col-md-12">
                       <label for="pageTitle">Address </label>

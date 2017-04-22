@@ -114,10 +114,10 @@
 				
 				
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPlans.php"><i class="fa fa-paperclip"></i>Loan Plan</a></li> 
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loans.php"><i class="fa fa-user"></i>Loan Customer</a></li> 
 				<?php 
 				}
 				?>
+				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loans.php"><i class="fa fa-user"></i>Loan Customer</a></li> 
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanEmi.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanEmi.php"><i class="fa fa-money"></i>Loan EMI</a></li>
 				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiReport.php"><i class="fa fa-money"></i>EMI Collection Report</a></li> 
 				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>EMI Due Report</a></li> 		
@@ -327,6 +327,9 @@ div.dt-buttons {
 table.dataTable.select tbody tr,
 table.dataTable thead th:first-child {
   cursor: pointer;
+}
+body {
+    font-size: 12px;
 }
 </style>
 

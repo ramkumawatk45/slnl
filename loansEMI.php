@@ -41,7 +41,7 @@ $branchId = $_SESSION['branchId'];
 		{
 			penaltyresult = (emi*lateFees/100)*diffDays;
 		}	
-			$("#totalAmount").val(penaltyresult+serviceCharge+emi);
+			$("#totalAmount").val(parseInt(penaltyresult+serviceCharge+emi));
 			$("#lateFee").val(penaltyresult);
 		}	
 		else
@@ -239,6 +239,9 @@ $(document).ready(function(){
                       <label for="pageTitle">Member Photo</label>
                       <img style="height:120px;width:120px" src="<?php echo $loanData['memberPhoto']; ?>" />                  
                     </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Member Mobile Number</label>
+                      <input type="text" class="form-control" disabled id="emi" name="emi" value="<?php echo $loanData['memberMobile']; ?>" maxlength="5"  required /> </div>
                         
                   </div><!-- /.box-body -->
 				  <?php
@@ -318,13 +321,69 @@ $(document).ready(function(){
 							$emiAmount = $_REQUEST['emi'];
 
 							$dueDate = $_REQUEST['dueDate'];
-							
-							$cDate = $_REQUEST['cDate'];
+							$createdateDueDate = explode('/', $dueDate);
+							 $month = $createdateDueDate[1];
+							 $day   = $createdateDueDate[0];
+							 $year  = $createdateDueDate[2];
+							 $joinDueDate = $year.'-'.$month.'-'.$day;
+							 $cDate = $_REQUEST['cDate'];
+							 $createdateCDate = explode('/', $cDate);
+							 $month = $createdateCDate[1];
+							 $day   = $createdateCDate[0];
+							 $year  = $createdateCDate[2];
+							 $joinCDate = $year.'-'.$month.'-'.$day;
 							//$serviceCharges = $_REQUEST['serviceCharges'];
 							$paymentMode = $_REQUEST['paymentMode'];
 							$chequeNo = $_REQUEST['chequeNo'];
 							$chequeDate = $_REQUEST['chequeDate'];
 							$bankName = $_REQUEST['bankName'];
+							//Calculate NDD Date 
+							$cdate=explode('/',$_REQUEST['dueDate']);
+							$date=$cdate[0];
+							$month=$cdate[1];
+							$year=$cdate[2];
+							$counter=$month;
+							$g; 
+							$counter=$counter+=1;
+							if($counter>12)
+							{
+								$counter=$counter-12; 
+								$year++;
+							}
+							for($g=1;$g<12;$g++)
+							{
+								if(strlen($counter)==1)
+								{
+									if($counter==2 && $date>=29)
+									{
+										if($year%4==0)
+										{
+											$eminewDuedate=$year.'-0'.$counter.'-29';
+										}
+										else
+										{
+											$eminewDuedate=$year.'-0'.$counter.'-28';
+										}
+									}
+									elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
+									{
+										$eminewDuedate=$year.'-0'.$counter.'-30';
+									}
+									else
+									{
+										$eminewDuedate=$year.'-0'.$counter.'-'.$date;
+									}					
+								}
+								elseif( $counter==11 && $date>=30)
+								{
+									$eminewDuedate=$year.'-'.$counter.'-'.'30';
+										
+								}
+								else
+								{	 
+									$eminewDuedate=$year.'-'.$counter.'-'.$date;
+								}
+							}	
 							if($_REQUEST['totalPaid']< $_REQUEST['totalPayable'])
 							{	
 							$query="SELECT MAX(id) FROM loanemi";
@@ -336,8 +395,8 @@ $(document).ready(function(){
 							}
 								$transmaxId = $transmaxId+1;
 								$transId = $transmaxId;
-								$sql=mysql_query("INSERT INTO loanemi(loanId, branchCode, emiNo, lateFee, serviceCharge, transId, emiAmount, dueDate, paymentDate, paymentMode, chequeNo, chequeDate, bankName) VALUES ('$loanId','$branchId','$emiNo','$lateFee','$serviceCharge','$transId','$emiAmount','$dueDate','$cDate','$paymentMode','$chequeNo','$chequeDate','$bankName')");
-								echo sms($loanData['memberMobile'],"SHLIFE Dear ".$loanData['applicantName'].",Thank you for deposit your EMI, Loan No <".$loanId.">,Rs-".$emiAmount.",Date-".$cDate.", Shri Life Nidhi Limited.");
+								$sql=mysql_query("INSERT INTO loanemi(loanId, branchCode, emiNo, lateFee, serviceCharge, transId, emiAmount, dueDate,newDueDate,ndd,paymentDate, newPaymentDate, paymentMode, chequeNo, chequeDate, bankName) VALUES ('$loanId','$branchId','$emiNo','$lateFee','$serviceCharge','$transId','$emiAmount','$dueDate','$joinDueDate','$eminewDuedate','$cDate','$joinCDate','$paymentMode','$chequeNo','$chequeDate','$bankName')");
+								echo sms($loanData['memberMobile'],"SHLIFE DEAR ".strtoupper($loanData['applicantName']).",Thank you for deposit your Loan EMI, Loan No <".$loanId.">,Rs-".(round($emiAmount+$lateFee+$serviceCharge)).",Date-".$cDate.", Shri Life Nidhi Limited.");
 								header("location:sucessEMI.php?id=".$id."&emiNO=".$emiNo);
 							}
 							else
@@ -493,7 +552,7 @@ $(document).ready(function(){
                         <label for="pageTitle">Penalty Deduct</label>
                         <input type="hidden" class="form-control"  id="lateFees" name="lateFees" value="<?php  echo $defaults['defaultVal']; ?>"  maxlength="15" />                   
 						  <input type="hidden" class="form-control"  id="lateFee" name="lateFee" /> 
-						 <select class="form-control" name="penaltyDeduct" id="penaltyDeduct" <?php if($_SESSION['branchCode']){echo "style=' pointer-events: none;'";} ?> >
+						 <select class="form-control" name="penaltyDeduct" id="penaltyDeduct" >
 							<option <?php if($defaults['status']=="1") { echo 'selected';} ?>value="0">No</option>
 							<option <?php if($defaults['status']=="0") { echo 'selected';} ?>value="1">Yes</option>
 						</select>
@@ -507,7 +566,7 @@ $(document).ready(function(){
 							?>
 						<div class="form-group col-md-4">
                         <label for="pageTitle">Service Charges</label>
-						<select class="form-control " name="serviceCharge" id="serviceCharge" <?php if($_SESSION['branchCode']){echo "style=' pointer-events: none;'";} ?>>
+						<select class="form-control " name="serviceCharge" id="serviceCharge" >
 							<option value="0">None</option>
 							<option value="150">150</option>
 							<option value="250">250</option>

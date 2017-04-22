@@ -19,7 +19,7 @@ function myprint()
 *{font-family:arial;}
 .first, .second, .third{height:74px;float:left; font-family:open-sans;  font-size:12px; }
 h2{margin:0px;}
-.main{width:850px; margin:0px auto; text-align:center;  font-size:12px; }
+.main{width:850px; margin-top:30px; text-align:center;  font-size:12px; }
 .first{width:15%; border-right:none;}
 .third{width:200px; text-align:left;  margin-left:73px; padding-left:5px; border:1px solid; border-bottom:none;}
 .third span{ margin-top:10px;    line-height:18px;}
@@ -144,6 +144,15 @@ while($result4=mysql_fetch_array($query4)) {echo $result4['branchName']; } ?></t
 <tr><td>3) Plan Name & Term</td><td> :</td><td><?php $loanPlanId = $result2['loanPlanId']; $query3 = mysql_query("select * from loanPlan where id='$loanPlanId'");
 while($result3=mysql_fetch_array($query3)) {echo $result3['planName']; }  ?></td><td>7) Total Receipt Amount</td><td>:</td><td><?php $taoi=$taoi+$lateFee+$result['serviceCharge']; echo $taoi; ?></td></tr>
 <tr><td>4) Service Charges</td><td> :</td><td> <?php echo $result['serviceCharge']; ?></td><td>8) Due Date</td><td>:</td><td> <?php  echo $result['dueDate']; ?></td></tr>
+<tr>
+<td>9) Next Due Date</td><td>:</td>
+<td>
+	<?php $ndd = $ndddate = explode('-', $result['ndd']);
+	 $month = $ndddate[1];
+	 $day   = $ndddate[2];
+	 $year  = $ndddate[0];
+	 $joinNddDate = $day.'-'.$month.'-'.$year;  echo $joinNddDate; ?></td>
+</tr>
 </table>
 <table class="thirdtable" cellpadding="0" cellspacing="0" >
 <tr><td></td><td ></td><td></td></tr>

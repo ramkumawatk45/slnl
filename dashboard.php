@@ -37,7 +37,7 @@ $(document).ready(function() {
             [ '10 ', '25 ', '50 ', 'Show all' ]
         ]
     } );
-		$(".dt-buttons").append("<a class='dt-button buttons-excel buttons-html5' tabindex='0' aria-controls='category' href='#' name='sendMessage'><span>Send</span></a>")
+		
 
 } );
 </script>
@@ -53,6 +53,34 @@ $(document).ready(function() {
                   <h3 class="box-title">EMI Due Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
+				<form method="post">
+				<?php 
+				 $currentDate = date('Y-m-d');
+					 if($_SESSION['userType']=="ADMIN")
+					{
+					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and  where loanemi.ndd='$currentDate'";
+					}
+					else
+					{
+							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
+					}	
+					$pageData=fetchData($query);
+					if (is_array($pageData) || is_object($pageData))
+					{
+					
+					foreach($pageData as $tableData)
+					{
+					?>
+					<input type="hidden" name="loanId[]" value="<?php  echo $tableData['loanId']; ?>" />
+					<input type="hidden" name="applicantName[]" value="<?php  echo $tableData['applicantName']; ?>" />
+					<input type="hidden" name="memberMobile[]" value="<?php  echo $tableData['memberMobile']; ?>" />
+					<input type="hidden" name="emi[]" value="<?php  echo $tableData['emi']; ?>" />
+					<input type="hidden" name="emiDate[]" value="<?php  echo $tableData['ndd']; ?>" />
+					<?php
+					}}
+					?>	
+					<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message">
+					</form>
                   <table id="category" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -77,7 +105,7 @@ $(document).ready(function() {
 					 $currentDate = date('Y-m-d');
 					 if($_SESSION['userType']=="ADMIN")
 					{
-					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and  loanemi.ndd='$currentDate'  ";
+					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0'  where loanemi.ndd='2017-04-01'";
 					}
 					else
 					{
@@ -96,7 +124,7 @@ $(document).ready(function() {
 								$year=$cdate[2];
 								$counter=$month;
 						$g; 
-						$counter=$counter+=1;
+						$counter=$counter;
 						if($counter>12)
 						{
 							$counter=$counter-12; 
@@ -137,7 +165,7 @@ $(document).ready(function() {
 						}
 					}	
 							$loanId = $tableData['id'];
-							//$sql=mysql_query("update loanemi set ndd='$emidate' where id='$loanId'");
+							//$sql=mysql_query("update loanemi set newDueDate='$emidate' where id='$loanId'");
 							//var_dump($sql);
 					?>
 					

@@ -13,7 +13,6 @@ else
 		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0'   and loans.branchCode='$branchId'";
 }	
 $pageData=fetchData($query);
-var_dump($query);
 if (is_array($pageData) || is_object($pageData))
 {
 $i=1;

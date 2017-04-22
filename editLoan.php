@@ -327,11 +327,15 @@ $(document).ready(function(){
                   </div><!-- /.box-body -->
 				  <?php
 					}
+					if($_SESSION['userType']=="ADMIN")
+					{
 					?>
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary  pull-left" name="addStates">Submit</button>
                   </div>
-				  
+				  <?php 
+						}
+					?>
                 </form>
               </div><!-- /.box -->
             </div><!--/.col (left) -->

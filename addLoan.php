@@ -10,6 +10,11 @@ if(isset($_REQUEST['addStates']))
 	 $formNo = $_REQUEST['formNo'];
 	 $memberId = $_REQUEST['memberId'];
 	 $cDate = $_REQUEST['cDate'];
+	 $createdate = explode('/', $cDate);
+	 $month = $createdate[1];
+	 $day   = $createdate[0];
+	 $year  = $createdate[2];
+	 $joincDate = $year.'-'.$month.'-'.$day;
 	 $applicantName = $_REQUEST['applicantName'];
 	 $gurdianName = $_REQUEST['gurdianName'];
 	 $applicantDob = $_REQUEST['applicantDob'];
@@ -55,7 +60,7 @@ if(isset($_REQUEST['addStates']))
 			if(in_array($ext, $valid_extensions)) 
 			{					
 				$path = $path.strtolower($final_image);	
-				$sql=mysql_query("INSERT INTO loans(loanId,branchCode,formId,memberId,cDate,applicantName,gurdianName,dob, age, address, stateId, districtId, areaId, zipCode, sex, maritalStatus, gMemberNo, gName, gMobile, loanPlanId, planTypeId, loanAmount, rateOfInterest, emi, pMode, chequeNo, chequeDate, bankAC, bankName, loanPurpose, memberPhoto,memberMobile,memberEmail,status) VALUES ('$loanId','$branchId','$formNo','$memberId','$cDate','$applicantName','$gurdianName','$applicantDob','$applicantAge','$address','$state','$district','$area','$zipCode','$gender','$maritalStatus','$gMemberNo','$gMemberName','$gMemberMobile','$planId','$planType','$loanAmount','$rateOfInterest','$emi','$paymentMode','$chequeNo','$chequeDate','$bankAc','$bankName','$loanPurpose','$path','$memberMobile','$memberEmail','$status')");
+				$sql=mysql_query("INSERT INTO loans(loanId,branchCode,formId,memberId,cDate,createDate,applicantName,gurdianName,dob, age, address, stateId, districtId, areaId, zipCode, sex, maritalStatus, gMemberNo, gName, gMobile, loanPlanId, planTypeId, loanAmount, rateOfInterest, emi, pMode, chequeNo, chequeDate, bankAC, bankName, loanPurpose, memberPhoto,memberMobile,memberEmail,status) VALUES ('$loanId','$branchId','$formNo','$memberId','$cDate','$joincDate','$applicantName','$gurdianName','$applicantDob','$applicantAge','$address','$state','$district','$area','$zipCode','$gender','$maritalStatus','$gMemberNo','$gMemberName','$gMemberMobile','$planId','$planType','$loanAmount','$rateOfInterest','$emi','$paymentMode','$chequeNo','$chequeDate','$bankAc','$bankName','$loanPurpose','$path','$memberMobile','$memberEmail','$status')");
 				move_uploaded_file($tmp,$path); 
 				$msg="Data Sucessfully Submited";
 				$pageHrefLink="loans.php";

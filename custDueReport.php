@@ -3,20 +3,7 @@ include("controller/pages_controller.php");
 $menuType = "gallery";
 ?>
 <script type="text/javascript">
-$("#loading").removeClass('hide');
- $.ajax({    //create an ajax request to load_page.php
-        type: "GET",
-        url: "ajaxDueReport.php",             
-        dataType: "html",   //expect html to be returned                
-        success: function(response){                    
-            $("#tableData").html(response); 
-			sortTableData();
-            //alert(response);
-        }
- });
- function sortTableData()
- {
-	$("#loading").addClass('hide');
+$(document).ready(function() {
     $('#emiReport').DataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -94,8 +81,8 @@ $("#loading").removeClass('hide');
 			$( api.column( 10 ).footer() ).html(emiTotal);	
 		}
     });
-	$(".dt-buttons").append("")
-}
+});
+
 </script>
 
 <?php
@@ -108,7 +95,7 @@ if(isset($_REQUEST['sendMessage']))
 	$emiDate=$_REQUEST['emiDate'];
 	$ndd =  explode('-',$emiDate); 
 	$today =  $ndd[2].'/'.$ndd[1].'/'.$ndd[0]; 
-	echo sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName).",Loan No <".$loanId."> YOUR EMI,Rs-".(round($emi))." Due, on Date-".$today.", Shri Life Nidhi Limited.");
+	sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName).",Loan No <".$loanId."> YOUR EMI,Rs-".(round($emi))." Due, on Date-".$today.", Shri Life Nidhi Limited.");
 	$msg="Messeage Sended Successfully";
 	$pageHrefLink="custDueReport.php?id=".$loanId;
 
@@ -126,7 +113,7 @@ if(isset($_REQUEST['sendMessage']))
                   <h3 class="box-title">EMI Due  Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
-				<form method="post">
+<form method="post">
 <?php 
 $branchId = $_SESSION['branchId'];
 $loanId	= $_REQUEST['id'];

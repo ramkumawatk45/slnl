@@ -5,11 +5,11 @@ include("class/datalist.php");
 $branchId = $_SESSION['branchId'];	
 	if($_SESSION['userType']=="ADMIN")
 						{
-								$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' order by emiNo  ";
+								$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' order by emiNo,newPaymentDate Desc  ";
 						}
 						else
 						{
-								$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0'  and loanemi.branchCode='$branchId' order by emiNo";
+								$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0'  and loanemi.branchCode='$branchId' order by emiNo,newPaymentDate Desc";
 						}	
 					$pageData=fetchData($query);
 	$i = 1;

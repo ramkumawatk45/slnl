@@ -68,7 +68,6 @@ $("#loading").removeClass('hide');
             'colvis'
         ],
         columnDefs: [ {
-            targets: -1,
             visible: false
         } ],
 		lengthMenu: [

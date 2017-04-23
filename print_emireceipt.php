@@ -19,7 +19,7 @@ function myprint()
 *{font-family:arial;}
 .first, .second, .third{height:74px;float:left; font-family:open-sans;  font-size:12px; }
 h2{margin:0px;}
-.main{width:850px; margin-top:30px; text-align:center;  font-size:12px; }
+.main{width:850px; text-align:center;  font-size:12px; }
 .first{width:15%; border-right:none;}
 .third{width:200px; text-align:left;  margin-left:73px; padding-left:5px; border:1px solid; border-bottom:none;}
 .third span{ margin-top:10px;    line-height:18px;}

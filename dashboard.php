@@ -4,9 +4,9 @@ $menuType = "gallery";
 $branchId = $_SESSION['branchId'];
 if(isset($_POST['sendMessage'])){
 if(!empty($_POST['checkBoxMessage'])) {
-foreach($_POST['checkBoxMessage'] as $selected) {
-	var_dump($selected);
-}
+    foreach($_POST['checkBoxMessage'] as $check) {
+            var_dump($check); 
+    }
 }
 }
 ?>
@@ -172,7 +172,7 @@ $(document).ready(function() {
                       <tr>
                          <td><?php echo  $i++; ?></td>
 						 <td>
-						 <input type='checkbox' id="checkBoxMessage"  class="checkBoxMessage"> 
+						 <input type='checkbox' id="checkBoxMessage" name="checkBoxMessage"  class="checkBoxMessage"> 
 						 <input type="hidden" id="loanId" value="<?php echo $tableData['loanId']; ?>" />
 						 <input type="hidden" id="applicantName" value="<?php echo $tableData['applicantName']; ?>" />
 						<input type="hidden" id="emiAmount" value="<?php echo $tableData['emiAmount']; ?>" />	

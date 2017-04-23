@@ -2,7 +2,17 @@
 function sms($mnumber,$msg)
 {
 //Your authentication key
-$authKey = "100009A5xL24rxvmg571dfc85";
+$query="SELECT * FROM defaults where type='SMSAPIKEY' and status='0'";
+$pagesData=fetchData($query);
+$apikey="";
+if(is_array($pagesData) || is_object($pagesData))
+{
+foreach($pagesData as $pageData)
+{
+	$apikey =$pageData['defaultVal'];
+}
+}
+$authKey = $apikey;
 //Multiple mobiles numbers separated by comma
 $mobileNumber = $mnumber;
 //Sender ID,While using route4 sender id should be 6 characters long.
@@ -49,6 +59,6 @@ if(curl_errno($ch))
 
 curl_close($ch);
 
-echo $output;
+return $output;
 }
 ?>

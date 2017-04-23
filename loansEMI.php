@@ -405,7 +405,7 @@ $(document).ready(function(){
 							}	
 						}
 						$dueDate="";
-						$query="SELECT * FROM loanemi where loanId='$id' order by emiNo";
+						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0' order by emiNo";
 						$loanEmiData=fetchData($query);
 						if (is_array($loanEmiData) || is_object($loanEmiData))
 						{

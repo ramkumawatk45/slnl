@@ -6,7 +6,8 @@ $menuType = "gallery";
 $("#loading").removeClass('hide');
  $.ajax({    //create an ajax request to load_page.php
         type: "GET",
-        url: "ajaxEMIREPORT.php",             
+        url: "ajaxEMIREPORT.php", 
+		async: true,	
         dataType: "html",   //expect html to be returned                
         success: function(response){                    
             $("#tableData").html(response); 
@@ -133,7 +134,7 @@ $("#loading").removeClass('hide');
 
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">Branch Collection  Report</h3>
+                  <h3 class="box-title">EMI Collection  Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
                   <table id="emiReport" class="table table-bordered table-striped">

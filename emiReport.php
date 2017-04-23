@@ -1,7 +1,7 @@
 <?php
 include("controller/pages_controller.php");
 $menuType = "gallery";
-?>
+?> 
 <script type="text/javascript">
 $("#loading").removeClass('hide');
  $.ajax({    //create an ajax request to load_page.php
@@ -124,6 +124,56 @@ $("#loading").removeClass('hide');
     });
 	
 }
+
+$(document).ready(function(){  
+	var date_input=$('#from_date'); //our date input has the name "date"
+	var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	date_input.datepicker({
+	format: 'dd/mm/yyyy',
+	container: container,
+	todayHighlight: true,
+	autoclose: true,
+	maxDate: 0
+	})
+   var date_input=$('#to_date'); //our date input has the name "date"
+	var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	date_input.datepicker({
+	format: 'dd/mm/yyyy',
+	container: container,
+	todayHighlight: true,
+	autoclose: true,
+	maxDate: 0
+	}) 
+   $('#filter').click(function(){  
+	$("#loading").removeClass('hide');
+		var from_date = $('#from_date').val();  
+		var to_date = $('#to_date').val();  
+		if(from_date != '' && to_date != '')  
+		{  
+			 $.ajax({  
+				  url:"ajaxEMIREPORTDATE.php",  
+				  method:"GET",   
+				  data: { 
+					from_date: from_date, 
+					to_date: to_date
+				  },
+				  success:function(data)  
+				  { 
+						var table = $('#emiReport').DataTable();
+						table.destroy();
+						 $('#tableData').empty(); 
+						$("#tableData").html(data); 
+						sortTableData();  
+				  }  
+			 });  
+		}  
+		else  
+		{  
+			 alert("Please Select Date");  
+		}  
+   });  
+});  
+
 </script>
 <div class="content-wrapper">
         <!-- Main content -->
@@ -137,6 +187,15 @@ $("#loading").removeClass('hide');
                   <h3 class="box-title">EMI Collection  Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
+				<div class="col-md-3">  
+                     <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" />  
+                </div>  
+                <div class="col-md-3">  
+                     <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" />  
+                </div>  
+                <div class="col-md-5">  
+                     <input type="button" name="filter" id="filter" value="Filter" class="btn btn-info" />  
+                </div>  
                   <table id="emiReport" class="table table-bordered table-striped">
                     <thead>
                       <tr>

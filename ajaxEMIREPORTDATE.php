@@ -2,19 +2,21 @@
 //Include database configuration file
 include("common/conn.php");
 include("class/datalist.php");
-$branchId = $_SESSION['branchId'];	
-
-						if($_SESSION['userType']=="ADMIN")
-						{
-								
-								$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' order by emiNo,newPaymentDate Desc  ";
-								
-						}
-						else
-						{
-								$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0'  and loanemi.branchCode='$branchId' order by emiNo,newPaymentDate Desc";
-						}	
-					$pageData=fetchData($query);
+$branchId = $_SESSION['branchId'];
+$fromdate = explode('/',$_GET["from_date"]);
+$fromDates= $fromdate[2].'-'.$fromdate[1].'-'.$fromdate[0];
+$todate = explode('/',$_GET["to_date"]);
+$toDates= $todate[2].'-'.$todate[1].'-'.$todate[0];
+if($_SESSION['userType']=="ADMIN")
+{
+	$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' where loanemi.newPaymentDate between '$fromDates'  and '$toDates' order by loanemi.emiNo,loanemi.newPaymentDate Desc  ";
+	
+}
+else
+{
+		$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0'  where loanemi.newPaymentDate between '$fromDates'  and '$toDates' and loanemi.branchCode='$branchId' order by loanemi.emiNo,loanemi.newPaymentDate Desc";
+}	
+$pageData=fetchData($query);
 	$i = 1;
 	if(is_array($pageData) || is_object($pageData))
 	{

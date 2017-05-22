@@ -110,7 +110,7 @@ $("#loading").removeClass('hide');
                       </tr>
                     </thead>
 					<tbody id="tableData">
-					
+
 					  </tbody>
                   </table>
                 </div><!-- /.box-body -->

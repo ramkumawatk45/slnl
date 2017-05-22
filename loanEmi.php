@@ -14,7 +14,7 @@ if(isset($_REQUEST['loanSearch']))
 	}
 	else
 	{
-		$sql = "select loanId from loans where loanId='$loanSearchId' and branchCode='$branchId'";
+		$sql = "select loanId from loans where loanId='$loanSearchId'";
 	}	
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res)< 1)

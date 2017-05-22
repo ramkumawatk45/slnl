@@ -2,12 +2,24 @@
 include("controller/pages_controller.php");
 $menuType = "gallery";
 $branchId = $_SESSION['branchId'];
-if(isset($_POST['sendMessage'])){
-if(!empty($_POST['checkBoxMessage'])) {
-    foreach($_POST['checkBoxMessage'] as $check) {
-            var_dump($check); 
-    }
-}
+if(isset($_POST['sendMessage']))
+{
+	if(!empty($_POST['checkBoxMessage']))
+	{
+	// Loop to store and display values of individual checked checkbox.
+		for($i=0;$i<count($_POST['checkBoxMessage']);$i++)
+		{
+				$applicantName=$_POST['applicantName'][$i];
+				$memberMobile=$_POST['memberMobile'][$i];	
+				$loanId=$_POST['loanId'][$i];
+				$emi=$_POST['emi'][$i];
+				$emiDate=$_POST['emiDate'][$i];	
+				sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName).",Loan No <".$loanId."> YOUR EMI,Rs-".(round($emi))." Due, on Date-".$emiDate.", Shri Life Nidhi Limited.");
+	$msg="Messeage Sended Successfully";
+	$pageHrefLink="custDueReport.php?id=".$loanId;
+		}
+	}
+	
 }
 ?>
 <script type="text/javascript">
@@ -53,34 +65,10 @@ $(document).ready(function() {
                   <h3 class="box-title">EMI Due Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
-				<form method="post">
-				<?php 
-				 $currentDate = date('Y-m-d');
-					 if($_SESSION['userType']=="ADMIN")
-					{
-					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and  where loanemi.ndd='$currentDate'";
-					}
-					else
-					{
-							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
-					}	
-					$pageData=fetchData($query);
-					if (is_array($pageData) || is_object($pageData))
-					{
-					
-					foreach($pageData as $tableData)
-					{
-					?>
-					<input type="hidden" name="loanId[]" value="<?php  echo $tableData['loanId']; ?>" />
-					<input type="hidden" name="applicantName[]" value="<?php  echo $tableData['applicantName']; ?>" />
-					<input type="hidden" name="memberMobile[]" value="<?php  echo $tableData['memberMobile']; ?>" />
-					<input type="hidden" name="emi[]" value="<?php  echo $tableData['emi']; ?>" />
-					<input type="hidden" name="emiDate[]" value="<?php  echo $tableData['ndd']; ?>" />
-					<?php
-					}}
-					?>	
+				<form method="post" action="#">
+				
 					<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message">
-					</form>
+				
                   <table id="category" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -172,10 +160,12 @@ $(document).ready(function() {
                       <tr>
                          <td><?php echo  $i++; ?></td>
 						 <td>
-						 <input type='checkbox' id="checkBoxMessage" name="checkBoxMessage"  class="checkBoxMessage"> 
-						 <input type="hidden" id="loanId" value="<?php echo $tableData['loanId']; ?>" />
-						 <input type="hidden" id="applicantName" value="<?php echo $tableData['applicantName']; ?>" />
-						<input type="hidden" id="emiAmount" value="<?php echo $tableData['emiAmount']; ?>" />	
+						 <input type='checkbox' id="checkBoxMessage" name="checkBoxMessage[]" value="<?php  echo $i++; ?>"    class="checkBoxMessage"> 
+						 <input type="hidden" name="loanId[]" value="<?php  echo $tableData['loanId']; ?>" />
+						<input type="hidden" name="applicantName[]" value="<?php  echo $tableData['applicantName']; ?>" />
+						<input type="hidden" name="memberMobile[]" value="<?php  echo $tableData['memberMobile']; ?>" />
+						<input type="hidden" name="emi[]" value="<?php  echo $tableData['emi']; ?>" />
+						<input type="hidden" name="emiDate[]" value="<?php  echo $tableData['ndd']; ?>" />
 						 </td>
 						 <td><?php echo $tableData['loanId']; ?></td>
 						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' ";
@@ -199,7 +189,7 @@ $(document).ready(function() {
 					  </tbody>
                   </table>
                 </div><!-- /.box-body -->
-                
+                </form>
               </div><!-- /.box -->
             
             </div><!-- /.col -->

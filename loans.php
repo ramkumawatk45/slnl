@@ -98,6 +98,8 @@ $menuType = "gallery";
 						<th class="col-md-2">Customer Name</th>
 						<th class="col-md-2">Gurdian Name</th>
 						<th class="col-md-2">Mobile No.</th>
+						<th class="col-md-2">Loan Amount</th>
+						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
                         <th class="col-md-1">Status</th>
                         <th class="col-md-1">Edit</th>
@@ -109,11 +111,11 @@ $menuType = "gallery";
 					$branchId = $_SESSION['branchId'];	
 					if($_SESSION['userType']=="ADMIN")
 					{
-						$query="SELECT * FROM loans where deleted='0'  ";
+						$query="SELECT * FROM loans where deleted='0' order by id Desc  ";
 					}
 					else
 					{
-							$query=" SELECT * FROM loans where branchCode='$branchId'";
+							$query=" SELECT * FROM loans where deleted='0' order by id Desc";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -172,7 +174,7 @@ $menuType = "gallery";
 					?>
                       <tr>
                          <td><?php echo  $i++; ?></td>
-						 <td><a href="LoansEMI.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['loanId']; ?> </a></td>
+						 <td><a href="loansEMI.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['loanId']; ?> </a></td>
 						 <td><a href="custDueReport.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['memberId']; ?></a></td>
 						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' ";
 						$menuDatas=fetchData($queryBranch);
@@ -185,9 +187,11 @@ $menuType = "gallery";
 						<td><?php echo $tableData['applicantName']; ?> </td>
 						<td><?php echo $tableData['gurdianName']; ?> </td>
 						<td><?php echo $tableData['memberMobile']; ?> </td>	
+						<td><?php echo $tableData['loanAmount']; ?> </td>
+						<td><?php echo $tableData['emi']; ?> </td>
 						<td><?php echo $tableData['cDate']; ?> </td>								
                         <td><?php $status=$tableData['status']; if($status==0){ echo "Enabled"; } else{ echo "Disabled"; } ?></td>
-                        <td><a href='editLoan.php?id=<?php echo  $tableData['id'];?>'>Edit </a></td>
+                        <td><a href='editloan.php?id=<?php echo  $tableData['id'];?>'>Edit </a></td>
                        <!-- <td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteArea.php?id=<?php echo  $tableData['id']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a></td>-->
                       </tr>
                     <?php } } ?>

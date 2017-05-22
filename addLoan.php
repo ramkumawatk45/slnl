@@ -60,11 +60,11 @@ if(isset($_REQUEST['addStates']))
 			if(in_array($ext, $valid_extensions)) 
 			{					
 				$path = $path.strtolower($final_image);	
-				$sql=mysql_query("INSERT INTO loans(loanId,branchCode,formId,memberId,cDate,createDate,applicantName,gurdianName,dob, age, address, stateId, districtId, areaId, zipCode, sex, maritalStatus, gMemberNo, gName, gMobile, loanPlanId, planTypeId, loanAmount, rateOfInterest, emi, pMode, chequeNo, chequeDate, bankAC, bankName, loanPurpose, memberPhoto,memberMobile,memberEmail,status) VALUES ('$loanId','$branchId','$formNo','$memberId','$cDate','$joincDate','$applicantName','$gurdianName','$applicantDob','$applicantAge','$address','$state','$district','$area','$zipCode','$gender','$maritalStatus','$gMemberNo','$gMemberName','$gMemberMobile','$planId','$planType','$loanAmount','$rateOfInterest','$emi','$paymentMode','$chequeNo','$chequeDate','$bankAc','$bankName','$loanPurpose','$path','$memberMobile','$memberEmail','$status')");
+			}
+			$sql=mysql_query("INSERT INTO loans(loanId,branchCode,formId,memberId,cDate,createDate,applicantName,gurdianName,dob, age, address, stateId, districtId, areaId, zipCode, sex, maritalStatus, gMemberNo, gName, gMobile, loanPlanId, planTypeId, loanAmount, rateOfInterest, emi, pMode, chequeNo, chequeDate, bankAC, bankName, loanPurpose, memberPhoto,memberMobile,memberEmail,status) VALUES ('$loanId','$branchId','$formNo','$memberId','$cDate','$joincDate','$applicantName','$gurdianName','$applicantDob','$applicantAge','$address','$state','$district','$area','$zipCode','$gender','$maritalStatus','$gMemberNo','$gMemberName','$gMemberMobile','$planId','$planType','$loanAmount','$rateOfInterest','$emi','$paymentMode','$chequeNo','$chequeDate','$bankAc','$bankName','$loanPurpose','$path','$memberMobile','$memberEmail','$status')");
 				move_uploaded_file($tmp,$path); 
 				$msg="Data Sucessfully Submited";
 				$pageHrefLink="loans.php";
-			}
 		}
 }
 

@@ -93,11 +93,11 @@ $(document).ready(function() {
 					 $currentDate = date('Y-m-d');
 					 if($_SESSION['userType']=="ADMIN")
 					{
-					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0'  where loanemi.ndd='2017-04-01'";
+					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loan.status='0'  where loanemi.ndd='$currentDate'";
 					}
 					else
 					{
-							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
+							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' loan.status='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))

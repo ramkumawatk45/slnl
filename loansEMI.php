@@ -393,9 +393,16 @@ $(document).ready(function(){
 									$data = mysql_fetch_array($loanEmiData);
 									$transmaxId = $data[0];
 							}
+								$loanStatus =0;
+								if($planDuration == $emiNo)
+								{
+									$loanStatus =1;
+									$dateTime = date('Y-m-d H:i:s');
+									mysql_query("update loans set status='$loanStatus',datetime='$dateTime' where loanId='$loanId'");	
+								}	
 								$transmaxId = $transmaxId+1;
 								$transId = $transmaxId;
-								$sql=mysql_query("INSERT INTO loanemi(loanId, branchCode, emiNo, lateFee, serviceCharge, transId, emiAmount, dueDate,newDueDate,ndd,paymentDate, newPaymentDate, paymentMode, chequeNo, chequeDate, bankName) VALUES ('$loanId','$branchId','$emiNo','$lateFee','$serviceCharge','$transId','$emiAmount','$dueDate','$joinDueDate','$eminewDuedate','$cDate','$joinCDate','$paymentMode','$chequeNo','$chequeDate','$bankName')");
+								$sql=mysql_query("INSERT INTO loanemi(loanId, branchCode, emiNo, lateFee, serviceCharge, transId, emiAmount, dueDate,newDueDate,ndd,paymentDate, newPaymentDate, paymentMode, chequeNo, chequeDate, bankName,status) VALUES ('$loanId','$branchId','$emiNo','$lateFee','$serviceCharge','$transId','$emiAmount','$dueDate','$joinDueDate','$eminewDuedate','$cDate','$joinCDate','$paymentMode','$chequeNo','$chequeDate','$bankName','$loanStatus')");
 								echo sms($loanData['memberMobile'],"SHLIFE DEAR ".strtoupper($loanData['applicantName']).",Thank you for deposit your Loan EMI, Loan No <".$loanId.">,Rs-".(round($emiAmount+$lateFee+$serviceCharge)).",Date-".$cDate.", Shri Life Nidhi Limited.");
 								header("location:sucessEMI.php?id=".$id."&emiNO=".$emiNo);
 							}
@@ -526,7 +533,7 @@ $(document).ready(function(){
                         </div>
 						<div class="form-group col-md-3">
                         <label for="pageTitle" >Date</label>
-                        <input type="text" class="form-control  <?php if($_SESSION['branchCode']){echo "disabled";} else{ echo 'date';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
+                        <input type="text" class="form-control  <?php if($_SESSION['branchCode']){echo "disabled";} else{ echo 'disabled';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
                         </div>
 						<div class="form-group col-md-3">
                         <label for="pageTitle" >Due Date</label>

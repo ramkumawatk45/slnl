@@ -99,9 +99,8 @@
                
          		<li class="menu  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'viewMenu.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="viewMenu.php"><i class="fa fa-bars"></i>Menu</a></li>
                 <li class="viewPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'viewPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?> " ><a href="viewPlans.php"><i class="fa fa-file-text"></i>Plans</a></li>
-                <li class="gallery  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'gallery.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="gallery.php"><i class="fa fa-picture-o "></i>News & Update</a></li>
+                <li class="gallery  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'gallery.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="gallery.php"><i class="fa fa-picture-o "></i>Gallery</a></li>
                 <li class="slider  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'slider.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="slider.php"><i class="fa fa-sliders "></i>Slider</a></li>
-                <li class="learingProgram  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'learingPrograms.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="learingPrograms.php"><i class="fa fa-chain"></i>Learning Programmes</a></li>
                 <li class="downloads  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'downloads.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="downloads.php"><i class="fa  fa-bars"></i>Downloads</a></li>
 				               </ul>  
             </li>

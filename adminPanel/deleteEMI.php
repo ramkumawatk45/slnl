@@ -118,6 +118,7 @@ $(document).ready(function() {
 					<?php
 						$branchId = $_SESSION['branchId'];
 						$loanId	= $_REQUEST['id'];
+						 date_default_timezone_set("Asia/Calcutta");
 						$today=date('Y-m-d');
 						if($_SESSION['userType']=="ADMIN")
 						{

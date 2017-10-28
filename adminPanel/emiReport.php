@@ -3,7 +3,7 @@ include("controller/pages_controller.php");
 $menuType = "gallery";
 ?> 
 <script type="text/javascript">
-$("#loading").removeClass('hide');
+/*$("#loading").removeClass('hide');
  $.ajax({    //create an ajax request to load_page.php
         type: "GET",
         url: "ajaxEMIREPORT.php", 
@@ -15,6 +15,7 @@ $("#loading").removeClass('hide');
             //alert(response);
         }
  });
+ */
  function sortTableData()
  {
 	$("#loading").addClass('hide');
@@ -145,11 +146,11 @@ $(document).ready(function(){
 	maxDate: 0
 	}) 
    $('#filter').click(function(){  
-	$("#loading").removeClass('hide');
 		var from_date = $('#from_date').val();  
 		var to_date = $('#to_date').val();  
 		if(from_date != '' && to_date != '')  
 		{  
+		    $("#loading").removeClass('hide');
 			 $.ajax({  
 				  url:"ajaxEMIREPORTDATE.php",  
 				  method:"GET",   

@@ -182,8 +182,10 @@ $menuType = "gallery";
 						{  echo $branchData['branchName']." - ".$branchData['branchCode']; } ?> </td>
 						<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";
 						$menuDatas=fetchData($queryBranch);
+						if($menuDatas)
+						{
 						foreach($menuDatas as $branchData)
-						{  echo $branchData['areaName']; } ?> </td>
+						{  echo $branchData['areaName']; } } ?> </td>
 						<td><?php echo $tableData['applicantName']; ?> </td>
 						<td><?php echo $tableData['gurdianName']; ?> </td>
 						<td><?php echo $tableData['memberMobile']; ?> </td>	

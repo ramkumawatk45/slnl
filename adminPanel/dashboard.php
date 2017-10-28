@@ -14,7 +14,7 @@ if(isset($_POST['sendMessage']))
 				$loanId=$_POST['loanId'][$i];
 				$emi=$_POST['emi'][$i];
 				$emiDate=$_POST['emiDate'][$i];	
-				sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName).",Loan No <".$loanId."> YOUR EMI,Rs-".(round($emi))." Due, on Date-".$emiDate.", Shri Life Nidhi Limited.");
+				sms($memberMobile,"DEAR ".strtoupper($applicantName).",YOUR LOAN EMI,Rs-".(round($emi))." Due, on Date-".$emiDate.",(IF YOU HAVE ALREADY PAID IGNORE THIS) Thanks Shri Life Nidhi Limited.");
 	$msg="Messeage Sended Successfully";
 	$pageHrefLink="custDueReport.php?id=".$loanId;
 		}
@@ -33,7 +33,10 @@ $(document).on('change','#checkBoxAll',function (){
 		$(".checkBoxMessage").removeAttr("checked");
 	}
 });	
-$(document).ready(function() {
+
+function sortTableData()
+ {
+    $("#loading").addClass('hide'); 
     $('#category').DataTable( {
         dom: 'Bfrtip',
         buttons: [
@@ -49,9 +52,57 @@ $(document).ready(function() {
             [ '10 ', '25 ', '50 ', 'Show all' ]
         ]
     } );
-		
-
-} );
+ }		
+ 
+$(document).ready(function(){ 
+    sortTableData();
+	var date_input=$('#from_date'); //our date input has the name "date"
+	var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	date_input.datepicker({
+	format: 'dd/mm/yyyy',
+	container: container,
+	todayHighlight: true,
+	autoclose: true,
+	maxDate: 0
+	})
+   var date_input=$('#to_date'); //our date input has the name "date"
+	var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	date_input.datepicker({
+	format: 'dd/mm/yyyy',
+	container: container,
+	todayHighlight: true,
+	autoclose: true,
+	maxDate: 0
+	}) 
+   $('#filter').click(function(){  
+		var from_date = $('#from_date').val();  
+		var to_date = $('#to_date').val();  
+		if(from_date != '' && to_date != '')  
+		{  
+		    $("#loading").removeClass('hide');
+			 $.ajax({  
+				  url:"dashboardAjaxCall.php",  
+				  method:"GET",   
+				  data: { 
+					from_date: from_date, 
+					to_date: to_date
+				  },
+				  success:function(data)  
+				  { 
+						var table = $('#category').DataTable();
+						table.destroy();
+						 $('#dashboardDueReport').empty(); 
+						$("#dashboardDueReport").html(data); 
+						sortTableData();  
+				  }  
+			 });  
+		}  
+		else  
+		{  
+			 alert("Please Select Date");  
+		}  
+   });  
+});  
 </script>
 <div class="content-wrapper">
         <!-- Main content -->
@@ -65,6 +116,16 @@ $(document).ready(function() {
                   <h3 class="box-title">EMI Due Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
+                <div class="col-md-3">  
+                     <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" />  
+                </div>  
+                <div class="col-md-3">  
+                     <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" />  
+                </div>  
+                <div class="col-md-5">  
+                     <input type="button" name="filter" id="filter" value="Filter" class="btn btn-info" />  
+                </div>      
+                    
 				<form method="post" action="#">
 				
 					<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message">
@@ -88,16 +149,17 @@ $(document).ready(function() {
                         <th>EMI(RS.)</th>
                       </tr>
                     </thead>
-					<tbody>
+					<tbody id="dashboardDueReport">
                      <?php
+                     date_default_timezone_set("Asia/Calcutta");
 					 $currentDate = date('Y-m-d');
 					 if($_SESSION['userType']=="ADMIN")
 					{
-					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loan.status='0'  where loanemi.ndd='$currentDate'";
+					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' and loans.status='0'  where loanemi.ndd='$currentDate'";
 					}
 					else
 					{
-							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' loan.status='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
+							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))

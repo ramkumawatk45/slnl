@@ -533,7 +533,7 @@ $(document).ready(function(){
                         </div>
 						<div class="form-group col-md-3">
                         <label for="pageTitle" >Date</label>
-                        <input type="text" class="form-control  <?php if($_SESSION['branchCode']){echo "disabled";} else{ echo 'disabled';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
+                        <input type="text" class="form-control  <?php if($_SESSION['branchCode']){echo "disabled";} else{ echo 'date';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
                         </div>
 						<div class="form-group col-md-3">
                         <label for="pageTitle" >Due Date</label>

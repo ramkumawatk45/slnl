@@ -3,6 +3,7 @@
 include("common/conn.php");
 include("class/datalist.php");
 $branchId = $_SESSION['branchId'];	
+date_default_timezone_set("Asia/Calcutta");
 $today=date('Y-m-d');
 if($_SESSION['userType']=="ADMIN")
 {
@@ -74,7 +75,7 @@ foreach($pageData as $tableData)
 		
 		
 		// Set timezone
-			date_default_timezone_set('UTC');
+			//date_default_timezone_set('UTC');
 
 			// Start date
 			$date = $tableData['ndd'];
@@ -87,7 +88,6 @@ foreach($pageData as $tableData)
 				$items[] = $caluculateDate;
 			}
 	//var_dump($remainLoanEMI);
-	var_dump($items);	
 	for($j=1; $j<=$remainLoanEMI; $j++)
 	{
 		
@@ -99,18 +99,20 @@ foreach($pageData as $tableData)
 	 <td><?php echo $tableData['loanId']; ?></td>
 	<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' ";
 	$menuDatas=fetchData($queryBranch);
+	if($menuDatas)
+	{
 	foreach($menuDatas as $branchData)
-	{  echo $branchData['branchName']." - ".$branchData['branchCode']; } ?> </td>
+	{  echo $branchData['branchName']." - ".$branchData['branchCode']; }  }?> </td>
 		<td><?php  echo $tableData['applicantName']; ?> </td>
 		<td><?php  echo $tableData['gurdianName']; ?></td>
 		<td><?php  echo $tableData['address']; ?></td>
-		<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";$menuDatas=fetchData($queryBranch);foreach($menuDatas as $branchData){  echo $branchData['areaName']; } ?> </td>
+		<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";$menuDatas=fetchData($queryBranch); if($menuDatas) {foreach($menuDatas as $branchData){  echo $branchData['areaName']; } } ?> </td>
 		<td><?php  echo $tableData['memberMobile'];?></td>
 		<td><?php $planId=$tableData['loanPlanId'];
-	$planQuery="SELECT * FROM loanplan where id='$planId' ";$menuDatas=fetchData($planQuery);foreach($menuDatas as $branchData){  echo $branchData['planName']; } ?></td>
+	$planQuery="SELECT * FROM loanplan where id='$planId' ";$menuDatas=fetchData($planQuery); if($menuDatas){foreach($menuDatas as $branchData){  echo $branchData['planName']; } } ?></td>
 		<td><?php $planId=$tableData['planTypeId'];
-	$planQuerys="SELECT * FROM plantypes where id='$planId' ";$menuDatass=fetchData($planQuerys);foreach($menuDatass as $branchDataa){  echo $branchDataa['planName']; } ?></td>
-	<td> <?php echo $items[$j-1];   ?></td>
+	$planQuerys="SELECT * FROM plantypes where id='$planId' ";$menuDatass=fetchData($planQuerys);If($menuDatas){foreach($menuDatass as $branchDataa){  echo $branchDataa['planName']; } } ?></td>
+	<td> <?php if($items) { (echo $items[$j-1]; }   ?></td>
 	<td><?php  echo $tableData['emiNo']+$j; ?></td> 
 	<td><?php echo $tableData['emi']; ?></td>
   </tr>

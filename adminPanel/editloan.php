@@ -139,8 +139,9 @@ $(document).ready(function(){
                   		<h3 class="box-title">Loan Details information</h3>
                 	</div><!-- /.box-header -->
                 <!-- form start -->
-                <form role="form"  action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])."?id=".$id;?>" method="post" enctype="multipart/form-data">
-				<?php $query="SELECT * FROM loans where id='$id' ";
+                <form role="form"   method="post">
+                <input type="hidden" id="id" value="<?php echo $id; ?>">    
+				<?php $query="SELECT * FROM loans where id='$id'";
 					$pagesData=fetchData($query);
 					foreach($pagesData as $loanData)
 					{

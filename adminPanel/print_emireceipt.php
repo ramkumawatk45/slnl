@@ -141,8 +141,8 @@ while($result4=mysql_fetch_array($query4)) {echo $result4['branchName']; } ?></t
 </tr>
 <tr>
 <td>2) Issued On Date</td><td> :</td><td><?php date_default_timezone_set('Asia/Kolkata');$cdate=date('d-m-Y');  echo $cdate; ?></td><td>6) Penalty</td><td>:</td><td><?php echo $lateFee= round($result['lateFee']);?></td></tr>
-<tr><td>3) Plan Name & Term</td><td> :</td><td><?php $loanPlanId = $result2['loanPlanId']; $query3 = mysql_query("select * from loanPlan where id='$loanPlanId'");
-while($result3=mysql_fetch_array($query3)) {echo $result3['planName']; }  ?></td><td>7) Total Receipt Amount</td><td>:</td><td><?php $taoi=$taoi+$lateFee+$result['serviceCharge']; echo $taoi; ?></td></tr>
+<tr><td>3) Plan Name & Term</td><td> :</td><td><?php $loanPlanId = $result2['loanPlanId']; $query4 = mysql_query("select * from loanplan where id='$loanPlanId' and status='0' and deleted='0'");
+while($result3=mysql_fetch_array($query4)) {echo $result3['planName']; }  ?></td><td>7) Total Receipt Amount</td><td>:</td><td><?php $taoi=$taoi+$lateFee+$result['serviceCharge']; echo $taoi; ?></td></tr>
 <tr><td>4) Service Charges</td><td> :</td><td> <?php echo $result['serviceCharge']; ?></td><td>8) Due Date</td><td>:</td><td> <?php  echo $result['dueDate']; ?></td></tr>
 <tr>
 <td>9) Next Due Date</td><td>:</td>

@@ -220,7 +220,7 @@ $(document).ready(function(){
 					?>
 					
                       <tr>
-                         <td><?php echo  $i++; ?></td>
+                         <td><?php echo  $i; ?></td>
 						 <td>
 						 <input type='checkbox' id="checkBoxMessage" name="checkBoxMessage[]" value="<?php  echo $i++; ?>"    class="checkBoxMessage"> 
 						 <input type="hidden" name="loanId[]" value="<?php  echo $tableData['loanId']; ?>" />

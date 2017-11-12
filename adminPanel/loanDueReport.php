@@ -154,11 +154,11 @@ $menuType = "gallery";
 		$branchTableId = $branchData['branchId'];
 		if($_SESSION['userType']=="ADMIN")
 		{
-		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today' and loanemi.branchCode='$branchTableId'";
+		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today' and loanemi.emiStatus !='PRE' and loanemi.branchCode='$branchTableId'";
 		}
 		else
 		{
-				$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today'  and loans.branchCode='$branchId'";
+				$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today' and loanemi.emiStatus !='PRE'  and loans.branchCode='$branchId'";
 		}	
 		$pageData=fetchData($query);
 		if (is_array($pageData) || is_object($pageData))
@@ -233,7 +233,10 @@ $menuType = "gallery";
 					while (strtotime($date) <= strtotime($end_date)) {
 						$caluculateDate = date("d/m/Y", strtotime($date));
 						$date = date ("Y-m-d", strtotime("+1 month", strtotime($date)));
-						$items[] = $caluculateDate;
+						if($caluculateDate)
+						{	
+							$items[] = $caluculateDate;
+						}	
 					}
 			//var_dump($remainLoanEMI);			
 			for($j=1; $j<=$remainLoanEMI; $j++)
@@ -245,13 +248,43 @@ $menuType = "gallery";
 		<td><?php  echo $tableData['applicantName']; ?> </td>
 		<td><?php  echo $tableData['gurdianName']; ?></td>
 		<td><?php  echo $tableData['address']; ?></td>
-		<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";$menuDatas=fetchData($queryBranch);foreach($menuDatas as $branchData){  echo $branchData['areaName']; } ?> </td>
+		<td><?php $areaId = $tableData['areaId']; 
+			$queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";
+			$menuDatas=fetchData($queryBranch); 
+			if(is_array($menuDatas) || is_object($menuDatas)) 
+			{ 
+				foreach($menuDatas as $branchData)
+				{ 
+					echo $branchData['areaName'];
+				} 
+			}	?> 
+		</td>
 		<td><?php  echo $tableData['memberMobile'];?></td>
 		<td><?php $planId=$tableData['loanPlanId'];
-	$planQuery="SELECT * FROM loanplan where id='$planId' ";$menuDatas=fetchData($planQuery);foreach($menuDatas as $branchData){  echo $branchData['planName']; } ?></td>
+			$planQuery="SELECT * FROM loanplan where id='$planId' and status='0' and deleted='0' ";
+			$menuDatas=fetchData($planQuery);
+			if(is_array($menuDatas) || is_object($menuDatas)) 
+			{
+				foreach($menuDatas as $branchData)
+				{ 
+					echo $branchData['planName']; 
+				}
+			}	
+				?>
+		</td>
 		<td><?php $planId=$tableData['planTypeId'];
-	$planQuerys="SELECT * FROM plantypes where id='$planId' ";$menuDatass=fetchData($planQuerys);foreach($menuDatass as $branchDataa){  echo $branchDataa['planName']; } ?></td>
-	<td> <?php echo $items[$j-1];   ?></td>
+		$planQuerys="SELECT * FROM plantypes where id='$planId' and status='0' and deleted='0' ";
+		$menuDatass=fetchData($planQuerys);
+		if(is_array($menuDatass) || is_object($menuDatass)) 
+		{
+			foreach($menuDatass as $branchDataa)
+			{ 
+				echo $branchDataa['planName']; 
+			}
+		}	
+		?>
+		</td>
+	<td> <?php if($items) { echo $items[$j-1]; }   ?></td>
 	<td><?php  echo $tableData['emiNo']+$j; ?></td> 
 	<td><?php echo $tableData['emi']; ?></td>
   </tr>

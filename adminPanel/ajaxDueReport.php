@@ -7,11 +7,11 @@ date_default_timezone_set("Asia/Calcutta");
 $today=date('Y-m-d');
 if($_SESSION['userType']=="ADMIN")
 {
-$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today' ";
+$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today' and loanemi.emiStatus !='PRE' ";
 }
 else
 {
-		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today'  and loans.branchCode='$branchId'";
+		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd <'$today' and loanemi.emiStatus !='PRE'  and loans.branchCode='$branchId'";
 }	
 $pageData=fetchData($query);
 if (is_array($pageData) || is_object($pageData))
@@ -20,7 +20,7 @@ $i=1;
 foreach($pageData as $tableData)
 {
 	$pplanId=$tableData['loanPlanId'];
-	$plansQuery="SELECT * FROM loanplan where id='$pplanId' ";
+	$plansQuery="SELECT * FROM loanplan where id='$pplanId' and status='0' and deleted='0'  ";
 	$plansDatas=fetchData($plansQuery);
 	if (is_array($plansDatas) || is_object($plansDatas))
 	{
@@ -112,7 +112,7 @@ foreach($pageData as $tableData)
 	$planQuery="SELECT * FROM loanplan where id='$planId' ";$menuDatas=fetchData($planQuery); if($menuDatas){foreach($menuDatas as $branchData){  echo $branchData['planName']; } } ?></td>
 		<td><?php $planId=$tableData['planTypeId'];
 	$planQuerys="SELECT * FROM plantypes where id='$planId' ";$menuDatass=fetchData($planQuerys);If($menuDatas){foreach($menuDatass as $branchDataa){  echo $branchDataa['planName']; } } ?></td>
-	<td> <?php if($items) { (echo $items[$j-1]; }   ?></td>
+	<td> <?php if($items) { echo $items[$j-1]; }   ?></td>
 	<td><?php  echo $tableData['emiNo']+$j; ?></td> 
 	<td><?php echo $tableData['emi']; ?></td>
   </tr>

@@ -28,32 +28,40 @@ $branchId = $_SESSION['branchId'];
 		var result = parseInt(emi+serviceCharge);
 		$("#totalAmount").val(result);
 		$("#paymentAmount").val(emi);
+		
 		$('#penaltyDeduct').on('change',function(){
 		if($(this).val() == 'Yes')
 		{
-		var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-		var dueDate = $('#dueDate').val().split('/');
-		var currentDate = $('#currentDate').val().split('/');
-		var firstDate = new Date(dueDate[2],dueDate[1],dueDate[0]);
-		var secondDate = new Date(currentDate[2],currentDate[1],currentDate[0]);
-		var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)))
-		if(diffDays > 0 && firstDate < secondDate )
-		{
-			penaltyresult = (emi*lateFees/100)*diffDays;
-		}	
-			$("#totalAmount").val(parseInt(penaltyresult+serviceCharge+emi));
-			$("#lateFee").val(penaltyresult);
+			var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+			var dueDate = $('#dueDate').val().split('/');
+			var currentDate = $('#currentDate').val().split('/');
+			var firstDate = new Date(dueDate[2],dueDate[1],dueDate[0]);
+			var secondDate = new Date(currentDate[2],currentDate[1],currentDate[0]);
+			var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)))
+			if(diffDays > 0 && firstDate < secondDate )
+			{
+				penaltyresult = (emi*lateFees/100)*diffDays;
+			}	
+				serviceCharge = parseInt($("#serviceCharge").val());
+				$("#totalAmount").val(parseInt(penaltyresult+serviceCharge+emi));
+				$("#lateFee").val(penaltyresult);
 		}	
 		else
 		{
 			serviceCharge = parseInt($("#serviceCharge").val());
 			penaltyresult = parseInt(emi+serviceCharge);
+			$("#lateFee").val('');
 			$("#totalAmount").val(penaltyresult);
 		}	
 		
 		});	
-		$('#serviceCharge').on('keyup change',function(){
-			var lateFees = parseInt($("#lateFee").val());
+		$('#serviceCharge').on('keyup change',function()
+		{
+			var lateFees =0;
+			if($("#lateFee").val())
+			{	
+				lateFees = parseInt($("#lateFee").val());
+			}
 			var serviceCharges = parseInt($(this).val());
 			var totalAmout = parseInt(serviceCharges+emi+lateFees);
 			$("#totalAmount").val(totalAmout);
@@ -263,17 +271,17 @@ $(document).ready(function(){
 					$emiNo="";
 					$emiNumber="";
 					$totalAmount="";
-					$query="SELECT * FROM loans where loanId='$id' ";
+					$query="SELECT * FROM loans where loanId='$id' and status='0' and deleted='0' ";
 					$pagesData=fetchData($query);
 					foreach($pagesData as $loanData)
 					{
 						$planId=$loanData['loanPlanId'];
-						$planQuery="SELECT * FROM loanplan where id='$planId' ";
+						$planQuery="SELECT * FROM loanplan where id='$planId' and status='0' and deleted='0' ";
 						$planDatas=fetchData($planQuery);
 						foreach($planDatas as $planData)
 						{
 							$planType=$planData['planType'];
-							$planTypeQuery="SELECT * FROM plantypes where id='$planType' ";
+							$planTypeQuery="SELECT * FROM plantypes where id='$planType' and status='0' and deleted='0' ";
 							$planTypeDatas=fetchData($planTypeQuery);
 							foreach($planTypeDatas as $planTypeData)
 							{	
@@ -386,6 +394,17 @@ $(document).ready(function(){
 							}	
 							if($_REQUEST['totalPaid']< $_REQUEST['totalPayable'])
 							{	
+								 $emiStatus = "";
+								 if($joinDueDate >= date('Y-m-d'))
+								 {
+									$emiStatus = "PRE";
+								 }	
+								 else
+								 {
+									 $emiStatus = "POST";
+								 }	
+							$transmaxId ='';	 
+							$sqll = mysql_query("update loanemi set emiStatus='$emiStatus' where loanId=$loanId and deleted=0 and status=0");		
 							$query="SELECT MAX(id) FROM loanemi";
 							$loanEmiData=mysql_query($query);
 							if (is_array($loanEmiData) || is_object($loanEmiData))
@@ -404,7 +423,7 @@ $(document).ready(function(){
 								$transId = $transmaxId;
 								$sql=mysql_query("INSERT INTO loanemi(loanId, branchCode, emiNo, lateFee, serviceCharge, transId, emiAmount, dueDate,newDueDate,ndd,paymentDate, newPaymentDate, paymentMode, chequeNo, chequeDate, bankName,status) VALUES ('$loanId','$branchId','$emiNo','$lateFee','$serviceCharge','$transId','$emiAmount','$dueDate','$joinDueDate','$eminewDuedate','$cDate','$joinCDate','$paymentMode','$chequeNo','$chequeDate','$bankName','$loanStatus')");
 								echo sms($loanData['memberMobile'],"SHLIFE DEAR ".strtoupper($loanData['applicantName']).",Thank you for deposit your Loan EMI, Loan No <".$loanId.">,Rs-".(round($emiAmount+$lateFee+$serviceCharge)).",Date-".$cDate.", Shri Life Nidhi Limited.");
-								header("location:sucessEMI.php?id=".$id."&emiNO=".$emiNo);
+								if($sqll){ header("location:sucessEMI.php?id=".$id."&emiNO=".$emiNo); }
 							}
 							else
 							{
@@ -412,7 +431,7 @@ $(document).ready(function(){
 							}	
 						}
 						$dueDate="";
-						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0' order by emiNo";
+						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0' and status='0' order by emiNo";
 						$loanEmiData=fetchData($query);
 						if (is_array($loanEmiData) || is_object($loanEmiData))
 						{
@@ -440,15 +459,15 @@ $(document).ready(function(){
 					else
 					{
 						$loanCreateDate = $loanData['cDate'];
-					}		
-								$cdate=$loanCreateDate;
-						
-								$pdura;
-								$cdate=explode('/',$cdate);
-								$date=$cdate[0];
-								$month=$cdate[1];
-								$year=$cdate[2];
-								$counter=$month;
+					}	
+						$cdateDate=explode('/',$loanData['cDate']);
+						$cdate=$loanCreateDate;
+						$pdura;
+						$cdate=explode('/',$cdate);
+						$date=$cdateDate[0];
+						$month=$cdate[1];
+						$year=$cdate[2];
+						$counter=$month;
 					if($planTypes=='MONTHLY')
 					{	
 						$g; 
@@ -482,23 +501,62 @@ $(document).ready(function(){
 									$emidate=$date.'/0'.$counter.'/'.$year;
 								}					
 							}
-						elseif( $counter==11 && $date>=30)
+							elseif( $counter==11 && $date>=30)
+							{
+								$emidate='30/'.$counter.'/'.$year;
+									
+							}
+							else
+							{	 
+								$emidate=$date.'/'.$counter.'/'.$year;
+							}
+						}
+					}	
+					else if($planTypes=='DAILY')
+					{	
+						
+						$g; 
+						$counter=$counter+=1;
+						if($counter>12)
 						{
-							$emidate='30/'.$counter.'/'.$year;
-								
+							$counter=$counter-12; 
+							$year++;
 						}
-						else
-						{	 
-							$emidate=$date.'/'.$counter.'/'.$year;
+						for($g=1;$g<$planDuration;$g++)
+						{
+							if(strlen($counter)==1)
+							{
+								if($counter==2 && $date>=29)
+								{
+									if($year%4==0)
+									{
+										$emidate='29/0'.$counter.'/'.$year;
+									}
+									else
+									{
+										$emidate='28/0'.$counter.'/'.$year;
+									}
+								}
+								elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
+								{
+									$emidate='30/0'.$counter.'/'.$year;
+								}
+								else
+								{
+									$emidate=$date.'/0'.$counter.'/'.$year;
+								}					
+							}
+							elseif( $counter==11 && $date>=30)
+							{
+								$emidate='30/'.$counter.'/'.$year;
+									
+							}
+							else
+							{	 
+								$emidate=$date.'/'.$counter.'/'.$year;
+							}
 						}
-						// if($counter==12)
-						// {
-							// $counter=0; 
-							// //$year++;
-						// }
-						// $counter++;
-						}
-					}		
+					}
 					?>
 					<input type="hidden" id="loanId" name="loanId" value="<?php echo $loanData['loanId']; ?>">
 					<input type="hidden" id="emi" name="emi" value="<?php echo $loanData['emi']; ?>">
@@ -537,7 +595,7 @@ $(document).ready(function(){
                         </div>
 						<div class="form-group col-md-3">
                         <label for="pageTitle" >Due Date</label>
-                        <input type="text" class="form-control "  readonly name="dueDate" id='dueDate' value="<?php echo $emidate;?>" maxlength="15" required />                   
+                        <input type="text" class="form-control "  readonly name="dueDate" id='dueDate' value="<?php if($emidate) { echo $emidate; }?>" maxlength="15" required />                   
                         </div>						
 						<div class="form-group col-md-3">
                         <label for="pageTitle">Branch</label>

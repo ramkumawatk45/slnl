@@ -14,7 +14,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Shri Life Nidhi Ltd.</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<meta http-equiv="refresh" content="300;url=logout.php" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -125,6 +124,7 @@
 				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiReport.php"><i class="fa fa-money"></i>EMI Collection Report</a></li> 
 				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>EMI Due Report</a></li> 
 				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"><i class="fa fa-circle-o"></i>EMI Detail Due Report</a></li> 	
+				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php"><i class="fa fa-circle-o"></i>Same Day Report</a></li> 	
                </ul>  
             </li>
           </ul>

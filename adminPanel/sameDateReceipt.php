@@ -1,9 +1,13 @@
 <?php
 require('common/conn.php');
 $d=date('d_m_Y');
-$loanId = $_REQUEST['loanId'];
-$emiNo = $_REQUEST['emiNo'];
-	?>
+$cDate = $_REQUEST['rDate'];
+ $createdate = explode('/', $cDate);
+ $month = $createdate[1];
+ $day   = $createdate[0];
+ $year  = $createdate[2];
+ $joincDate = $year.'/'.$month.'/'.$day;
+?>
     <script>							
 function myprint()
 {
@@ -13,13 +17,21 @@ function myprint()
 }
 </script>
 <style type="text/css" media="print">
-@page{size:auto; margin:7mm;}
+@page{size:auto; margin:7mm; }
+.no-print, .no-print *
+    {
+        display: none !important;
+    }
 </style>
 <style type="text/css">
+page[size="A4"] {  
+  width: 21cm;
+  height: 10.7cm; 
+}
 *{font-family:arial;}
 .first, .second, .third{height:74px;float:left; font-family:open-sans;  font-size:12px; }
 h2{margin:0px;}
-.main{width:850px; text-align:center;  font-size:12px; }
+.main{width:850px; text-align:center;  font-size:12px; margin-bottom:47%; }
 .first{width:15%; border-right:none;}
 .third{width:200px; text-align:left;  margin-left:73px; padding-left:5px; border:1px solid; border-bottom:none;}
 .third span{ margin-top:10px;    line-height:18px;}
@@ -111,22 +123,25 @@ return $res;
 }
 ?>
 
-<body onLoad="myprint()" >
+<body onload="myprint()" >
+<a type="button" href="sameDatePrint.php" class="no-print" >Back </a>
+
 <div id="receipt"> 
 <?php
-$strSQL = mysql_query("select * from loanemi where loanId='$loanId' and emiNo='$emiNo' and deleted='0' and status='0' ");
+$strSQL = mysql_query("select * from loanemi where newPaymentDate='$joincDate' and deleted='0' and status='0'");
 while($result=mysql_fetch_array($strSQL))
 {
 	?>   
-<div class="main">
+<page size="A4" >
+<div class="main" >
 
 <table class="firsttable" cellpadding="0" cellspacing="0" border="1" >
 <tr><td style="border-top:1px solid !important;"></td><td style="border-top:1px solid !important;" ></td><td style="border-top:1px solid !important;"></td></tr>
-<?php $query2 = mysql_query("select * from loans where loanId='$loanId' and deleted='0' and status='0'");
+<?php $loanId = $result['loanId']; $query2 = mysql_query("select * from loans where loanId='$loanId' and deleted='0' and status='0'");
 while($result2=mysql_fetch_array($query2)) {?>
 <tr>
 <td colspan="2">Name : <?php echo $result2['applicantName'];  ?> </td>
-<td class="sec"><span>EMI No. : <?php echo $emiNo; ?> </td></tr>
+<td class="sec"><span>EMI No. : <?php echo $result['emiNo']; ?> </td></tr>
 <tr><td colspan="2">S/D/W/O : <?php echo $result2['gurdianName']; ?> </td>
 	<td class="sec"> Receipt No. :<?php echo $result['id']; ?></td></tr>
 <tr><td colspan="2">Address :<?php echo $result2['address']; ?> </td><td class="sec">CSC Name : <?php $branchCode = $result['branchCode']; $query4 = mysql_query("select * from branchs where branchId='$branchCode'");
@@ -140,10 +155,10 @@ while($result4=mysql_fetch_array($query4)) {echo $result4['branchName']; } ?></t
 <td>5) EMI Amount .</td><td>:</td><td><?php echo $taoi= round($result['emiAmount']); ?></td>
 </tr>
 <tr>
-<td>2) Issued On Date</td><td> :</td><td><?php echo $result['paymentDate']; ?></td><td>6) Penalty</td><td>:</td><td><?php echo $lateFee= round($result['lateFee']);?></td></tr>
+<td>2) Issued On Date</td><td> :</td><td><?php date_default_timezone_set('Asia/Kolkata');$cdate=date('d-m-Y');  echo $cdate; ?></td><td>6) Penalty</td><td>:</td><td><?php echo $lateFee= round($result['lateFee']);?></td></tr>
 <tr><td>3) Plan Name & Term</td><td> :</td><td><?php $loanPlanId = $result2['loanPlanId']; $query4 = mysql_query("select * from loanplan where id='$loanPlanId' and status='0' and deleted='0'");
 while($result3=mysql_fetch_array($query4)) {echo $result3['planName']; }  ?></td><td>7) Total Receipt Amount</td><td>:</td><td><?php $taoi=$taoi+$lateFee+$result['serviceCharge']; echo $taoi; ?></td></tr>
-<tr><td>4) Service Charges</td><td> :</td><td> <?php echo $result['serviceCharge']; ?></td><td>8) Due Date</td><td>:</td><td> <?php  echo $result['dueDate']; ?></td></tr>
+<tr><td>4) Service Charges</td><td> :</td><td> <?php echo $result['serviceCharge']; ?></td><td>8) Due Date</td><td>:</td><td> <?php  if($result['dueDate']) { echo $result['dueDate']; } ?></td></tr>
 <tr>
 <td>9) Next Due Date</td><td>:</td>
 <td>
@@ -162,6 +177,10 @@ while($result3=mysql_fetch_array($query4)) {echo $result3['planName']; }  ?></td
 <tr><td >Authorized signature</td><td></td><td>(Cashier signature)</td></tr>
 </table>
 </div>
-<?php } } ?>
+</page>	
+<?php 
+} 
+} 
+?>
 </div>
 </body>

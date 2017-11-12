@@ -9,12 +9,12 @@ $todate = explode('/',$_GET["to_date"]);
 $toDates= $todate[2].'-'.$todate[1].'-'.$todate[0];
 if($_SESSION['userType']=="ADMIN")
 {
-	$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' and loans.status='0'  where loanemi.ndd between '$fromDates'  and '$toDates' order by loanemi.emiNo,loanemi.newPaymentDate Desc  ";
+	$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' and loans.status='0'  where loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE' order by loanemi.emiNo,loanemi.newPaymentDate Desc  ";
 	
 }
 else
 {
-		$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.branchCode='$branchId' order by loanemi.emiNo,loanemi.newPaymentDate Desc";
+		$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE' and loanemi.branchCode='$branchId' order by loanemi.emiNo,loanemi.newPaymentDate Desc";
 }	
 
 
@@ -77,7 +77,7 @@ $pageData=fetchData($query);
 					?>
 					
                       <tr>
-                         <td><?php echo  $i++; ?></td>
+                         <td><?php echo  $i; ?></td>
 						 <td>
 						 <input type='checkbox' id="checkBoxMessage" name="checkBoxMessage[]" value="<?php  echo $i++; ?>"    class="checkBoxMessage"> 
 						 <input type="hidden" name="loanId[]" value="<?php  echo $tableData['loanId']; ?>" />

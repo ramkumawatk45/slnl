@@ -11,6 +11,11 @@ if(isset($_REQUEST['addStates']))
 	 $formNo = $_REQUEST['formNo'];
 	 $memberId = $_REQUEST['memberId'];
 	 $cDate = $_REQUEST['cDate'];
+	 $createdate = explode('/', $cDate);
+	 $month = $createdate[1];
+	 $day   = $createdate[0];
+	 $year  = $createdate[2];
+	 $joincDate = $year.'-'.$month.'-'.$day;
 	 $applicantName = $_REQUEST['applicantName'];
 	 $gurdianName = $_REQUEST['gurdianName'];
 	 $applicantDob = $_REQUEST['applicantDob'];
@@ -47,7 +52,7 @@ if(isset($_REQUEST['addStates']))
 		}
 		else
 		{
-				$sql=mysql_query("UPDATE loans SET loanId='$loanId',branchCode='$branchId',formId='$formNo',memberId='$memberId',cDate='$cDate',applicantName='$applicantName',gurdianName='$gurdianName',dob='$applicantDob', age='$applicantAge', address='$address', stateId='$state', districtId='$district', areaId='$area', zipCode='$zipCode', sex='$gender', maritalStatus='$maritalStatus', gMemberNo='$gMemberNo', gName='$gMemberName', gMobile='$gMemberMobile', loanPlanId='$planId', planTypeId='$planType', loanAmount='$loanAmount', rateOfInterest='$rateOfInterest', emi='$emi', pMode='$paymentMode', chequeNo='$chequeNo', chequeDate='$chequeDate', bankAC='$bankAc', bankName='$bankName', loanPurpose='$loanPurpose',memberMobile='$memberMobile',memberEmail='$memberEmail',status='$status' where id='$id' ");
+				$sql=mysql_query("UPDATE loans SET loanId='$loanId',branchCode='$branchId',formId='$formNo',memberId='$memberId',cDate='$cDate',createDate='$joincDate',applicantName='$applicantName',gurdianName='$gurdianName',dob='$applicantDob', age='$applicantAge', address='$address', stateId='$state', districtId='$district', areaId='$area', zipCode='$zipCode', sex='$gender', maritalStatus='$maritalStatus', gMemberNo='$gMemberNo', gName='$gMemberName', gMobile='$gMemberMobile', loanPlanId='$planId', planTypeId='$planType', loanAmount='$loanAmount', rateOfInterest='$rateOfInterest', emi='$emi', pMode='$paymentMode', chequeNo='$chequeNo', chequeDate='$chequeDate', bankAC='$bankAc', bankName='$bankName', loanPurpose='$loanPurpose',memberMobile='$memberMobile',memberEmail='$memberEmail',status='$status' where id='$id' ");
 				$msg=updated;
 				$pageHrefLink="loans.php";
 		}

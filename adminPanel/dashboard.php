@@ -155,11 +155,11 @@ $(document).ready(function(){
 					 $currentDate = date('Y-m-d');
 					 if($_SESSION['userType']=="ADMIN")
 					{
-					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' and loans.status='0'  where loanemi.ndd='$currentDate'";
+					$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' and loans.status='0' where loanemi.ndd='$currentDate' and loanemi.emiStatus !='PRE'";
 					}
 					else
 					{
-							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd='$currentDate'  and branchCode='$branchId'";
+							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd='$currentDate' and loanemi.emiStatus !='PRE'  and branchCode='$branchId'";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))

@@ -11,7 +11,12 @@ if(isset($_REQUEST['loanSearch']))
 	{	
 		if($printDate <= date('d/m/Y'))
 		{
-			header("location:sameDateReceipt.php?rDate=".$printDate);
+			?>
+			<script>
+				var dateValue = '<?php echo $printDate;?>';
+				window.open("sameDateReceipt.php?rDate="+dateValue,'video','top=150, left=352, width=700, height=500, toolbar=no, menubar=no, location=no, scrollbars=no, resizable=no');
+			</script>	
+			<?php 
 		}
 		else
 		{

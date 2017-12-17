@@ -28,10 +28,14 @@ page[size="A4"] {
   width: 21cm;
   height: 10.7cm; 
 }
+.navbar-brand img {   height: 60px; margin-top: -55px; }
+.company-detail {  font-family: open-sans;   margin-left: 310px; }
+.company-name { font-size: 24px;font-weight: 600; color: #d01a28; }
+.company-address { font-size: 12px; }
 *{font-family:arial;}
 .first, .second, .third{height:74px;float:left; font-family:open-sans;  font-size:12px; }
 h2{margin:0px;}
-.main{width:850px; text-align:center;  font-size:12px; margin-bottom:47%; }
+.main{width:850px; text-align:center;  font-size:12px; margin-bottom:1.5%; margin-top:1.5% }
 .first{width:15%; border-right:none;}
 .third{width:200px; text-align:left;  margin-left:73px; padding-left:5px; border:1px solid; border-bottom:none;}
 .third span{ margin-top:10px;    line-height:18px;}
@@ -48,6 +52,8 @@ h2{margin:0px;}
 .sectable td{width:250px; font-size:16px; line-height:20px;padding-left:10px;}
 .sec{ border-left:1px solid !important;}
 .thirdtable{ padding-bottom:10px;  font-size:12px !important;}
+hr { border:none; border-top:1px dotted #f00; color:#fff; background-color:#fff; height:1px; width:100%;
+}
 </style>
 <?php
  function convert_number($number)
@@ -125,19 +131,29 @@ return $res;
 
 <body onload="myprint()" >
 <a type="button" href="sameDatePrint.php" class="no-print" >Back </a>
-
+<page size="A4" >
 <div id="receipt"> 
 <?php
 $strSQL = mysql_query("select * from loanemi where newPaymentDate='$joincDate' and deleted='0' and status='0'");
 while($result=mysql_fetch_array($strSQL))
 {
-	?>   
-<page size="A4" >
+	?>  
+ <div class="container">
+	<div class="navbar-header">
+		<div class="company-detail">
+		<span class="company-name"> SHRI LIFE NIDHI LIMITED <br> </span>
+		<span class="company-address"> Near Animal Hospital, Minda Road, Mandha Bhim Singh <br/>Jaipur, Raj. 303604 , Tel No. 01424-258055 <br/> Mo. 7737371436 , www.shrilifenidhi.com </span>
+		</div>	
+		<a class="navbar-brand"  target="_blank"><img src="../images/logo.png" alt="logo"></a>
+	</div>
+	<div class="collapse navbar-collapse navbar-right">
+	</div>
+</div><!--/.container-->	
 <div class="main" >
 
 <table class="firsttable" cellpadding="0" cellspacing="0" border="1" >
 <tr><td style="border-top:1px solid !important;"></td><td style="border-top:1px solid !important;" ></td><td style="border-top:1px solid !important;"></td></tr>
-<?php $loanId = $result['loanId']; $query2 = mysql_query("select * from loans where loanId='$loanId' and deleted='0' and status='0'");
+<?php $loanId = $result['loanId']; $query2 = mysql_query("select * from loans where loanId='$loanId' and deleted='0'");
 while($result2=mysql_fetch_array($query2)) {?>
 <tr>
 <td colspan="2">Name : <?php echo $result2['applicantName'];  ?> </td>
@@ -177,10 +193,11 @@ while($result3=mysql_fetch_array($query4)) {echo $result3['planName']; }  ?></td
 <tr><td >Authorized signature</td><td></td><td>(Cashier signature)</td></tr>
 </table>
 </div>
-</page>	
+<hr/>
 <?php 
 } 
 } 
 ?>
 </div>
+</page>
 </body>

@@ -19,7 +19,7 @@ function myprint()
 *{font-family:arial;}
 .first, .second, .third{height:74px;float:left; font-family:open-sans;  font-size:12px; }
 h2{margin:0px;}
-.main{width:850px; text-align:center;  font-size:12px; }
+.main{width:850px; text-align:center;  font-size:12px; margin-top: 65px; }
 .first{width:15%; border-right:none;}
 .third{width:200px; text-align:left;  margin-left:73px; padding-left:5px; border:1px solid; border-bottom:none;}
 .third span{ margin-top:10px;    line-height:18px;}
@@ -114,7 +114,7 @@ return $res;
 <body onLoad="myprint()" >
 <div id="receipt"> 
 <?php
-$strSQL = mysql_query("select * from loanemi where loanId='$loanId' and emiNo='$emiNo' and deleted='0' and status='0' ");
+$strSQL = mysql_query("select * from loanemi where loanId='$loanId' and emiNo='$emiNo' and deleted='0'");
 while($result=mysql_fetch_array($strSQL))
 {
 	?>   
@@ -122,7 +122,7 @@ while($result=mysql_fetch_array($strSQL))
 
 <table class="firsttable" cellpadding="0" cellspacing="0" border="1" >
 <tr><td style="border-top:1px solid !important;"></td><td style="border-top:1px solid !important;" ></td><td style="border-top:1px solid !important;"></td></tr>
-<?php $query2 = mysql_query("select * from loans where loanId='$loanId' and deleted='0' and status='0'");
+<?php $query2 = mysql_query("select * from loans where loanId='$loanId' and deleted='0'");
 while($result2=mysql_fetch_array($query2)) {?>
 <tr>
 <td colspan="2">Name : <?php echo $result2['applicantName'];  ?> </td>

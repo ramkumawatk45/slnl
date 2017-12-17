@@ -271,7 +271,7 @@ $(document).ready(function(){
 					$emiNo="";
 					$emiNumber="";
 					$totalAmount="";
-					$query="SELECT * FROM loans where loanId='$id' and status='0' and deleted='0' ";
+					$query="SELECT * FROM loans where loanId='$id' and deleted='0' ";
 					$pagesData=fetchData($query);
 					foreach($pagesData as $loanData)
 					{
@@ -431,7 +431,7 @@ $(document).ready(function(){
 							}	
 						}
 						$dueDate="";
-						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0' and status='0' order by emiNo";
+						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0'  order by emiNo";
 						$loanEmiData=fetchData($query);
 						if (is_array($loanEmiData) || is_object($loanEmiData))
 						{

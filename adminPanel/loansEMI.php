@@ -122,7 +122,15 @@ $(document).ready(function(){
         }
     });
 });
- 
+function explode()
+{
+  if($("#loanStatus").val() == 1)
+  {
+	  $("#submitBtn").addClass("hide");
+	  $("#Emi-Details").addClass("hide");
+  }	
+}
+setTimeout(explode, 500);  
 </script>
 
       <!-- Content Wrapper. Contains page content -->
@@ -142,7 +150,7 @@ $(document).ready(function(){
                 <!-- form start -->
                 <form role="form"  action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])."?id=".$id;?>" method="post" enctype="multipart/form-data">
 				<?php 
-					$query="SELECT * FROM loans where loanId='$id'";
+					$query="SELECT * FROM loans where loanId='$id' and deleted='0'";
 					$pagesData=fetchData($query);
 					foreach($pagesData as $loanData)
 					{
@@ -150,6 +158,7 @@ $(document).ready(function(){
 					<input type="hidden" id="stateId" value="<?php echo $loanData['stateId']; ?>">
 					<input type="hidden" id="districtId" value="<?php echo $loanData['districtId']; ?>">
 					<input type="hidden" id="areaCode" value="<?php echo $loanData['areaId']; ?>">
+					<input type="hidden" id="loanStatus" name="loanStatus" value="<?php echo $loanData['status']; ?>">
                  <div class="box-body">
 						
 						<div class="form-group col-md-4">
@@ -573,6 +582,7 @@ $(document).ready(function(){
                         <label for="pageTitle">Due Amount</label>
                         <input type="text" class="form-control" readonly  value="<?php echo $totalDue; ?>" maxlength="15" required />                   
                         </div>
+						<div id="Emi-Details">
 						<div class="form-group col-md-4">
                         <label for="pageTitle">No.Of EMI</label>
                         <input type="number" class="form-control" readonly id="noOfEMI" name="noOfEMI" value="1" maxlength="2" required />                   
@@ -661,8 +671,9 @@ $(document).ready(function(){
                     </div>
 					<div class="form-group col-md-4">
 					<label for="pageTitle">&nbsp;</label>
-					<button type="submit" class="btn btn-primary  pull-down" name="addEMI">Submit</button>
+					<button type="submit" class="btn btn-primary  pull-down" name="addEMI" id="submitBtn">Submit</button>
                     </div>
+					</div>
 					<div class="box-body col-md-12" style="overflow-y:auto; height:150px;" >
 					<div class="box-header col-md-4 with-border">
                   		<h3 class="box-title">Paid EMI's</h3>

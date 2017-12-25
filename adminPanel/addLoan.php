@@ -3,6 +3,14 @@ include("controller/pages_controller.php");
 $menuType =+"gallery";
 $msg='';
 $pageHrefLink='';
+function dateRange( $first, $step = '+1 day', $format = 'd/m/Y' ) 
+{
+	$dates = "";
+	$current = strtotime( $first );
+	$current = strtotime( $step, $current );
+	$dates = date( $format, $current );
+	return $dates;
+}
 if(isset($_REQUEST['addStates']))
 {
 	 $branchId = $_REQUEST['branchId'];
@@ -48,12 +56,34 @@ if(isset($_REQUEST['addStates']))
 	$tmp = $_FILES['memberPhoto']['tmp_name'];
 	$ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
 	$final_image = rand(1000,1000000).$img;
-	 $status = $_REQUEST['status'];
+	$status = $_REQUEST['status'];
+	$planTypes ="";
+	$planQuery="SELECT * FROM plantypes where id='$planType' and deleted='0' ";
+	$menuDatas=fetchData($planQuery);
+	if(is_array($menuDatas) || is_object($menuDatas))
+	{	
+		foreach($menuDatas as $branchData)
+		{  
+			$planTypes  = $branchData['planName']; 
+		}
+	}
+	$dueDate = "";
+	$newDueDate = "";
+	if($planTypes == "MONTHLY")
+	{
+		$dueDate = dateRange($joincDate, '+1 month','d/m/Y');
+		$newDueDate = dateRange($joincDate, '+1 month','Y-m-d');
+	}
+	else if($planTypes =="DAILY")
+	{
+		$dueDate = dateRange($joincDate,'+1 day','d/m/Y');
+		$newDueDate = dateRange($joincDate, '+1 day','Y-m-d');
+	}	
 	 $sql = "select loanId,formId,memberId from loans where loanId='$loanId' and formId='$formNo'and memberId='$memberId'";
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res))
 		{
-		$msg="Duplicate Entry Note Allowed Please Check the Loan Id, Form Id , MemberId";
+			$msg="Duplicate Entry Note Allowed Please Check the Loan Id, Form Id , MemberId";
 		}
 		else
 		{
@@ -62,6 +92,7 @@ if(isset($_REQUEST['addStates']))
 				$path = $path.strtolower($final_image);	
 			}
 			$sql=mysql_query("INSERT INTO loans(loanId,branchCode,formId,memberId,cDate,createDate,applicantName,gurdianName,dob, age, address, stateId, districtId, areaId, zipCode, sex, maritalStatus, gMemberNo, gName, gMobile, loanPlanId, planTypeId, loanAmount, rateOfInterest, emi, pMode, chequeNo, chequeDate, bankAC, bankName, loanPurpose, memberPhoto,memberMobile,memberEmail,status) VALUES ('$loanId','$branchId','$formNo','$memberId','$cDate','$joincDate','$applicantName','$gurdianName','$applicantDob','$applicantAge','$address','$state','$district','$area','$zipCode','$gender','$maritalStatus','$gMemberNo','$gMemberName','$gMemberMobile','$planId','$planType','$loanAmount','$rateOfInterest','$emi','$paymentMode','$chequeNo','$chequeDate','$bankAc','$bankName','$loanPurpose','$path','$memberMobile','$memberEmail','$status')");
+			$sql=mysql_query("INSERT INTO loanemi(loanId, branchCode, emiNo, emiAmount, dueDate,newDueDate,ndd) VALUES ('$loanId','$branchId','0','$emi','$dueDate','$newDueDate','$newDueDate')");
 				move_uploaded_file($tmp,$path); 
 				$msg="Data Sucessfully Submited";
 				$pageHrefLink="loans.php";

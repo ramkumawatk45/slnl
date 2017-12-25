@@ -5,6 +5,22 @@ $msg='';
 $pageHrefLink='';
 $id=$_REQUEST['id'];
 $branchId = $_SESSION['branchId'];
+function dateRange( $first, $step = '+1 day', $format = 'd/m/Y' ) 
+{
+	$dates = "";
+	$current = strtotime( $first );
+	$current = strtotime( $step, $current );
+	$dates = date( $format, $current );
+	return $dates;
+}
+function dateRanges( $first, $step = '+1 day', $format = 'Y-m-d' ) 
+{
+	$dates = "";
+	$current = strtotime( $first );
+	$current = strtotime( $step, $current );
+	$dates = date( $format, $current );
+	return $dates;
+}
 ?>
 <script src="js/jquery.min.js"></script>   
 <script type="text/javascript">
@@ -66,7 +82,11 @@ $branchId = $_SESSION['branchId'];
 			var totalAmout = parseInt(serviceCharges+emi+lateFees);
 			$("#totalAmount").val(totalAmout);
 		});	
-		
+		if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+		{
+			//$("#loanEMI").addClass("readWriteAccess");
+			$("#Emi-Details").addClass("readWriteAccess");
+		}		
 	})
 	
 
@@ -135,7 +155,7 @@ setTimeout(explode, 500);
 
       <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-	<section class="content">
+	<section class="content" id="loanEMI">
 	
     	<div class="row">
             <!-- left column -->
@@ -360,46 +380,58 @@ setTimeout(explode, 500);
 							$month=$cdate[1];
 							$year=$cdate[2];
 							$counter=$month;
-							$g; 
-							$counter=$counter+=1;
-							if($counter>12)
-							{
-								$counter=$counter-12; 
-								$year++;
-							}
-							for($g=1;$g<12;$g++)
-							{
-								if(strlen($counter)==1)
+							if($planTypes=='MONTHLY')
+							{	
+								$g; 
+								$counter=$counter+=1;
+								if($counter>12)
 								{
-									if($counter==2 && $date>=29)
+									$counter=$counter-12; 
+									$year++;
+								}
+								for($g=1;$g<12;$g++)
+								{
+									if(strlen($counter)==1)
 									{
-										if($year%4==0)
+										if($counter==2 && $date>=29)
 										{
-											$eminewDuedate=$year.'-0'.$counter.'-29';
+											if($year%4==0)
+											{
+												$eminewDuedate=$year.'-0'.$counter.'-29';
+											}
+											else
+											{
+												$eminewDuedate=$year.'-0'.$counter.'-28';
+											}
+										}
+										elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
+										{
+											$eminewDuedate=$year.'-0'.$counter.'-30';
 										}
 										else
 										{
-											$eminewDuedate=$year.'-0'.$counter.'-28';
-										}
+											$eminewDuedate=$year.'-0'.$counter.'-'.$date;
+										}					
 									}
-									elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
+									elseif( $counter==11 && $date>=30)
 									{
-										$eminewDuedate=$year.'-0'.$counter.'-30';
+										$eminewDuedate=$year.'-'.$counter.'-'.'30';
+											
 									}
 									else
-									{
-										$eminewDuedate=$year.'-0'.$counter.'-'.$date;
-									}					
+									{	 
+										$eminewDuedate=$year.'-'.$counter.'-'.$date;
+									}
 								}
-								elseif( $counter==11 && $date>=30)
-								{
-									$eminewDuedate=$year.'-'.$counter.'-'.'30';
-										
-								}
-								else
-								{	 
-									$eminewDuedate=$year.'-'.$counter.'-'.$date;
-								}
+							}
+							else if($planTypes=='DAILY')
+							{	
+								$date=$cdate[0];
+								$month=$cdate[1];
+								$year=$cdate[2];
+								$loanCreateDate = $year.'-'.$month.'-'.$date;
+								$eminewDuedate = dateRanges($loanCreateDate);
+								var_dump($eminewDuedate);
 							}	
 							if($_REQUEST['totalPaid']< $_REQUEST['totalPayable'])
 							{	
@@ -440,7 +472,7 @@ setTimeout(explode, 500);
 							}	
 						}
 						$dueDate="";
-						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0'  order by emiNo";
+						$query="SELECT * FROM loanemi where loanId='$id' and deleted='0' and emiNo !='0'   order by emiNo";
 						$loanEmiData=fetchData($query);
 						if (is_array($loanEmiData) || is_object($loanEmiData))
 						{
@@ -523,48 +555,11 @@ setTimeout(explode, 500);
 					}	
 					else if($planTypes=='DAILY')
 					{	
-						
-						$g; 
-						$counter=$counter+=1;
-						if($counter>12)
-						{
-							$counter=$counter-12; 
-							$year++;
-						}
-						for($g=1;$g<$planDuration;$g++)
-						{
-							if(strlen($counter)==1)
-							{
-								if($counter==2 && $date>=29)
-								{
-									if($year%4==0)
-									{
-										$emidate='29/0'.$counter.'/'.$year;
-									}
-									else
-									{
-										$emidate='28/0'.$counter.'/'.$year;
-									}
-								}
-								elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
-								{
-									$emidate='30/0'.$counter.'/'.$year;
-								}
-								else
-								{
-									$emidate=$date.'/0'.$counter.'/'.$year;
-								}					
-							}
-							elseif( $counter==11 && $date>=30)
-							{
-								$emidate='30/'.$counter.'/'.$year;
-									
-							}
-							else
-							{	 
-								$emidate=$date.'/'.$counter.'/'.$year;
-							}
-						}
+						$date=$cdate[0];
+						$month=$cdate[1];
+						$year=$cdate[2];
+						$loanCreateDate = $year.'-'.$month.'-'.$date;
+						$emidate = dateRange($loanCreateDate);
 					}
 					?>
 					<input type="hidden" id="loanId" name="loanId" value="<?php echo $loanData['loanId']; ?>">

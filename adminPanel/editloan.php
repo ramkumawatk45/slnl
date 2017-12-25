@@ -4,6 +4,14 @@ $menuType =+"gallery";
 $id=$_REQUEST['id'];
 $msg='';
 $pageHrefLink='';
+function dateRange( $first, $step = '+1 day', $format = 'Y-m-d' ) 
+{
+	$dates = "";
+	$current = strtotime( $first );
+	$current = strtotime( $step, $current );
+	$dates = date( $format, $current );
+	return $dates;
+}
 if(isset($_REQUEST['addStates']))
 {
 	 $branchId = $_REQUEST['branchId'];
@@ -44,6 +52,28 @@ if(isset($_REQUEST['addStates']))
 	 $memberMobile = $_REQUEST['memberMobile'];
 	 $memberEmail = $_REQUEST['memberEmail'];
 	 $status = $_REQUEST['status'];
+	 $planTypes ="";
+	$planQuery="SELECT * FROM plantypes where id='$planType' and deleted='0' ";
+	$menuDatas=fetchData($planQuery);
+	if(is_array($menuDatas) || is_object($menuDatas))
+	{	
+		foreach($menuDatas as $branchData)
+		{  
+			$planTypes  = $branchData['planName']; 
+		}
+	}
+	$dueDate = "";
+	$newDueDate = "";
+	if($planTypes == "MONTHLY")
+	{
+		$dueDate = dateRange($joincDate, '+1 month','d/m/Y');
+		$newDueDate = dateRange($joincDate, '+1 month','Y-m-d');
+	}
+	else if($planTypes =="DAILY")
+	{
+		$dueDate = dateRange($joincDate,'+1 day','d/m/Y');
+		$newDueDate = dateRange($joincDate, '+1 day','Y-m-d');
+	}
 	 $sql = "select loanId,formId,memberId from loans where loanId='$loanId' and formId='$formNo'and memberId='$memberId'";
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res)> 1)
@@ -53,8 +83,9 @@ if(isset($_REQUEST['addStates']))
 		else
 		{
 				$sql=mysql_query("UPDATE loans SET loanId='$loanId',branchCode='$branchId',formId='$formNo',memberId='$memberId',cDate='$cDate',createDate='$joincDate',applicantName='$applicantName',gurdianName='$gurdianName',dob='$applicantDob', age='$applicantAge', address='$address', stateId='$state', districtId='$district', areaId='$area', zipCode='$zipCode', sex='$gender', maritalStatus='$maritalStatus', gMemberNo='$gMemberNo', gName='$gMemberName', gMobile='$gMemberMobile', loanPlanId='$planId', planTypeId='$planType', loanAmount='$loanAmount', rateOfInterest='$rateOfInterest', emi='$emi', pMode='$paymentMode', chequeNo='$chequeNo', chequeDate='$chequeDate', bankAC='$bankAc', bankName='$bankName', loanPurpose='$loanPurpose',memberMobile='$memberMobile',memberEmail='$memberEmail',status='$status' where id='$id' ");
-				$msg=updated;
-				$pageHrefLink="loans.php";
+				$sql=mysql_query("UPDATE loanemi SET branchCode='$branchId',emiAmount='$emi', dueDate='$dueDate',newDueDate='$newDueDate',ndd='$newDueDate' where loanId='$loanId' and emiNo='0'");
+				//$msg=updated;
+				//$pageHrefLink="loans.php";
 		}
 }
 
@@ -70,6 +101,10 @@ if(isset($_REQUEST['addStates']))
 			autoclose: true,
 			maxDate: 0
 		})
+	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#editLoan").addClass("readWriteAccess");
+	}	
 	})
 	function updateAb(value){    
 var dob = new Date(value);
@@ -134,7 +169,7 @@ $(document).ready(function(){
 
       <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-	<section class="content">
+	<section class="content" id="editLoan">
     	<div class="row">
             <!-- left column -->
             <div class="col-md-12">

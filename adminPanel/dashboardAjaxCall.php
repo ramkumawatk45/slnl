@@ -14,7 +14,7 @@ if($_SESSION['userType']=="ADMIN")
 }
 else
 {
-		$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE' and loanemi.branchCode='$branchId' order by loanemi.emiNo,loanemi.newPaymentDate Desc";
+		$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loanemi.deleted='0' and loans.status='0' where  loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE' and loanemi.branchCode='$branchId' order by loanemi.emiNo,loanemi.newPaymentDate Desc";
 }	
 
 

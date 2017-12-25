@@ -81,6 +81,10 @@ $(document).ready(function() {
 			$( api.column( 10 ).footer() ).html(emiTotal);	
 		}
     });
+	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#sendMessage").addClass("readWriteAccess");
+	}
 });
 
 </script>
@@ -136,7 +140,7 @@ foreach($pageData as $tableData)
 <input type="hidden" name="memberMobile" value="<?php  echo $tableData['memberMobile']; ?>" />
 <input type="hidden" name="emi" value="<?php  echo $tableData['emi']; ?>" />
 <input type="hidden" name="emiDate" value="<?php  echo $tableData['ndd']; ?>" />
-<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message">
+<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message" id="sendMessage">
 <?php
 }} 
 ?>

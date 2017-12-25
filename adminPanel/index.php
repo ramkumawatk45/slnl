@@ -17,6 +17,8 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 		 $userType='';
 		 $branchCode='';
 		 $branchId='';
+		 $branchAccess='';
+		 $userAccess='';
 		 $userData=fetchData($sql);
 		if (is_array($userData) || is_object($userData))
 		{
@@ -24,11 +26,12 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 			{
 				$userType = $tableData['usertype'];
 				$branchCode = $tableData['branchCode'];
+				$userAccess = $tableData['userAccess'];
 			}
 		}
 		 $sql3="SELECT * FROM branchs WHERE branchCode='$branchCode' and deleted='0' and status='0'";
 		 $results3=mysql_query($sql3);
-		 while($result3=mysql_fetch_array($results3)) { $branchId = $result3['branchId']; }  
+		 while($result3=mysql_fetch_array($results3)) { $branchId = $result3['branchId']; $branchAccess = $result3['branchAccess'];}  
 		 $myresult = mysql_fetch_row($result);
 	     $count=mysql_num_rows($result);
 			if($count==1)
@@ -37,7 +40,9 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 				  $_SESSION['userType'] = $userType;
 				  $_SESSION['branchCode'] = $branchCode;
 				  $_SESSION['branchId'] = $branchId;
-				header("location:dashboard.php");
+				  $_SESSION['branchAccess'] = $branchAccess;
+				  $_SESSION['userAccess'] = $userAccess;
+				  header("location:dashboard.php");
 			}
 			else {
 		$error="Wrong Username or Password";

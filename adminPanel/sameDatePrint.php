@@ -9,19 +9,12 @@ if(isset($_REQUEST['loanSearch']))
 	$printDate = $_REQUEST['printDate'];
 	if($printDate)
 	{	
-		if($printDate <= date('d/m/Y'))
-		{
 			?>
 			<script>
 				var dateValue = '<?php echo $printDate;?>';
 				window.open("sameDateReceipt.php?rDate="+dateValue,'video','top=150, left=352, width=700, height=500, toolbar=no, menubar=no, location=no, scrollbars=no, resizable=no');
 			</script>	
-			<?php 
-		}
-		else
-		{
-			$msg="Future Date Not Allowed";
-		}	
+			<?php  
 	}	
 	else
 	{

@@ -8,6 +8,7 @@ if(isset($_REQUEST['addCenter']))
 	$branchName = $_REQUEST['branchName'];
 	$branchCode = $_REQUEST['branchCode'];
 	$branchAddress = $_REQUEST['branchAddress'];
+	$branchAccess = $_REQUEST['branchAccess'];
 	$stateId = $_REQUEST['state'];
 	$districtId = $_REQUEST['district'];
 	$areaCode = $_REQUEST['area'];
@@ -32,8 +33,8 @@ if(isset($_REQUEST['addCenter']))
 				}
 				else
 				{
-				$sql=mysql_query("INSERT INTO branchs(branchName,branchCode,branchAddress,zipCode,phoneNo,areaCode,stateId,districtId,status) VALUES('$branchName','$branchCode','$branchAddress','$zipCode','$phoneNo','$areaCode','$stateId','$districtId','$status')");
-				$sql1=mysql_query("INSERT INTO user(branchCode,usertype,username,password,status) VALUES('$branchCode','BRANCH','$userName','$password','$status')");
+				$sql=mysql_query("INSERT INTO branchs(branchName,branchCode,branchAddress,zipCode,phoneNo,areaCode,stateId,districtId,status,branchAccess) VALUES('$branchName','$branchCode','$branchAddress','$zipCode','$phoneNo','$areaCode','$stateId','$districtId','$status','$branchAccess')");
+				$sql1=mysql_query("INSERT INTO user(branchCode,usertype,username,password,status,userAccess) VALUES('$branchCode','BRANCH','$userName','$password','$status','$branchAccess')");
 				$msg=inserted;
 				$pageHrefLink ="trainingCenter.php";
 				}
@@ -100,11 +101,17 @@ $(document).ready(function(){
                       <label for="pageTitle">Branch Code </label>
                       <input type="text" class="form-control" id="branchCode" name="branchCode" placeholder="Branch Code " maxlength="100"  required />                  
                     </div>
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
                       <label for="pageTitle">Address </label>
                       <textarea class="form-control" id="branchAddress" name="branchAddress" placeholder="Branch Address " maxlength="100"  required></textarea>                  
                     </div>
-					
+					<div class="form-group col-md-6">
+                      <label>Branch Access</label>
+                      <select class="form-control" name="branchAccess">
+                      <option value="EDIT">EDIT</option>
+                      <option value="VIEW">VIEW</option>
+                      </select>
+                    </div>
 					<div class="form-group col-md-6">
                       <label>State</label>
                       <select class="form-control" name="state" id="state" required>

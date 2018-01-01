@@ -41,12 +41,9 @@
     </div><!-- ./wrapper -->
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- jvectormap -->
-	<script type="text/javascript" src="<?php echo BaseUrl;?>admin/bootstrap/js/moment.js"></script>
    
     <!-- Bootstrap WYSIHTML5 -->
   
@@ -118,23 +115,6 @@ function isTop(elem)
 <script>
 alert("<?php echo $msg ?>");
 window.location.href = "<?php echo $pageHrefLink?>";
-</script>
-<?php
-}
- if($edit ==true){?>
-<script>
-var parent = "<?php echo $parentId;?>";
-console.log( parent );
-if(parent > 0)
-{
-console.log( parent );
-$("#parentCategory").val(parent);
-}
-else
-{
-	$("#parentCategory").attr("disabled","disabled");
-	document.getElementById("top").checked = true;
-}
 </script>
 <?php
 }

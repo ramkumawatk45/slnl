@@ -2,7 +2,17 @@
 include("controller/pages_controller.php");
 $menuType = "gallery";
 ?>
-<div class="content-wrapper">
+<script src="js/jquery.min.js"></script>   
+<script type="text/javascript">
+$(document).ready(function() 	
+{
+	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#areas").addClass("readWriteAccess");
+	}
+});	
+</script>
+<div class="content-wrapper" id="areas">
         <!-- Main content -->
         <section class="content-header">
           <h1>&nbsp;          </h1>

@@ -102,6 +102,10 @@ $(document).ready(function(){
 			 alert("Please Select Date");  
 		}  
    });  
+   if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#sendMessage").addClass("readWriteAccess");
+	}
 });  
 </script>
 <div class="content-wrapper">
@@ -128,7 +132,7 @@ $(document).ready(function(){
                     
 				<form method="post" action="#">
 				
-					<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message">
+					<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message" id="sendMessage">
 				
                   <table id="category" class="table table-bordered table-striped">
                     <thead>
@@ -159,7 +163,7 @@ $(document).ready(function(){
 					}
 					else
 					{
-							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and where loans.deleted='0' and loanemi.deleted='0' loan.status='0' and  loanemi.ndd='$currentDate' and loanemi.emiStatus !='PRE'  and branchCode='$branchId'";
+							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' and loans.status='0' and  loanemi.ndd='$currentDate' and loanemi.emiStatus !='PRE'  and loanemi.branchCode='$branchId'";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -167,56 +171,6 @@ $(document).ready(function(){
 					$i=1;
 					foreach($pageData as $tableData)
 					{
-					
-						$cdate=explode('/',$tableData['dueDate']);
-								$date=$cdate[0];
-								$month=$cdate[1];
-								$year=$cdate[2];
-								$counter=$month;
-						$g; 
-						$counter=$counter;
-						if($counter>12)
-						{
-							$counter=$counter-12; 
-							$year++;
-						}
-						for($g=1;$g<12;$g++)
-						{
-							if(strlen($counter)==1)
-							{
-								if($counter==2 && $date>=29)
-								{
-									if($year%4==0)
-									{
-										$emidate=$year.'-0'.$counter.'-29';
-									}
-									else
-									{
-										$emidate=$year.'-0'.$counter.'-28';
-									}
-								}
-								elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
-								{
-									$emidate=$year.'-0'.$counter.'-30';
-								}
-								else
-								{
-									$emidate=$year.'-0'.$counter.'-'.$date;
-								}					
-							}
-						elseif( $counter==11 && $date>=30)
-						{
-							$emidate=$year.'-'.$counter.'-'.'30';
-								
-						}
-						else
-						{	 
-							$emidate=$year.'-'.$counter.'-'.$date;
-						}
-					}	
-							$loanId = $tableData['id'];
-							//$sql=mysql_query("update loanemi set newDueDate='$emidate' where id='$loanId'");
-							//var_dump($sql);
 					?>
 					
                       <tr>
@@ -237,12 +191,49 @@ $(document).ready(function(){
 							<td><?php  echo $tableData['applicantName']; ?> </td>
 							<td><?php  echo $tableData['gurdianName']; ?></td>
 							<td><?php  echo $tableData['address']; ?></td>
-							<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";$menuDatas=fetchData($queryBranch);foreach($menuDatas as $branchData){  echo $branchData['areaName']; } ?> </td>
+							<td>
+							<?php 
+									$areaId = $tableData['areaId']; 
+									$queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";
+									$menuDatas=fetchData($queryBranch); 
+									if(is_array($menuDatas) || is_object($menuDatas))
+									{	
+										foreach($menuDatas as $branchData)
+										{ 
+											echo $branchData['areaName'];
+										} 
+									}	
+							?> 
+							</td>
 							<td><?php  echo $tableData['memberMobile'];?></td>
-							<td><?php $planId=$tableData['loanPlanId'];
-						$planQuery="SELECT * FROM loanplan where id='$planId' ";$menuDatas=fetchData($planQuery);foreach($menuDatas as $branchData){  echo $branchData['planName']; } ?></td>
-							<td><?php $planId=$tableData['planTypeId'];
-						$planQuery="SELECT * FROM plantypes where id='$planId' ";$menuDatas=fetchData($planQuery);foreach($menuDatas as $branchData){  echo $branchData['planName']; } ?></td>
+							<td>
+							<?php 
+									$planId=$tableData['loanPlanId'];
+									$planQuery="SELECT * FROM loanplan where id='$planId' and deleted='0' ";
+									$menuDatas=fetchData($planQuery);
+									if(is_array($menuDatas) || is_object($menuDatas))
+									{	
+										foreach($menuDatas as $branchData)
+										{  
+											echo $branchData['planName']; 
+										} 
+									}	
+							?>
+							</td>
+							<td>
+							<?php 
+									$planId=$tableData['planTypeId'];
+									$planQuery="SELECT * FROM plantypes where id='$planId' and deleted='0' ";
+									$menuDatas=fetchData($planQuery);
+									if(is_array($menuDatas) || is_object($menuDatas))
+									{	
+										foreach($menuDatas as $branchData)
+										{  
+											echo $branchData['planName']; 
+										}
+									}
+							?>
+							</td>
 						<td><?php  $ndd =  explode('-',$tableData['ndd']); echo $ndd[2].'/'.$ndd[1].'/'.$ndd[0]; ?></td>
 						<td><?php  echo $tableData['emiNo']+1; ?></td> 
 						<td><?php echo $tableData['emiAmount']; ?></td>

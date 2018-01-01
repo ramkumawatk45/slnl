@@ -27,8 +27,18 @@ if(isset($_REQUEST['loanSearch']))
 		}	
 }
 ?>
+<script src="js/jquery.min.js"></script>   
+<script type="text/javascript">
+$(document).ready(function() 	
+{
+	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#deleteLoanEmi").addClass("readWriteAccess");
+	}
+});	
+</script>
       <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" id="deleteLoanEmi">
 	<section class="content">
     	<div class="row">
             <!-- left column -->

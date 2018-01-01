@@ -16,7 +16,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
@@ -54,6 +53,8 @@
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
 <!--                  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
 -->                  <span class="glyphicon glyphicon-user"> <?php echo $_SESSION['login_user']; ?></span>
+					<input type="hidden" id="branchAccess" value="<?php echo $_SESSION['branchAccess']; ?>" />
+					<input type="hidden" id="userAccess" value="<?php echo $_SESSION['userAccess']; ?>" />
                   <span class="caret"></span>
                   <span class="hidden-xs"></span>
                 </a>
@@ -111,6 +112,7 @@
                 <li class="districts  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'districts.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="districts.php"><i class="fa fa-sliders"></i>Districts</a></li> 
 				<li class="areas  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'areas.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="areas.php"><i class="fa fa-sliders"></i>Areas</a></li> 
                 <li class="trainingcenter  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'trainingCenter.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="trainingCenter.php"><i class="fa fa-university "></i>Branches</a></li> 
+				 <li class="users  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'users.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="users.php"><i class="fa fa-university "></i>Users</a></li> 
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPlans.php"><i class="fa fa-paperclip"></i>Loan Plan</a></li>
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php"><i class="fa fa-paperclip"></i>Delete Loan EMI</a></li>
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php"><i class="fa fa-paperclip"></i>Deleted Loan EMI</a></li>
@@ -333,18 +335,13 @@ table.dataTable.select tbody tr,
 table.dataTable thead th:first-child {
   cursor: pointer;
 }
+.readWriteAccess
+{  
+	opacity: .9 !important;
+    pointer-events: none !important;
+	cursor: not-allowed !important;
+}
 body {
     font-size: 12px;
 }
 </style>
-
-<!--CSS FOR LOGO BACKGROUND-->
-
-<!--.main-header .logo .logo-lg {
-    display: block;
-    background-color: #fff;
-    margin: 0px -15px 0px -15px;
-}
-.logo-lg img {
-    margin: 0px 0px 13px 0px;
-}-->

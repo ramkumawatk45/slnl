@@ -11,8 +11,18 @@ if(isset($_REQUEST['editStates']))
 	header("location:smsSetting.php");	
 }
 ?>
+<script src="js/jquery.min.js"></script>   
+<script type="text/javascript">
+$(document).ready(function() 	
+{
+	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#smsSetting").addClass("readWriteAccess");
+	}
+});	
+</script>
       <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">  
+<div class="content-wrapper" id="smsSetting">  
 	<section class="content">
           <div class="row">
             <!-- left column -->

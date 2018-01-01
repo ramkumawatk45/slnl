@@ -58,8 +58,12 @@ $menuType = "gallery";
             [ 10, 25, 50, -1 ],
             [ '10 ', '25 ', '50 ', 'Show all' ]
         ]
-    } );
-} );
+    });
+	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
+	{
+		$("#addLoan").addClass("readWriteAccess");
+	}
+});
 </script>
 <div class="content-wrapper">
 	
@@ -67,7 +71,7 @@ $menuType = "gallery";
 		<?php if($_SESSION['userType']=="ADMIN")
 				{
 		?>			
-        <section class="content-header">
+        <section class="content-header" id="addLoan">
           <h1>&nbsp;          </h1>
           <ol class="breadcrumb">
             <li><b><a href="addLoan.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Loan </a></b></li>
@@ -123,54 +127,6 @@ $menuType = "gallery";
 					$i=1;
 					foreach($pageData as $tableData)
 					{
-						$cdate=explode('/',$tableData['cDate']);
-								$date=$cdate[0];
-								$month=$cdate[1];
-								$year=$cdate[2];
-								$counter=$month;
-						$g; 
-						$counter=$counter;
-						if($counter>12)
-						{
-							$counter=$counter-12; 
-							$year++;
-						}
-						for($g=1;$g<12;$g++)
-						{
-							if(strlen($counter)==1)
-							{
-								if($counter==2 && $date>=29)
-								{
-									if($year%4==0)
-									{
-										$emidate=$year.'-0'.$counter.'-29';
-									}
-									else
-									{
-										$emidate=$year.'-0'.$counter.'-28';
-									}
-								}
-								elseif($counter==4 && $date>=30 || $counter==6 && $date>=30 || $counter==9 && $date>=30)
-								{
-									$emidate=$year.'-0'.$counter.'-30';
-								}
-								else
-								{
-									$emidate=$year.'-0'.$counter.'-'.$date;
-								}					
-							}
-						elseif( $counter==11 && $date>=30)
-						{
-							$emidate=$year.'-'.$counter.'-'.'30';
-								
-						}
-						else
-						{	 
-							$emidate=$year.'-'.$counter.'-'.$date;
-						}
-					}	
-							$loanId = $tableData['loanId'];
-							//$sql=mysql_query("update loans set createDate='$emidate' where loanId='$loanId'");
 					?>
                       <tr>
                          <td><?php echo  $i++; ?></td>

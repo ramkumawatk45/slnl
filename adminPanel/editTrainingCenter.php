@@ -8,6 +8,7 @@ if(isset($_REQUEST['addCenter']))
 	$branchName = $_REQUEST['branchName'];
 	$branchCode = $_REQUEST['branchCode'];
 	$branchAddress = $_REQUEST['branchAddress'];
+	$branchAccess = $_REQUEST['branchAccess'];
 	$stateId = $_REQUEST['state'];
 	$districtId = $_REQUEST['district'];
 	$areaCode = $_REQUEST['area'];
@@ -32,8 +33,8 @@ if(isset($_REQUEST['addCenter']))
 				// }
 				// else
 				// {
-				$sql=mysql_query("update branchs set branchName='$branchName',branchCode='$branchCode',branchAddress='$branchAddress',zipCode='$zipCode',phoneNo='$phoneNo',areaCode='$areaCode',stateId='$stateId',districtId='$districtId',status='$status' where branchId='$id'");
-				$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' where branchCode='$branchCode'");
+				$sql=mysql_query("update branchs set branchName='$branchName',branchCode='$branchCode',branchAddress='$branchAddress',zipCode='$zipCode',phoneNo='$phoneNo',areaCode='$areaCode',stateId='$stateId',districtId='$districtId',status='$status' , branchAccess='$branchAccess' where branchId='$id'");
+				$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' , userAccess='$branchAccess' where branchCode='$branchCode'");
 				$msg=updated;
 				$pageHrefLink ="trainingCenter.php";
 				//}
@@ -126,11 +127,19 @@ $(document).ready(function(){
                       <label for="pageTitle">Branch Code </label>
                       <input type="text" class="form-control" id="branchCode" name="branchCode" placeholder="Branch Code " maxlength="100"  value="<?php echo $imagesData['branchCode'] ?>" required readonly />                  
                     </div>
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
                       <label for="pageTitle">Address </label>
                       <textarea class="form-control" id="branchAddress" name="branchAddress" placeholder="Branch Address " maxlength="100"  required><?php echo $imagesData['branchAddress'] ?></textarea>                  
                     </div>
-					
+					  <div class="form-group col-md-6">
+                      <label>Branch Access</label>
+                      <select class="form-control" name="branchAccess">
+                       <?php $branchAccess=$imagesData['branchAccess'];
+					   ?>
+					  <option value="EDIT"<?php if($branchAccess =="EDIT") echo 'selected'; ?>>EDIT</option>
+    				<option value="VIEW"<?php if( $branchAccess =="VIEW") echo 'selected'; ?>>VIEW</option>
+                      </select>
+                    </div>
 					<div class="form-group col-md-6">
                       <label>State</label>
                       <select class="form-control" name="state" id="state" required>
@@ -180,14 +189,15 @@ $(document).ready(function(){
 					?>
 					<h3 class="box-title ">Branch Login Detail</h3>
 					</div>
+					<div class="box-body">
 					<div class="form-group col-md-6 ">
                       <label for="pageTitle">User Name </label>
                       <input type="text" class="form-control" id="userName" name="userName" value="<?php echo $loginData['username']; ?>" maxlength="100" />                  
                     </div>
 					<div class="form-group col-md-6 ">
                       <label for="pageTitle">Password </label>
-                      <input type="text" class="form-control" id="password" name="password" value="<?php echo utf8_decode($loginData['password']); ?>"maxlength="15"  />                  
-                    </div>
+                      <input type="text" class="form-control" id="password" name="password" value="<?php echo utf8_decode($loginData['password']); ?>"maxlength="15"  />          </div>
+					</div>  
                   <div class="box-footer">
 					<div class="col-md-6">
 					<button type="reset" class="btn btn-primary pull-right">Reset</button>

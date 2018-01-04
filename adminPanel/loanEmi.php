@@ -42,7 +42,7 @@ if(isset($_REQUEST['loanSearch']))
                 <!-- form start -->
 				 <div class="box-body">
 				<form role="form"  action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
-						 <div class="form-group col-md-2">
+						 <div class="form-group col-md-2  col-sm-2 col-xs-2 ">
                         <label for="pageTitle">Loan Id</label>
                         <input type="text" class="form-control" id="loanSearchId" name="loanSearchId" placeholder="Loan Id" maxlength="15" required />                   
                         </div>

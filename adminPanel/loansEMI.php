@@ -163,7 +163,7 @@ setTimeout(explode, 500);
 			<div class="box-header with-border">
                   		<h3 class="box-title">Loan Payment</h3>
                 	</div><!-- /.box-header -->
-			<div class="col-md-6">
+			<div class="col-md-6 ">
               <!-- general form elements -->
             	<div class="box box-primary">
                 	
@@ -181,11 +181,11 @@ setTimeout(explode, 500);
 					<input type="hidden" id="loanStatus" name="loanStatus" value="<?php echo $loanData['status']; ?>">
                  <div class="box-body">
 						
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Loan Id</label>
                         <input type="text" class="form-control" disabled id="loanId" name="loanId" value="<?php echo $loanData['loanId']; ?>"  maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle">Branch</label>
 						<select class="form-control" name="branchId" disabled id="branchId" required <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
 						<?php 
@@ -195,31 +195,31 @@ setTimeout(explode, 500);
 						{ ?><option <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
 						</select>
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle">Form No.</label>
                         <input type="text" class="form-control" disabled id="formNo" name="formNo" value="<?php echo $loanData['formId']; ?>" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle">Member Id</label>
                         <input type="text" class="form-control" disabled id="memberId" name="memberId" value="<?php echo $loanData['memberId']; ?>" maxlength="15" required />                   
-                        </div><div class="form-group col-md-4">
+                        </div><div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle" >Date</label>
                         <input type="text" class="form-control " disabled id="cDate" name="cDate" value="<?php echo $loanData['cDate']; ?>" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle">Applicant Name</label>
                         <input type="text" class="form-control" disabled id="applicantName" name="applicantName" value="<?php echo $loanData['applicantName']; ?>" maxlength="150" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle">Gurdian Name</label>
                         <input type="text" class="form-control" disabled id="gurdianName" name="gurdianName" value="<?php echo $loanData['gurdianName']; ?>" maxlength="150" required />                   
                         </div>
 						
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle">Address</label>
                       <textarea class="form-control" id="address" disabled name="address" placeholder="Address " maxlength="100"><?php echo $loanData['address']; ?></textarea>                  
 						</div>
-						<div class="form-group col-md-4 ">
+						<div class="form-group col-md-4 col-sm-4 col-xs-4 ">
                       <label>State</label>
                       <select class="form-control" disabled name="state" id="state" required>
                       <option value="0" >Select State</option>
@@ -230,18 +230,18 @@ setTimeout(explode, 500);
 					{ ?><option <?php if($tableData['stateId'] == $loanData['stateId']) { echo 'selected';} ?> value="<?php echo $tableData['stateId']; ?>"><?php  echo $tableData['stateName'] ?></option> <?php } ?>
                       </select>
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label>District</label>
                       <select class="form-control" readonly name="district" id="district" required> </select>
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle">Area</label>
                       <select class="form-control" disabled name="area" id="area" required>
 						</select>
                     </div>
 					
 					
-						 <div class="form-group col-md-4">
+						 <div class="form-group col-md-4 col-sm-4 col-xs-4">
                         <label for="pageTitle">Loan plan </label>
 					<select class="form-control" disabled name="planId" id="planId" required>
                      <?php 
@@ -250,7 +250,7 @@ setTimeout(explode, 500);
 						foreach($menuData as $tableData)
 						{ ?><option <?php if($tableData['id'] ==$loanData['loanPlanId']) { echo 'selected';} ?> value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
                       </select>                        </div>
-                       <div class="form-group col-md-4">
+                       <div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label>Plan Type</label>
                       <select class="form-control" disabled name="planType" id="planType" required>
                      <?php 
@@ -260,23 +260,23 @@ setTimeout(explode, 500);
 						{ ?><option <?php if($tableData['id'] ==$loanData['planTypeId']) { echo 'selected';} ?> value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
                       </select>
 						</div>
-                       <div class="form-group col-md-4">
+                       <div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle">Loan Amount  </label>
                       <input type="text" class="form-control" disabled id="loanAmount" name="loanAmount" value="<?php echo $loanData['loanAmount']; ?>" maxlength="10" required />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle ">Rate Of Interest(%)  </label>
                       <input type="text" class="form-control" disabled id="rateOfInterest" name="rateOfInterest" value="<?php echo $loanData['rateOfInterest']; ?>" maxlength="5"  required />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle">EMI  </label>
                       <input type="text" class="form-control" disabled id="emi" name="emi" value="<?php echo $loanData['emi']; ?>" maxlength="5"  required />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle">Member Photo</label>
                       <img style="height:120px;width:120px" src="<?php echo $loanData['memberPhoto']; ?>" />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="pageTitle">Member Mobile Number</label>
                       <input type="text" class="form-control" disabled id="emi" name="emi" value="<?php echo $loanData['memberMobile']; ?>" maxlength="5"  required /> </div>
                         
@@ -565,44 +565,44 @@ setTimeout(explode, 500);
 					<input type="hidden" id="loanId" name="loanId" value="<?php echo $loanData['loanId']; ?>">
 					<input type="hidden" id="emi" name="emi" value="<?php echo $loanData['emi']; ?>">
 	                 <div class="box-body">					
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Total Payable(Rs.)</label>
                         <input type="text" class="form-control" name="totalPayable" readonly value="<?php echo $planDuration*$loanData['emi']; ?>"  maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Total Paid</label>
 						<input type="text" class="form-control" readonly name="totalPaid"  value="<?php echo $totalPaid; ?>" maxlength="15" required />                   
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Due Amount</label>
                         <input type="text" class="form-control" readonly  value="<?php echo $totalDue; ?>" maxlength="15" required />                   
                         </div>
 						<div id="Emi-Details">
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">No.Of EMI</label>
                         <input type="number" class="form-control" readonly id="noOfEMI" name="noOfEMI" value="1" maxlength="2" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">EMI Paid</label>
                         <input type="text" class="form-control" readonly name="emiNo"  value="<?php if($emiNo){echo $emiNo; } else{ echo "1";} ?>" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Payment Amount</label>
                         <input type="text" class="form-control" id="paymentAmount" readonly name="paymentAmount" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle">Total Amount</label>
                         <input type="text" class="form-control" readonly name="totalAmount" id="totalAmount" maxlength="15" />                   
                         </div>
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle" >Date</label>
                         <input type="text" class="form-control  <?php if($_SESSION['branchCode']){echo "disabled";} else{ echo 'date';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle" >Due Date</label>
                         <input type="text" class="form-control "  readonly name="dueDate" id='dueDate' value="<?php if($emidate) { echo $emidate; }?>" maxlength="15" required />                   
                         </div>						
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle">Branch</label>
 						<select class="form-control" name="branchId" id="branchId" required <?php if($_SESSION['branchCode']){echo "style=' pointer-events: none;'";} ?>>
 						<?php 
@@ -618,7 +618,7 @@ setTimeout(explode, 500);
 						foreach($defaultData as $defaults)
 						{
 							?>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Penalty Deduct</label>
                         <input type="hidden" class="form-control"  id="lateFees" name="lateFees" value="<?php  echo $defaults['defaultVal']; ?>"  maxlength="15" />                   
 						  <input type="hidden" class="form-control"  id="lateFee" name="lateFee" /> 
@@ -634,7 +634,7 @@ setTimeout(explode, 500);
 						foreach($defaultData as $defaults)
 						{
 							?>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                         <label for="pageTitle">Service Charges</label>
 						<select class="form-control " name="serviceCharge" id="serviceCharge" >
 							<option value="0">None</option>
@@ -645,32 +645,32 @@ setTimeout(explode, 500);
 						</select>                  
 						</div>
 						<?php } ?>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
 				  <label for="pageTitle">Payment Mode</label>
 				  <select class="form-control" name="paymentMode" id="paymentMode"> 
 					<option value="cash">Cash</option>
 					<option value="cheque">Cheque</option>
 					</select>
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                       <label for="pageTitle">Cheque No</label>
                       <input type="text" class="form-control" id="chequeNo" name="chequeNo" placeholder="Cheque No" maxlength="10"  />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                       <label for="pageTitle">Cheque Date</label>
                       <input type="text" class="form-control date" id="chequeDate" name="chequeDate" placeholder="Cheque Date " />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
                       <label for="pageTitle">Bank Name</label>
                       <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank Name" />                  
                     </div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
 					<label for="pageTitle">&nbsp;</label>
 					<button type="submit" class="btn btn-primary  pull-down" name="addEMI" id="submitBtn">Submit</button>
                     </div>
 					</div>
-					<div class="box-body col-md-12" style="overflow-y:auto; height:150px;" >
-					<div class="box-header col-md-4 with-border">
+					<div class="box-body col-md-12  col-sm-12 col-xs-12 " style="overflow-y:auto; height:150px;" >
+					<div class="box-header col-md-4 with-border  col-sm-4 col-xs-4 ">
                   		<h3 class="box-title">Paid EMI's</h3>
                 	</div>
                   <table id="category" class="table table-bordered table-striped" >

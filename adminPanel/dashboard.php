@@ -120,13 +120,13 @@ $(document).ready(function(){
                   <h3 class="box-title">EMI Due Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
-                <div class="col-md-3">  
+                <div class="col-md-3 col-xs-3 col-sm-3">  
                      <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" />  
                 </div>  
-                <div class="col-md-3">  
+                <div class="col-md-3 col-xs-3 col-sm-3">  
                      <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" />  
                 </div>  
-                <div class="col-md-5">  
+                <div class="col-md-5 col-xs-5 col-sm-5">  
                      <input type="button" name="filter" id="filter" value="Filter" class="btn btn-info" />  
                 </div>      
                     
@@ -141,9 +141,9 @@ $(document).ready(function(){
 						<th>All <input type='checkbox' id="checkBoxAll" class="checkBoxall"> </th>
                         <th>Loan Id</th>
 						<th>Branch</th>
-						<th>Applicant Name</th>
-						<th>Gurdian Name</th>
-						<th>Address</th>						
+						<th class="col-md-3 col-xs-3 col-sm-3">Applicant Name</th>
+						<th class="col-md-3 col-xs-3 col-sm-3">Gurdian Name</th>
+						<th class="col-md-3 col-xs-3 col-sm-3">Address</th>						
 						<th>Area Name</th>
 						<th>Phone No</th>
 						<th>Term</th>

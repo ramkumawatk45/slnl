@@ -133,7 +133,7 @@ $menuType = "gallery";
 		$today=date('Y-m-d');
 		if($_SESSION['userType']=="ADMIN")
 		{
-			$queryBranch="SELECT * FROM branchs where status='0' and deleted='0' ";
+			$queryBranch="SELECT * FROM branchs where status='0' and deleted='0' and branchCode!='0' ";
 		}
 		else
 		{

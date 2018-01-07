@@ -14,7 +14,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Shri Life Nidhi Ltd.</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<meta http-equiv="refresh" content="300;url=logout.php" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -102,6 +101,7 @@
                 <li class="gallery  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'gallery.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="gallery.php"><i class="fa fa-picture-o "></i>Gallery</a></li>
                 <li class="slider  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'slider.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="slider.php"><i class="fa fa-sliders "></i>Slider</a></li>
                 <li class="downloads  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'downloads.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="downloads.php"><i class="fa  fa-bars"></i>Downloads</a></li>
+				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a></li>
 				               </ul>  
             </li>
           </ul>

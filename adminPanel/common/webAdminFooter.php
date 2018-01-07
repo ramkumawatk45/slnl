@@ -70,48 +70,6 @@
   </body>
 </html>
 <script>
-$("a.delete").click(function()
-{
-	var response = confirm("Do you really want to delete this ?");
-	if(response)
-	{
-		var url = $(this).attr("data").split("=");
-		var ele = $(this).parent().parent();
-		var fieldName = url[0];
-		var value = url[1];
-		var tableName = url[2];
-					$.ajax({
-					url: "delete.php",
-					data:"tableName="+tableName+"&value="+value+"&fieldName="+fieldName,
-					type:"POST",
-					success: function(result){
-						if(result !="")
-						{
-							location.reload();
-						}
-						else
-						{
-							$(ele).hide();
-						}
-    				}
-						
-					});
-	}
-	
-});
-
-function isTop(elem)
-{
-    if (elem.checked)
-    {
-    $("#parentCategory").attr("disabled","disabled");
-
-    }
-    else
-    {
-    $("#parentCategory").removeAttr("disabled");
-    }
-}
 </script>
 
 <?php if($msg){?>

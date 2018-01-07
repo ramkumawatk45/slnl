@@ -194,7 +194,7 @@ $(document).ready(function(){
                         <label for="pageTitle">Branch</label>
 						<select class="form-control" name="branchId" id="branchId" required <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
 						<?php 
-                    	$query="SELECT * FROM branchs where deleted='0' and status='0' ";
+                    	$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode!='0' ";
 						$menuData=fetchData($query);
 						foreach($menuData as $tableData)
 						{ ?><option <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>

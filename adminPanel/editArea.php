@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType = "areas";
 $areaId=$_REQUEST['areaId'];
 $districtId = $_REQUEST['districtId'];
 $msg='';

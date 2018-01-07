@@ -22,8 +22,10 @@
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+	<link rel="stylesheet" href="css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="css/buttons.dataTables.min.css">
 	<link rel="stylesheet" href="css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="css/responsive.dataTables.min.css">
 	<link rel="stylesheet" href="css/style.css">   
 	<link rel="stylesheet" href="bootstrap/css/bootstrap-iso.css" />
 	<link rel="stylesheet" href="bootstrap/css/bootstrap-datepicker3.css"/>
@@ -39,6 +41,9 @@
 
 ?><a href="dashboard.php" class="logo">
           <span class="logo-lg"><b><?php echo $_SESSION['userType'] ?></b></span>
+		  <input type="hidden" id="branchAccess" value="<?php echo $_SESSION['branchAccess']; ?>" />
+		  <input type="hidden" id="userAccess" value="<?php echo $_SESSION['userAccess']; ?>" />
+		  <input type="hidden" id="userRole" value="<?php echo $_SESSION['userRole']; ?>" />
         </a>
         <?php
 ?>
@@ -54,8 +59,6 @@
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
 <!--                  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
 -->                  <span class="glyphicon glyphicon-user"> <?php echo $_SESSION['login_user']; ?></span>
-					<input type="hidden" id="branchAccess" value="<?php echo $_SESSION['branchAccess']; ?>" />
-					<input type="hidden" id="userAccess" value="<?php echo $_SESSION['userAccess']; ?>" />
                   <span class="caret"></span>
                   <span class="hidden-xs"></span>
                 </a>
@@ -97,13 +100,6 @@
                     <!--<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>-->
                   </a>
               <ul class="treeview-menu">
-               
-         		<!-- <li class="menu  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'viewMenu.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="viewMenu.php"><i class="fa fa-bars"></i>Menu</a></li>
-                <li class="viewPages  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'viewPages.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?> " ><a href="viewPages.php"><i class="fa fa-file-text"></i>Pages</a></li>
-                <li class="gallery  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'gallery.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="gallery.php"><i class="fa fa-picture-o "></i>News & Update</a></li>
-                <li class="slider  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'slider.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="slider.php"><i class="fa fa-sliders "></i>Slider</a></li>
-                <li class="learingProgram  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'learingPrograms.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="learingPrograms.php"><i class="fa fa-chain"></i>Learning Programmes</a></li>
-                <li class="downloads  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'downloads.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="downloads.php"><i class="fa  fa-bars"></i>Downloads</a></li> -->
 				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'changePassword.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="changePassword.php"><i class="fa fa-bars"></i> Change Password</a></li>
 				<?php if($_SESSION['userType']=="ADMIN")
@@ -115,20 +111,30 @@
                 <li class="trainingcenter  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'trainingCenter.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="trainingCenter.php"><i class="fa fa-university "></i>Branches</a></li> 
 				 <li class="users  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'users.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="users.php"><i class="fa fa-university "></i>Users</a></li> 
 				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPlans.php"><i class="fa fa-paperclip"></i>Loan Plan</a></li>
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php"><i class="fa fa-paperclip"></i>Delete Loan EMI</a></li>
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php"><i class="fa fa-paperclip"></i>Deleted Loan EMI</a></li>
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'smsSetting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="smsSetting.php"><i class="fa fa-paperclip"></i>SMS API Setting</a></li>
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'web-dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="web-dashboard.php"><i class="fa fa-paperclip"></i>Website Admin</a></li>	
+				<li class="deleteLoanSearch  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php"><i class="fa fa-paperclip"></i>Delete Loan EMI</a></li>
+				<li class="deletedEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php"><i class="fa fa-paperclip"></i>Deleted Loan EMI</a></li>
+				<li class="smsSetting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'smsSetting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="smsSetting.php"><i class="fa fa-paperclip"></i>SMS API Setting</a></li>
+				<li class="web-dashboard  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'web-dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="web-dashboard.php"><i class="fa fa-paperclip"></i>Website Admin</a></li>	
+				<?php 
+				}
+				if($_SESSION['userRole'] == "FIELDWORKER" || $_SESSION['userRole'] =="BRANCH"  || $_SESSION['userRole'] =="ADMIN")
+				{	
+				?>
+				<li class="loans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loans.php"><i class="fa fa-user"></i>Loan Customer</a></li> 
+				<li class="loanEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanEmi.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanEmi.php"><i class="fa fa-money"></i>Loan EMI</a></li>
+				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiReport.php"><i class="fa fa-money"></i>EMI Collection Report</a></li> 
+				<?php 
+				}
+				if($_SESSION['userRole'] =="ADMIN" ||  $_SESSION['userRole'] =="BRANCH")
+				{	
+				?>
+				<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>EMI Due Report</a></li> 
+				<li class="loanDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"><i class="fa fa-circle-o"></i>EMI Detail Due Report</a></li> 	
+				<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php"><i class="fa fa-circle-o"></i>Same Day Report</a></li> 
+				<li class="emiDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php"><i class="fa fa-circle-o"></i>All EMI Due Report</a></li> 
 				<?php 
 				}
 				?>
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loans.php"><i class="fa fa-user"></i>Loan Customer</a></li> 
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanEmi.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanEmi.php"><i class="fa fa-money"></i>Loan EMI</a></li>
-				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiReport.php"><i class="fa fa-money"></i>EMI Collection Report</a></li> 
-				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>EMI Due Report</a></li> 
-				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"><i class="fa fa-circle-o"></i>EMI Detail Due Report</a></li> 	
-				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php"><i class="fa fa-circle-o"></i>Same Day Report</a></li> 
-				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php"><i class="fa fa-circle-o"></i>All EMI Due Report</a></li> 	
                </ul>  
             </li>
           </ul>

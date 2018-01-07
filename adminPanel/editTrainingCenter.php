@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType ="trainingcenter";
 $id=$_REQUEST['id'];
 $msg='';
 if(isset($_REQUEST['addCenter']))
@@ -15,8 +15,6 @@ if(isset($_REQUEST['addCenter']))
 	$zipCode = $_REQUEST['zipCode'];
 	$phoneNo = $_REQUEST['phoneNo'];
 	$status = $_REQUEST['status'];
-	$userName = $_REQUEST['userName'];
-	$password = trim($_REQUEST['password']);
 	$sql = "select branchName ,branchCode from branchs where branchName='$branchName' or branchCode='$branchCode'";
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res) > 1)
@@ -34,7 +32,7 @@ if(isset($_REQUEST['addCenter']))
 				// else
 				// {
 				$sql=mysql_query("update branchs set branchName='$branchName',branchCode='$branchCode',branchAddress='$branchAddress',zipCode='$zipCode',phoneNo='$phoneNo',areaCode='$areaCode',stateId='$stateId',districtId='$districtId',status='$status' , branchAccess='$branchAccess' where branchId='$id'");
-				$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' , userAccess='$branchAccess' where branchCode='$branchCode'");
+				//$sql1=mysql_query("update user set username='$userName',password='$password',status='$status' , userAccess='$branchAccess' where branchCode='$branchCode'");
 				$msg=updated;
 				$pageHrefLink ="trainingCenter.php";
 				//}
@@ -113,7 +111,7 @@ $(document).ready(function(){
 				<input type="hidden" id="districtId" value="<?php echo $_REQUEST['districtId']; ?>">
 				<input type="hidden" id="areaCode" value="<?php echo $_REQUEST['areacode']; ?>">
 
-                	<?php $query="SELECT * FROM branchs inner join user on branchs.branchCode=user.branchCode and branchs.branchId='$id' ";
+                	<?php $query="SELECT * FROM branchs where branchId='$id' ";
 					$pagesData=fetchData($query);
 					foreach($pagesData as $imagesData)
 					{
@@ -180,24 +178,6 @@ $(document).ready(function(){
                     </div>
                   </div><!-- /.box-body -->
 					<div class="box-header with-border">
-					<?php 
-					$branchCode =$imagesData['branchCode'];
-					$query="select * from user where branchCode='$branchCode'";
-					$pagessData=fetchData($query);
-					foreach($pagessData as $loginData)
-					{
-					?>
-					<h3 class="box-title ">Branch Login Detail</h3>
-					</div>
-					<div class="box-body">
-					<div class="form-group col-md-6 ">
-                      <label for="pageTitle">User Name </label>
-                      <input type="text" class="form-control" id="userName" name="userName" value="<?php echo $loginData['username']; ?>" maxlength="100" />                  
-                    </div>
-					<div class="form-group col-md-6 ">
-                      <label for="pageTitle">Password </label>
-                      <input type="text" class="form-control" id="password" name="password" value="<?php echo utf8_decode($loginData['password']); ?>"maxlength="15"  />          </div>
-					</div>  
                   <div class="box-footer">
 					<div class="col-md-6">
 					<button type="reset" class="btn btn-primary pull-right">Reset</button>
@@ -208,7 +188,7 @@ $(document).ready(function(){
 
                   </div>
                 </form>
-					<?php }} ?>
+					<?php } ?>
               </div><!-- /.box -->
 
 

@@ -188,16 +188,16 @@ $(document).ready(function(){
                   <h3 class="box-title">EMI Collection  Report</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body ">
-				<div class="col-md-3">  
+				<div class="col-md-3 col-xs-3 col-sm-3">  
                      <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" />  
                 </div>  
-                <div class="col-md-3">  
+                <div class="col-md-3 col-xs-3 col-sm-3">  
                      <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" />  
                 </div>  
-                <div class="col-md-5">  
+                <div class="col-md-5 col-xs-5 col-sm-5">  
                      <input type="button" name="filter" id="filter" value="Filter" class="btn btn-info" />  
                 </div>  
-                  <table id="emiReport" class="table table-bordered table-striped">
+                  <table id="emiReport" class=" table table-bordered table-striped display responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>Sr. no.</th>

@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"gallery";
+$menuType ="loans";
 $msg='';
 $pageHrefLink='';
 function dateRange( $first, $step = '+1 day', $format = 'd/m/Y' ) 

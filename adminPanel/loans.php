@@ -91,7 +91,7 @@ $menuType = "gallery";
                 </div><!-- /.box-header -->
                 <div class="box-body">
 				
-                  <table id="example" class=" table table-bordered table-striped">
+                  <table id="example" class="table table-bordered table-striped display responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th class="col-md-1">Sr. no.</th>

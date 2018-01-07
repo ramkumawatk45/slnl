@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType = "districts";
 $id=$_REQUEST['id'];
 $parentId = $_REQUEST['stateId'];
 $msg='';

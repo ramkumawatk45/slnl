@@ -27,6 +27,7 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 				$userType = $tableData['usertype'];
 				$branchCode = $tableData['branchCode'];
 				$userAccess = $tableData['userAccess'];
+				$userRole = $tableData['userRole'];
 			}
 		}
 		 $sql3="SELECT * FROM branchs WHERE branchCode='$branchCode' and deleted='0' and status='0'";
@@ -42,6 +43,7 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 				  $_SESSION['branchId'] = $branchId;
 				  $_SESSION['branchAccess'] = $branchAccess;
 				  $_SESSION['userAccess'] = $userAccess;
+				  $_SESSION['userRole'] = $userRole;
 				  header("location:dashboard.php");
 			}
 			else {

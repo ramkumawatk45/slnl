@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"gallery";
+$menuType ="loans";
 $id=$_REQUEST['id'];
 $msg='';
 $pageHrefLink='';

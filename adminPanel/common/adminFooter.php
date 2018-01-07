@@ -50,6 +50,7 @@
       <script type="text/javascript"  src="js/jquery-1.12.4.js"></script> 
      <script type="text/javascript"  src="js/jquery.dataTables.min.js"></script> 
      <script type="text/javascript"  src="js/dataTables.buttons.min.js"></script> 
+	   <script type="text/javascript"  src="js/dataTables.responsive.min.js"></script> 
      <script type="text/javascript"  src="js/buttons.flash.min.js"></script> 
      <script type="text/javascript"  src="js/jszip.min.js"></script> 
      <script type="text/javascript"  src="js/buttons.html5.min.js"></script> 
@@ -67,51 +68,11 @@
   </body>
 </html>
 <script>
-$("a.delete").click(function()
-{
-	var response = confirm("Do you really want to delete this ?");
-	if(response)
-	{
-		var url = $(this).attr("data").split("=");
-		var ele = $(this).parent().parent();
-		var fieldName = url[0];
-		var value = url[1];
-		var tableName = url[2];
-					$.ajax({
-					url: "delete.php",
-					data:"tableName="+tableName+"&value="+value+"&fieldName="+fieldName,
-					type:"POST",
-					success: function(result){
-						if(result !="")
-						{
-							location.reload();
-						}
-						else
-						{
-							$(ele).hide();
-						}
-    				}
-						
-					});
-	}
-	
-});
-
-function isTop(elem)
-{
-    if (elem.checked)
-    {
-    $("#parentCategory").attr("disabled","disabled");
-
-    }
-    else
-    {
-    $("#parentCategory").removeAttr("disabled");
-    }
-}
+var menuType = "<?php echo $menuType ?>";
+$("."+menuType).addClass("active");
 </script>
-
-<?php if($msg){?>
+<?php
+ if($msg){?>
 <script>
 alert("<?php echo $msg ?>");
 window.location.href = "<?php echo $pageHrefLink?>";

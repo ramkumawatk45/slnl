@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType ="states";
 $id=$_REQUEST['id'];
 $msg='';
 if(isset($_REQUEST['editStates']))

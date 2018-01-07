@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"gallery";
+$menuType ="loanEMI";
 $msg='';
 $pageHrefLink='';
 $id=$_REQUEST['id'];
@@ -669,10 +669,10 @@ setTimeout(explode, 500);
 					<button type="submit" class="btn btn-primary  pull-down" name="addEMI" id="submitBtn">Submit</button>
                     </div>
 					</div>
-					<div class="box-body col-md-12  col-sm-12 col-xs-12 " style="overflow-y:auto; height:150px;" >
-					<div class="box-header col-md-4 with-border  col-sm-4 col-xs-4 ">
+					<div class="box-header col-md-12 with-border  col-sm-12 col-xs-12 ">
                   		<h3 class="box-title">Paid EMI's</h3>
                 	</div>
+					<div class="box-body col-md-12  col-sm-12 col-xs-12 " style="overflow-y:auto; height:150px; border:1px solid #f4f4f4;" >
                   <table id="category" class="table table-bordered table-striped" >
                     <thead>
                       <tr>

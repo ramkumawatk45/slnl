@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "viewPages";
+$menuType = "trainingcenter";
 ?>
 <script src="js/jquery.min.js"></script>   
 <script type="text/javascript">

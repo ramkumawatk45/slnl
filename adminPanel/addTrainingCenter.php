@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType ="trainingcenter";
 $msg='';
 $pageHrefLink='';
 if(isset($_REQUEST['addCenter']))
@@ -15,8 +15,8 @@ if(isset($_REQUEST['addCenter']))
 	$zipCode = $_REQUEST['zipCode'];
 	$phoneNo = $_REQUEST['phoneNo'];
 	$status = $_REQUEST['status'];
-	$userName = $_REQUEST['userName'];
-	$password = trim($_REQUEST['password']);
+	//$userName = $_REQUEST['userName'];
+	//$password = trim($_REQUEST['password']);
 	$sql = "select branchName ,branchCode from branchs where branchName='$branchName' or branchCode='$branchCode'";
 	 $res = mysql_query($sql);
 		if(mysql_num_rows($res))
@@ -25,19 +25,19 @@ if(isset($_REQUEST['addCenter']))
 		}
 		else
 		{
-				$sql1 = "select username from user where username='$userName'";
-				$res1 = mysql_query($sql1);
-				if(mysql_num_rows($res1))
-				{
-					$msg="Username Already have taken.";
-				}
-				else
-				{
+				// $sql1 = "select username from user where username='$userName'";
+				// $res1 = mysql_query($sql1);
+				// if(mysql_num_rows($res1))
+				// {
+					// $msg="Username Already have taken.";
+				// }
+				// else
+				// {
 				$sql=mysql_query("INSERT INTO branchs(branchName,branchCode,branchAddress,zipCode,phoneNo,areaCode,stateId,districtId,status,branchAccess) VALUES('$branchName','$branchCode','$branchAddress','$zipCode','$phoneNo','$areaCode','$stateId','$districtId','$status','$branchAccess')");
-				$sql1=mysql_query("INSERT INTO user(branchCode,usertype,username,password,status,userAccess) VALUES('$branchCode','BRANCH','$userName','$password','$status','$branchAccess')");
+				//$sql1=mysql_query("INSERT INTO user(branchCode,usertype,username,password,status,userAccess) VALUES('$branchCode','BRANCH','$userName','$password','$status','$branchAccess')");
 				$msg=inserted;
 				$pageHrefLink ="trainingCenter.php";
-				}
+				//}
 		}
 }
 ?>
@@ -149,16 +149,6 @@ $(document).ready(function(){
                     </div>
                   </div><!-- /.box-body -->
 					<div class="box-header with-border">
-					<h3 class="box-title">Branch Login Detail</h3>
-					</div>
-					<div class="form-group col-md-6">
-                      <label for="pageTitle">User Name </label>
-                      <input type="text" class="form-control" id="userName" name="userName" placeholder="User Name " maxlength="100"  required />                  
-                    </div>
-					<div class="form-group col-md-6">
-                      <label for="pageTitle">Password </label>
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Password " maxlength="15"  required />                  
-                    </div>
                   <div class="box-footer">
 					<div class="col-md-6">
 					<button type="reset" class="btn btn-primary pull-right">Reset</button>

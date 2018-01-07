@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType = "loanPlans";
 $id=$_REQUEST['id'];
 $msg='';
 $pageHrefLink='';

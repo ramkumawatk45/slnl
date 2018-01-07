@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "gallery";
+$menuType = "deleteLoanSearch";
 ?>
 <script type="text/javascript">
 $(document).ready(function() {

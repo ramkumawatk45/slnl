@@ -1,15 +1,17 @@
 <?php
 include("controller/pages_controller.php");
+
 $menuType ="loans";
+$id=$_REQUEST['id'];
 $msg='';
 $pageHrefLink='';
-if(isset($_REQUEST['addAccounting']))
+if(isset($_REQUEST['editAccounting']))
 {
-	  $branchId = $_REQUEST['branchId'];
-	 if($_SESSION['branchId'])
-	 {
+	 $branchId = $_REQUEST['branchId'];
+	if($_SESSION['branchId'])
+	{
 		$branchId = $_SESSION['branchId'];	
-	 }
+	}
 	 $cDate = $_REQUEST['cDate'];
 	 $createdate = explode('/', $cDate);
 	 $month = $createdate[1];
@@ -22,11 +24,18 @@ if(isset($_REQUEST['addAccounting']))
 	 $totAmt = $_REQUEST['totAmt'];
 	 $receiveAmt = $_REQUEST['receiveAmt'];
 	 $pendingAmt = $_REQUEST['pendingAmt'];  
-	$sql=mysql_query("INSERT INTO `shrilife_loansoft`.`accountings` (`branchId`, `createDate`, `shriLife`, `loan`, `MF`, `totalPayment`, `receivePayment`, `pendingCollection`) VALUES ('$branchId', '$joincDate', '$shriLifeAmt', '$loanAmt', '$mFAmt', '$totAmt', '$receiveAmt', '$pendingAmt')");
-	$msg="Data Sucessfully Submited";
+	$sql=mysql_query("UPDATE accountings SET branchId='$branchId',createDate='$joincDate', shriLife='$shriLifeAmt', loan='$loanAmt', MF='$mFAmt', totalPayment='$totAmt', receivePayment='$receiveAmt', pendingCollection='$pendingAmt' WHERE accountingId='$id'");
+	$msg="Data Sucessfully Updated";
 	$pageHrefLink="accounting.php";
 }
-
+function dateRange( $first, $step = '+0 day', $format = 'd/m/Y' ) 
+{
+	$dates = "";
+	$current = strtotime( $first );
+	$current = strtotime( $step, $current );
+	$dates = date( $format, $current );
+	return $dates;
+}
 ?>
 <script type="text/javascript">
  $(document).ready(function(){
@@ -82,7 +91,12 @@ function receivedPayment()
                   		<h3 class="box-title">Accounting information</h3>
                 	</div><!-- /.box-header -->
                 <!-- form start -->
-                <form role="form"  action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
+                <form role="form"  method="post" >
+				<?php $query = "SELECT * FROM accountings where accountingId='$id'";
+					$pagesData=fetchData($query);
+					foreach($pagesData as $loanData)
+					{
+					?>
                  <div class="box-body">
 						<div class ="row">	
 							<div class="form-group col-md-3">
@@ -92,43 +106,46 @@ function receivedPayment()
 							$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode !='0'";
 							$menuData=fetchData($query);
 							foreach($menuData as $tableData)
-							{ ?><option <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
+							{ ?><option <?php if($loanData['branchId'] ==$tableData['branchId']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
 							</select>
 							</div> 
 							<div class="form-group col-md-3">
 							<label for="pageTitle" >Date</label>
-							<input type="text" class="form-control date" id="cDate" name="cDate" placeholder="Date" maxlength="15" required value="<?php echo date('d/m/Y'); ?>" />                   
+							<input type="text" class="form-control date" id="cDate" name="cDate" placeholder="Date" maxlength="15" required  value="<?php echo dateRange($loanData['createDate']); ?>" />                   
 							</div>
 						</div>
 						<div class ="row">	
 							<div class="form-group col-md-2">
 							<label for="pageTitle" >Shri life</label>
-							<input type="number" class="form-control " onkeyup="totalPayment()" id="shriLifeAmt" name="shriLifeAmt" placeholder="Shri Life" value="0" maxlength="10" required />                   
+							<input type="number" class="form-control " onkeyup="totalPayment()" id="shriLifeAmt" name="shriLifeAmt" placeholder="Shri Life" value="<?php echo $loanData['shriLife']; ?>" maxlength="10" required />                   
 							</div>
 							<div class="form-group col-md-2">
 							<label for="pageTitle" >Loan</label>
-							<input type="number" class="form-control " onkeyup="totalPayment()" id="loanAmt"  name="loanAmt" placeholder="Loan" value="0"  maxlength="10" required />                   
+							<input type="number" class="form-control " onkeyup="totalPayment()" id="loanAmt"  name="loanAmt" placeholder="Loan" value="<?php echo $loanData['loan']; ?>"  maxlength="10" required />                   
 							</div>
 							<div class="form-group col-md-2">
 							<label for="pageTitle" >MF</label>
-							<input type="number" class="form-control " onkeyup="totalPayment()" id="MFAmt" name="MFAmt" placeholder="MF" value="0"  maxlength="10" required />                   
+							<input type="number" class="form-control " onkeyup="totalPayment()" id="MFAmt" name="MFAmt" placeholder="MF" value="<?php echo $loanData['MF']; ?>"  maxlength="10" required />                   
 							</div>
 							<div class="form-group col-md-2">
 							<label for="pageTitle" >Total Payment</label>
-							<input type="number" class="form-control " readonly id="totAmt" name="totAmt" placeholder="Total Payment" value="0"  maxlength="10" required />                   
+							<input type="number" class="form-control " readonly id="totAmt" name="totAmt" placeholder="Total Payment" value="<?php echo $loanData['totalPayment']; ?>"  maxlength="10" required />                   
 							</div>
 							<div class="form-group col-md-2">
 							<label for="pageTitle" >Receive Payment</label>
-							<input type="number" class="form-control " id="receiveAmt" name="receiveAmt" onkeyup="receivedPayment()"  placeholder="Receive Payment" value="0"  maxlength="10" required />                   
+							<input type="number" class="form-control " id="receiveAmt" name="receiveAmt" onkeyup="receivedPayment()"  placeholder="Receive Payment" value="<?php echo $loanData['receivePayment']; ?>"  maxlength="10" required />                   
 							</div>
 							<div class="form-group col-md-2">
 							<label for="pageTitle" >Pending Collection</label>
-							<input type="number" class="form-control " readonly id="pendingAmt" name="pendingAmt" placeholder="Pending Collection" value="0" maxlength="10" required />                   
+							<input type="number" class="form-control " readonly id="pendingAmt" name="pendingAmt" placeholder="Pending Collection" value="<?php echo $loanData['pendingCollection']; ?>" maxlength="10" required />                   
 							</div>
 						</div>	
                   </div><!-- /.box-body -->
+				  <?php 
+					}
+					?>
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary  pull-left" name="addAccounting">Submit</button>
+                    <button type="submit" class="btn btn-primary  pull-left" name="editAccounting">Submit</button>
                   </div>
 				  
                 </form>

@@ -11,6 +11,10 @@ function dateRange( $first, $step = '+0 day', $format = 'd/m/Y' )
 	return $dates;
 }
 $branchId = $_GET['branchId'];
+if($_SESSION['branchId'])
+{
+	$branchId = $_SESSION['branchId'];
+}	
 if($_GET["from_date"])
 {
 	$fromdate = explode('/',$_GET["from_date"]);	
@@ -20,32 +24,47 @@ if($_GET["to_date"])
 {	
 	$todate = explode('/',$_GET["to_date"]);
 	$toDates= $todate[2].'-'.$todate[1].'-'.$todate[0];
-}	
+}
 if($branchId && ($_GET["from_date"] =="") && ($_GET["to_date"] ==""))
 {
-	$query="SELECT * FROM accountings where branchId ='$branchId' order by accountingId Desc  ";
-	
+	$query="SELECT * FROM accountings where branchId ='$branchId' order by accountingId Desc  ";	
 }
-else
+else if($branchId && ($_GET["from_date"] !="") && ($_GET["to_date"] !=""))
 {
 	$query="SELECT * FROM accountings where branchId ='$branchId' and createDate between '$fromDates'  and '$toDates' order by accountingId Desc  ";
 }
-var_dump($query);	
+else
+{
+	if($_SESSION['userType']=="ADMIN")
+	{
+		$query="SELECT * FROM accountings  order by accountingId Desc  ";
+	}	
+	else
+	{
+		$query="SELECT * FROM accountings where  branchId ='$branchId'  order by accountingId Desc  ";
+	}	
+}	
 $pageData=fetchData($query);
 	$i = 1;
 	if(is_array($pageData) || is_object($pageData))
 	{
-	// $emiTotal=0;
-	// $lateFees =0;
-	// $serviceCharges =0;
 	foreach($pageData as $tableData)
 	{
-		// $emiTotal =$emiTotal+$tableData['emiAmount'];
-		// $lateFees =$lateFees+$tableData['lateFee'];
-		// $serviceCharges =$serviceCharges+$tableData['serviceCharge'];
 	?> <tr>
                          <td><?php echo  $i++; ?></td>
 						 <td><?php echo dateRange($tableData['createDate']); ?></td>
+						 <?php 
+						 $branchId = $tableData['branchId'];
+						$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode !='0' and branchId ='$branchId'";
+						$menuData=fetchData($query);
+						if(is_array($menuData) || is_object($menuData))
+						{
+						foreach($menuData as $branchData)
+						{ ?>
+						<td><?php  echo $branchData['branchName']." - ".$branchData['branchCode']; ?></td>
+						<?php 
+						}}
+						?>
 						<td><?php echo $tableData['shriLife']; ?></td>
 						<td><?php echo $tableData['loan']; ?> </td>
 						<td><?php echo $tableData['MF']; ?></td>

@@ -115,6 +115,7 @@
 				<li class="deletedEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php"><i class="fa fa-paperclip"></i>Deleted Loan EMI</a></li>
 				<li class="smsSetting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'smsSetting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="smsSetting.php"><i class="fa fa-paperclip"></i>SMS API Setting</a></li>
 				<li class="web-dashboard  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'web-dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="web-dashboard.php"><i class="fa fa-paperclip"></i>Website Admin</a></li>	
+				<li class="accountingTotal  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accountingTotal.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accountingTotal.php"><i class="fa  fa-bars"></i>Accounting Total</a></li>
 				<?php 
 				}
 				if($_SESSION['userRole'] == "FIELDWORKER" || $_SESSION['userRole'] =="BRANCH"  || $_SESSION['userRole'] =="ADMIN")
@@ -132,6 +133,7 @@
 				<li class="loanDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"><i class="fa fa-circle-o"></i>EMI Detail Due Report</a></li> 	
 				<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php"><i class="fa fa-circle-o"></i>Same Day Report</a></li> 
 				<li class="emiDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php"><i class="fa fa-circle-o"></i>All EMI Due Report</a></li> 
+				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a></li>
 				<?php 
 				}
 				?>
@@ -350,5 +352,24 @@ table.dataTable thead th:first-child {
 }
 body {
     font-size: 12px;
+}
+.sidebar {
+    width: 250px;
+    height: calc(100vh - 60px);
+    float: none;
+    display: block;
+    position: fixed !important;
+    overflow-y: auto;
+    z-index: 100;
+    background: #323a47;
+    color: #a4a7b0;
+}
+.sidebar-menu .treeview-menu>li>a:focus, .sidebar-menu .treeview-menu>li>a:hover {
+    color: #fff;
+    background-color: #4c5363;
+}
+ul.treeview-menu li.active {
+    border-right: 8px solid #378fcb;
+	background-color: #4c5363;
 }
 </style>

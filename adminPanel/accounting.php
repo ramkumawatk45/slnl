@@ -1,21 +1,25 @@
 <?php
-include("controller/web_pages_controller.php");
+include("controller/pages_controller.php");
 $menuType = "gallery";
 ?> 
 <script type="text/javascript">
-/*$("#loading").removeClass('hide');
- $.ajax({    //create an ajax request to load_page.php
-        type: "GET",
-        url: "ajaxEMIREPORT.php", 
-		async: true,	
-        dataType: "html",   //expect html to be returned                
-        success: function(response){                    
-            $("#tableData").html(response); 
-			sortTableData();
-            //alert(response);
-        }
- });
- */
+ /*$("#loading").removeClass('hide');
+ $.ajax({  
+	  url:"ajaxACCOUNTINGREPORT.php",  
+	  method:"GET",   
+	  data: { 
+		alldata:'ALL' 
+		},
+	  success:function(data)  
+	  { 
+			var table = $('#emiReport').DataTable();
+			table.destroy();
+			$('#tableData').empty(); 
+			$("#tableData").html(data); 
+			setTimeout(function(){sortTableData();},5000); 
+	  }  
+ }); 
+ */  
  function sortTableData()
  {
 	$("#loading").addClass('hide');
@@ -89,48 +93,48 @@ $menuType = "gallery";
             };
             // Total over this page
             shriLifeTotal = api
-                .column( 2, { page: 'current'} )
+                .column( 3, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
 			loanTotal = api
-                .column( 3, { page: 'current'} )
+                .column( 4, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );	
 			mfTotal = api
-                .column( 4, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-			paymentTotal = api
                 .column( 5, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
-			receivePaymentTotal = api
+			paymentTotal = api
                 .column( 6, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
-			pendingTotal = api
+			receivePaymentTotal = api
                 .column( 7, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+			pendingTotal = api
+                .column( 8, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );	
             // Update footer
-			$( api.column( 2 ).footer() ).html(shriLifeTotal);
-			$( api.column( 3 ).footer() ).html(loanTotal);
-			$( api.column( 4 ).footer() ).html(mfTotal);
-			$( api.column( 5 ).footer() ).html(paymentTotal);
-			$( api.column( 6 ).footer() ).html(receivePaymentTotal);
-			$( api.column( 7 ).footer() ).html(pendingTotal);
+			$( api.column( 3 ).footer() ).html(shriLifeTotal);
+			$( api.column( 4 ).footer() ).html(loanTotal);
+			$( api.column( 5 ).footer() ).html(mfTotal);
+			$( api.column( 6 ).footer() ).html(paymentTotal);
+			$( api.column( 7 ).footer() ).html(receivePaymentTotal);
+			$( api.column( 8 ).footer() ).html(pendingTotal);
         }
 
     });
@@ -230,13 +234,13 @@ $(document).ready(function(){
                 <div class="box-body ">
 				<div class="row">
 					<div class="col-md-3 col-xs-3 col-sm-3">  
-						<select class="form-control" name="branchId" id="branchId">
+						<select class="form-control" name="branchId" id="branchId" <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
 						<option>Select Branch</option> 
 							<?php 
 							$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode !='0'";
 							$menuData=fetchData($query);
 							foreach($menuData as $tableData)
-							{ ?><option  value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
+							{ ?><option   <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
 						</select>
 					</div>	
 					<div class="col-md-3 col-xs-3 col-sm-3">  
@@ -254,6 +258,7 @@ $(document).ready(function(){
                       <tr>
                         <th>Sr. no.</th>
                         <th>Date</th>
+						<th>Branch</th>
 						<th>Shri Life</th>
 						<th>Loan </th>
 						<th>MF</th>
@@ -267,6 +272,7 @@ $(document).ready(function(){
 					
 					<tfoot>
 					  <tr>
+                        <td class="col-md-1"></td>
                         <td class="col-md-1"></td>
 						<td class="col-md-1">Total</td>
 						<td class="col-md-1"></td>

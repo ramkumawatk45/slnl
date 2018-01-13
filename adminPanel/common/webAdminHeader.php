@@ -101,8 +101,7 @@
                 <li class="gallery  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'gallery.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="gallery.php"><i class="fa fa-picture-o "></i>Gallery</a></li>
                 <li class="slider  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'slider.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="slider.php"><i class="fa fa-sliders "></i>Slider</a></li>
                 <li class="downloads  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'downloads.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="downloads.php"><i class="fa  fa-bars"></i>Downloads</a></li>
-				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a></li>
-				               </ul>  
+				 </ul>  
             </li>
           </ul>
         </section>

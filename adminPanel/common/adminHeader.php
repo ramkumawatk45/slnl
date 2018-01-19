@@ -134,6 +134,7 @@
 				<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php"><i class="fa fa-circle-o"></i>Same Day Report</a></li> 
 				<li class="emiDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php"><i class="fa fa-circle-o"></i>All EMI Due Report</a></li> 
 				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a></li>
+				<li class="loanRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRequest.php"><i class="fa  fa-bars"></i>Loan Request</a></li>
 				<?php 
 				}
 				?>

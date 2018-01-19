@@ -197,7 +197,7 @@ $(document).ready(function(){
                 <div class="col-md-5 col-xs-5 col-sm-5">  
                      <input type="button" name="filter" id="filter" value="Filter" class="btn btn-info" />  
                 </div>  
-                  <table id="emiReport" class=" table table-bordered table-striped display responsive nowrap" cellspacing="0" width="100%">
+                  <table id="emiReport" class=" table table-bordered table-striped display " cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>Sr. no.</th>

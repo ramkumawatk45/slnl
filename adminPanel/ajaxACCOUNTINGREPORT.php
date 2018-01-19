@@ -27,22 +27,43 @@ if($_GET["to_date"])
 }
 if($branchId && ($_GET["from_date"] =="") && ($_GET["to_date"] ==""))
 {
-	$query="SELECT * FROM accountings where branchId ='$branchId' order by accountingId Desc  ";	
-}
-else if($branchId && ($_GET["from_date"] !="") && ($_GET["to_date"] !=""))
-{
-	$query="SELECT * FROM accountings where branchId ='$branchId' and createDate between '$fromDates'  and '$toDates' order by accountingId Desc  ";
-}
-else
-{
-	if($_SESSION['userType']=="ADMIN")
+	if($_SESSION['userType']=="ADMIN" && $branchId =="All")
 	{
-		$query="SELECT * FROM accountings  order by accountingId Desc  ";
+		$query="SELECT * FROM accountings  order by accountingId Desc  ";	
+	}
+	else
+	{
+		$query="SELECT * FROM accountings where branchId ='$branchId' order by accountingId Desc  ";		
+	}	
+}
+else if($branchId  && ($_GET["from_date"] !="") && ($_GET["to_date"] !=""))
+{
+	if($_SESSION['userType']=="ADMIN" && $branchId =="All")
+	{
+		if(($_GET["from_date"] == "Invalid Date") && ($_GET["from_date"] == "Invalid Date" ))
+		{
+			$query="SELECT * FROM accountings  where  createDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)   order by accountingId Desc  ";
+		}
+		else
+		{
+			$query="SELECT * FROM accountings where createDate between '$fromDates'  and '$toDates' order by accountingId Desc  ";
+		}	
 	}	
 	else
 	{
-		$query="SELECT * FROM accountings where  branchId ='$branchId'  order by accountingId Desc  ";
-	}	
+		if(($_GET["from_date"] == "Invalid Date") && ($_GET["from_date"] == "Invalid Date" ))
+		{
+			$query="SELECT * FROM accountings  where  createDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)   order by accountingId Desc  ";
+		}
+		else
+		{
+			$query="SELECT * FROM accountings where branchId ='$branchId' and createDate between '$fromDates'  and '$toDates' order by accountingId Desc  ";	
+		}	
+	}
+}
+else
+{
+		
 }	
 $pageData=fetchData($query);
 	$i = 1;
@@ -71,7 +92,9 @@ $pageData=fetchData($query);
 						<td><?php echo $tableData['totalPayment']; ?></td>
 						<td><?php echo $tableData['receivePayment']; ?></td>
 						<td><?php echo $tableData['pendingCollection']; ?></td>
+						<?php if($_SESSION['userType']=="ADMIN") { ?>
 						<td><a href='editAccountingEntries.php?id=<?php echo  $tableData['accountingId'];?>'>Edit </a></td>
+						<?php } ?> 
                       </tr>
 	<?php } ?> 
 					

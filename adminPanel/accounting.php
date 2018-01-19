@@ -3,12 +3,18 @@ include("controller/pages_controller.php");
 $menuType = "gallery";
 ?> 
 <script type="text/javascript">
- /*$("#loading").removeClass('hide');
+ $("#loading").removeClass('hide');
+ var date = new Date();
+ var firstDay = new Date(1+"/"+date.getMonth()+"/"+date.getFullYear());
+ var lastDay = new Date(0+"/"+date.getMonth()+1+"/"+date.getFullYear());
+ var branchId = "All"
  $.ajax({  
 	  url:"ajaxACCOUNTINGREPORT.php",  
 	  method:"GET",   
 	  data: { 
-		alldata:'ALL' 
+		from_date: firstDay, 
+		to_date: lastDay,
+		branchId:branchId 
 		},
 	  success:function(data)  
 	  { 
@@ -19,7 +25,7 @@ $menuType = "gallery";
 			setTimeout(function(){sortTableData();},5000); 
 	  }  
  }); 
- */  
+  
  function sortTableData()
  {
 	$("#loading").addClass('hide');
@@ -235,7 +241,7 @@ $(document).ready(function(){
 				<div class="row">
 					<div class="col-md-3 col-xs-3 col-sm-3">  
 						<select class="form-control" name="branchId" id="branchId" <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
-						<option>Select Branch</option> 
+						<option value="All">All</option> 
 							<?php 
 							$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode !='0'";
 							$menuData=fetchData($query);
@@ -265,7 +271,9 @@ $(document).ready(function(){
 						<th>Total payment</th>
 						<th>Receive payment </th>
 						<th>Pending collection</th>
+						<?php if($_SESSION['userType']=="ADMIN") { ?>
 						<th>Edit</th>
+						<?php } ?>
                       </tr>
                     </thead>
 					<tbody id="tableData">
@@ -281,7 +289,9 @@ $(document).ready(function(){
 						<td class="col-md-1"></td>
 						<td class="col-md-1"></td>
 						<td class="col-md-1"></td>
+						<?php if($_SESSION['userType']=="ADMIN") { ?>
 						<td class="col-md-1"></td>
+						<?php } ?>
                       </tr>
 					  </tfoot>
 					  </tbody>

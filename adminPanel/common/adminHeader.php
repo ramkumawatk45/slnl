@@ -100,7 +100,7 @@
                     <!--<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>-->
                   </a>
               <ul class="treeview-menu">
-				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a> </li>
 				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'changePassword.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="changePassword.php"><i class="fa fa-bars"></i> Change Password</a></li>
 				<?php if($_SESSION['userType']=="ADMIN")
 				{
@@ -141,6 +141,7 @@
                </ul>  
             </li>
           </ul>
+		 
         </section>
         <!-- /.sidebar -->
       </aside>
@@ -356,7 +357,7 @@ body {
 }
 .sidebar {
     width: 250px;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 50px);
     float: none;
     display: block;
     position: fixed !important;
@@ -372,5 +373,8 @@ body {
 ul.treeview-menu li.active {
     border-right: 8px solid #378fcb;
 	background-color: #4c5363;
+}
+span.requiredField {
+    color: red;
 }
 </style>

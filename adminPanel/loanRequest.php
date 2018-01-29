@@ -1,9 +1,10 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "gallery";
+$menuType = "loanRequest";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
+	var pagePrintTitle = "Loan Customer Requests List"	
     $('#example').DataTable( {
         dom: 'Bfrtip',
         buttons: [
@@ -11,7 +12,7 @@ $menuType = "gallery";
 			{
 			extend: 'pdf',
 			footer: true,
-			title: 'Loan Customer List',
+			title: pagePrintTitle,
 			exportOptions: {
 			columns: ':visible',
 			modifier: {
@@ -22,7 +23,7 @@ $menuType = "gallery";
             {
                 extend: 'print',
 				footer: true,
-				title: 'Loan Customer List',
+				title:pagePrintTitle,
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -33,7 +34,7 @@ $menuType = "gallery";
 			{
                 extend: 'copy',
 				footer: true,
-				title: 'Loan Customer List',
+				title: pagePrintTitle,
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -44,7 +45,7 @@ $menuType = "gallery";
 			{
                 extend: 'excel',
 				footer: true,
-				title: 'Loan Customer List',
+				title: pagePrintTitle,
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -89,10 +90,8 @@ $menuType = "gallery";
                     <thead>
                       <tr>
                         <th class="col-md-1">Sr. no.</th>
-                        <th class="col-md-1">Loan Id</th>
 						<th class="col-md-1">Member Id</th>
 						<th class="col-md-2">Branch</th>
-						<th class="col-md-1">Area</th>
 						<th class="col-md-2">Customer Name</th>
 						<th class="col-md-2">Gurdian Name</th>
 						<th class="col-md-2">Mobile No.</th>
@@ -100,8 +99,7 @@ $menuType = "gallery";
 						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
                         <th class="col-md-1">Status</th>
-                        <th class="col-md-1">Edit</th>
-                        <!--<th class="col-md-1">Delete</th> -->
+                        <th class="col-md-1">View</th>
                       </tr>
                     </thead>
 					<tbody>
@@ -109,11 +107,11 @@ $menuType = "gallery";
 					$branchId = $_SESSION['branchId'];	
 					if($_SESSION['userType']=="ADMIN")
 					{
-						$query="SELECT * FROM loans where deleted='0' order by id Desc  ";
+						$query="SELECT * FROM loanrequests where deleted='0' order by id Desc  ";
 					}
 					else
 					{
-							$query=" SELECT * FROM loans where deleted='0' order by id Desc";
+							$query=" SELECT * FROM loanrequests where deleted='0' order by id Desc";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -124,27 +122,19 @@ $menuType = "gallery";
 					?>
                       <tr>
                          <td><?php echo  $i++; ?></td>
-						 <td><a href="loansEMI.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['loanId']; ?> </a></td>
-						 <td><a href="custDueReport.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['memberId']; ?></a></td>
+						 <td><a Title="Pay EMI"><?php echo $tableData['memberId']; ?></a></td>
 						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' ";
 						$menuDatas=fetchData($queryBranch);
 						foreach($menuDatas as $branchData)
 						{  echo $branchData['branchName']." - ".$branchData['branchCode']; } ?> </td>
-						<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";
-						$menuDatas=fetchData($queryBranch);
-						if($menuDatas)
-						{
-						foreach($menuDatas as $branchData)
-						{  echo $branchData['areaName']; } } ?> </td>
 						<td><?php echo $tableData['applicantName']; ?> </td>
 						<td><?php echo $tableData['gurdianName']; ?> </td>
 						<td><?php echo $tableData['memberMobile']; ?> </td>	
 						<td><?php echo $tableData['loanAmount']; ?> </td>
 						<td><?php echo $tableData['emi']; ?> </td>
-						<td><?php echo $tableData['cDate']; ?> </td>								
-                        <td><?php $status=$tableData['status']; if($status==0){ echo "Enabled"; } else{ echo "Disabled"; } ?></td>
-                        <td><a href='editloan.php?id=<?php echo  $tableData['id'];?>'>Edit </a></td>
-                       <!-- <td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteArea.php?id=<?php echo  $tableData['id']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a></td>-->
+						<td><?php echo custumDateFormat($tableData['createDate']); ?> </td>								
+                        <td><?php echo $tableData['requestStatus']; ?></td>
+                        <td><a href='viewloanRequest.php?id=<?php echo  $tableData['id'];?>'>View </a></td>
                       </tr>
                     <?php } } ?>
 					  </tbody>
@@ -160,4 +150,5 @@ $menuType = "gallery";
           
         </section><!-- /.content -->
       </div>
+	  
 <?php include("common/adminFooter.php");?>

@@ -17,4 +17,12 @@ function deleteData($query,$url)
 	$sql=mysql_query($query);
 	header("loaction: ".$url);
 }
+function custumDateFormat( $first, $step = '+0 day', $format = 'd/m/Y' ) 
+{
+	$dates = "";
+	$current = strtotime( $first );
+	$current = strtotime( $step, $current );
+	$dates = date( $format, $current );
+	return $dates;
+}
 ?>

@@ -3,28 +3,28 @@ include("controller/pages_controller.php");
 $menuType = "gallery";
 ?> 
 <script type="text/javascript">
- $("#loading").removeClass('hide');
- var date = new Date();
- var firstDay = new Date(1+"/"+date.getMonth()+"/"+date.getFullYear());
- var lastDay = new Date(0+"/"+date.getMonth()+1+"/"+date.getFullYear());
- var branchId = "All"
- $.ajax({  
-	  url:"ajaxACCOUNTINGREPORT.php",  
-	  method:"GET",   
-	  data: { 
-		from_date: firstDay, 
-		to_date: lastDay,
-		branchId:branchId 
-		},
-	  success:function(data)  
-	  { 
-			var table = $('#emiReport').DataTable();
-			table.destroy();
-			$('#tableData').empty(); 
-			$("#tableData").html(data); 
-			setTimeout(function(){sortTableData();},5000); 
-	  }  
- }); 
+ // $("#loading").removeClass('hide');
+ // var date = new Date();
+ // var firstDay = new Date(1+"/"+date.getMonth()+"/"+date.getFullYear());
+ // var lastDay = new Date(0+"/"+date.getMonth()+1+"/"+date.getFullYear());
+ // var branchId = "All"
+ // $.ajax({  
+	  // url:"ajaxACCOUNTINGREPORT.php",  
+	  // method:"GET",   
+	  // data: { 
+		// from_date: firstDay, 
+		// to_date: lastDay,
+		// branchId:branchId 
+		// },
+	  // success:function(data)  
+	  // { 
+			// var table = $('#emiReport').DataTable();
+			// table.destroy();
+			// $('#tableData').empty(); 
+			// $("#tableData").html(data); 
+			// setTimeout(function(){sortTableData();},5000); 
+	  // }  
+ // }); 
   
  function sortTableData()
  {
@@ -198,8 +198,8 @@ $(document).ready(function(){
 				  url:"ajaxACCOUNTINGREPORT.php",  
 				  method:"GET",   
 				  data: { 
-					from_date: from_date, 
-					to_date: to_date,
+					from_date: 'Invalid Date', 
+					to_date: 'Invalid Date',
 					branchId:branchId
 				  },
 				  success:function(data)  

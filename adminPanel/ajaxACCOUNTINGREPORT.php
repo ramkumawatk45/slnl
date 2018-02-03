@@ -15,12 +15,12 @@ if($_SESSION['branchId'])
 {
 	$branchId = $_SESSION['branchId'];
 }	
-if(($_GET["from_date"]) !="Invalid Date")
+if(($_GET["from_date"]) !="Invalid Date" && ($_GET["from_date"]) !="")
 {
 	$fromdate = explode('/',$_GET["from_date"]);	
 	$fromDates= $fromdate[2].'-'.$fromdate[1].'-'.$fromdate[0];
 }
-if(($_GET["to_date"]) !="Invalid Date")
+if(($_GET["to_date"]) !="Invalid Date" && ($_GET["to_date"]) !="")
 {	
 	$todate = explode('/',$_GET["to_date"]);
 	$toDates= $todate[2].'-'.$todate[1].'-'.$todate[0];
@@ -29,11 +29,11 @@ if($branchId && ($_GET["from_date"] =="Invalid Date") && ($_GET["to_date"] =="In
 {
 	if($_SESSION['userType']=="ADMIN" && $branchId =="All")
 	{
-		$query="SELECT * FROM accountings  order by accountingId Desc  ";	
+		$query="SELECT * FROM accountings where deleted='0'  order by accountingId Desc  ";	
 	}
 	else
 	{
-		$query="SELECT * FROM accountings where branchId ='$branchId' order by accountingId Desc  ";		
+		$query="SELECT * FROM accountings where branchId ='$branchId' and deleted='0' order by accountingId Desc  ";		
 	}	
 }
 else if($branchId  && ($_GET["from_date"] !="") && ($_GET["to_date"] !=""))
@@ -42,22 +42,22 @@ else if($branchId  && ($_GET["from_date"] !="") && ($_GET["to_date"] !=""))
 	{
 		if(($_GET["from_date"] == "Invalid Date") && ($_GET["from_date"] == "Invalid Date" ))
 		{
-			$query="SELECT * FROM accountings  where  createDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)   order by accountingId Desc  ";
+			$query="SELECT * FROM accountings  where  createDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and deleted='0'   order by accountingId Desc  ";
 		}
 		else
 		{
-			$query="SELECT * FROM accountings where createDate between '$fromDates'  and '$toDates' order by accountingId Desc  ";
+			$query="SELECT * FROM accountings where createDate between '$fromDates'  and '$toDates' and  deleted='0' order by accountingId Desc  ";
 		}	
 	}	
 	else
 	{
 		if(($_GET["from_date"] == "Invalid Date") && ($_GET["from_date"] == "Invalid Date" ))
 		{
-			$query="SELECT * FROM accountings  where  createDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)   order by accountingId Desc  ";
+			$query="SELECT * FROM accountings  where  createDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) and deleted='0'  order by accountingId Desc  ";
 		}
 		else
 		{
-			$query="SELECT * FROM accountings where branchId ='$branchId' and createDate between '$fromDates'  and '$toDates' order by accountingId Desc  ";	
+			$query="SELECT * FROM accountings where branchId ='$branchId' and createDate between '$fromDates'  and '$toDates' and deleted='0' order by accountingId Desc  ";	
 		}	
 	}
 }

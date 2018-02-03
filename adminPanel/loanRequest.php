@@ -111,7 +111,7 @@ $menuType = "loanRequest";
 					}
 					else
 					{
-							$query=" SELECT * FROM loanrequests where deleted='0' order by id Desc";
+							$query=" SELECT * FROM loanrequests where branchCode='$branchId' and  deleted='0' order by id Desc";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -123,7 +123,7 @@ $menuType = "loanRequest";
                       <tr>
                          <td><?php echo  $i++; ?></td>
 						 <td><a Title="Pay EMI"><?php echo $tableData['memberId']; ?></a></td>
-						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' ";
+						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' and branchCode!='0' ";
 						$menuDatas=fetchData($queryBranch);
 						foreach($menuDatas as $branchData)
 						{  echo $branchData['branchName']." - ".$branchData['branchCode']; } ?> </td>

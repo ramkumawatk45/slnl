@@ -120,7 +120,7 @@ if(isset($_REQUEST['addLoanRequest']))
                  <div class="box-body">
 						<div class="form-group col-md-2">
 							<label for="pageTitle">Branch <span class="requiredField">*</span> </label>
-							<select class="form-control" name="branchId" id="branchId" required <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
+							<select class="form-control" name="branchId" id="branchId" required <?php if($_SESSION['branchCode']){ ?> style='pointer-events: none;' <?php } ?> >
 							<?php 
 							$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode!='0'";
 							$menuData=fetchData($query);

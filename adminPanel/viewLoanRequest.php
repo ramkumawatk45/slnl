@@ -4,89 +4,20 @@ $menuType ="loanRequest";
 $id=$_REQUEST['id'];
 $msg='';
 $pageHrefLink='';
-function dateRange( $first, $step = '+1 day', $format = 'Y-m-d' ) 
+if(isset($_REQUEST['approveLoan']))
 {
-	$dates = "";
-	$current = strtotime( $first );
-	$current = strtotime( $step, $current );
-	$dates = date( $format, $current );
-	return $dates;
-}
-if(isset($_REQUEST['addStates']))
-{
-	 $branchId = $_REQUEST['branchId'];
-	 $loanId = $_REQUEST['loanId'];
-	 $formNo = $_REQUEST['formNo'];
-	 $memberId = $_REQUEST['memberId'];
-	 $cDate = $_REQUEST['cDate'];
-	 $createdate = explode('/', $cDate);
-	 $month = $createdate[1];
-	 $day   = $createdate[0];
-	 $year  = $createdate[2];
-	 $joincDate = $year.'-'.$month.'-'.$day;
-	 $applicantName = $_REQUEST['applicantName'];
-	 $gurdianName = $_REQUEST['gurdianName'];
-	 $applicantDob = $_REQUEST['applicantDob'];
-	 $applicantAge = $_REQUEST['applicantAge'];
-	 $address = $_REQUEST['address'];
-	 $state = $_REQUEST['state'];
-	 $district = $_REQUEST['district'];
-	 $area = $_REQUEST['area'];
-	 $zipCode = $_REQUEST['zipCode'];
-	 $gender = $_REQUEST['gender'];
-	 $maritalStatus = $_REQUEST['maritalStatus'];
-	 $gMemberNo = $_REQUEST['gMemberNo'];
-	 $gMemberName = $_REQUEST['gMemberName'];
-	 $gMemberMobile = $_REQUEST['gMemberMobile'];
-	 $planId = $_REQUEST['planId'];
-	 $planType = $_REQUEST['planType'];
-	 $loanAmount = $_REQUEST['loanAmount'];
-	 $rateOfInterest = $_REQUEST['rateOfInterest'];
-	 $emi = $_REQUEST['emi'];
-	 $paymentMode = $_REQUEST['paymentMode'];
-	 $chequeNo = $_REQUEST['chequeNo'];
-	 $chequeDate = $_REQUEST['chequeDate'];
-	 $bankAc = $_REQUEST['bankAc'];
-	 $bankName = $_REQUEST['bankName'];
-	 $loanPurpose = $_REQUEST['loanPurpose'];
-	 $memberMobile = $_REQUEST['memberMobile'];
-	 $memberEmail = $_REQUEST['memberEmail'];
-	 $status = $_REQUEST['status'];
-	 $planTypes ="";
-	$planQuery="SELECT * FROM plantypes where id='$planType' and deleted='0' ";
-	$menuDatas=fetchData($planQuery);
-	if(is_array($menuDatas) || is_object($menuDatas))
-	{	
-		foreach($menuDatas as $branchData)
-		{  
-			$planTypes  = $branchData['planName']; 
-		}
-	}
-	$dueDate = "";
-	$newDueDate = "";
-	if($planTypes == "MONTHLY")
-	{
-		$dueDate = dateRange($joincDate, '+1 month','d/m/Y');
-		$newDueDate = dateRange($joincDate, '+1 month','Y-m-d');
-	}
-	else if($planTypes =="DAILY")
-	{
-		$dueDate = dateRange($joincDate,'+1 day','d/m/Y');
-		$newDueDate = dateRange($joincDate, '+1 day','Y-m-d');
-	}
-	 $sql = "select loanId,formId,memberId from loans where loanId='$loanId' and formId='$formNo'and memberId='$memberId'";
-	 $res = mysql_query($sql);
-		if(mysql_num_rows($res)> 1)
-		{
-		$msg="Duplicate Entry Note Allowed Please Check the Loan Id, Form Id , MemberId";
-		}
-		else
-		{
-				$sql=mysql_query("UPDATE loans SET loanId='$loanId',branchCode='$branchId',formId='$formNo',memberId='$memberId',cDate='$cDate',createDate='$joincDate',applicantName='$applicantName',gurdianName='$gurdianName',dob='$applicantDob', age='$applicantAge', address='$address', stateId='$state', districtId='$district', areaId='$area', zipCode='$zipCode', sex='$gender', maritalStatus='$maritalStatus', gMemberNo='$gMemberNo', gName='$gMemberName', gMobile='$gMemberMobile', loanPlanId='$planId', planTypeId='$planType', loanAmount='$loanAmount', rateOfInterest='$rateOfInterest', emi='$emi', pMode='$paymentMode', chequeNo='$chequeNo', chequeDate='$chequeDate', bankAC='$bankAc', bankName='$bankName', loanPurpose='$loanPurpose',memberMobile='$memberMobile',memberEmail='$memberEmail',status='$status' where id='$id' ");
-				$sql=mysql_query("UPDATE loanemi SET branchCode='$branchId',emiAmount='$emi', dueDate='$dueDate',newDueDate='$newDueDate',ndd='$newDueDate' where loanId='$loanId' and emiNo='0'");
-				//$msg=updated;
-				//$pageHrefLink="loans.php";
-		}
+	 $requestStatus = $_REQUEST['requestStatus'];
+	 $approveAmount = $_REQUEST['approveAmount'];
+	 $approveDate = $_REQUEST['approveDate'];
+	 $approveDate = explode('/', $approveDate);
+	 $month = $approveDate[1];
+	 $day   = $approveDate[0];
+	 $year  = $approveDate[2];
+	 $approvedDate = $year.'-'.$month.'-'.$day;
+	 $requestReason = $_REQUEST['requestReason'];
+	$sql=mysql_query("UPDATE loanrequests SET requestStatus='$requestStatus',approveAmount='$approveAmount', approveDate='$approvedDate',requestReason='$requestReason' where id='$id' ");
+	$msg=updated;
+	$pageHrefLink="loanRequest.php";
 }
 
 ?>
@@ -261,22 +192,49 @@ if(isset($_REQUEST['addStates']))
                       <label for="pageTitle">Guarantor Mobile No.</label>
                       <input type="text" class="form-control" id="gMemberMobile" name="gMemberMobile" value="<?php echo $loanData['gMobile']; ?>" maxlength="13"  required />                  
                     </div>
+					<?php if($loanData['memberPhoto'] !="uploads/loanrequest/images/") { ?>
 					<div class="form-group col-md-2">
                       <label for="pageTitle">Member Photo</label>
-                      <a href="<?php echo $loanData['memberPhoto']; ?>" title="Member Photo" target="_blank"><img style="height:120px;width:120px" src="<?php echo $loanData['memberPhoto']; ?>" /> </a>                
+                      <a href="<?php echo $loanData['memberPhoto']; ?>" title="Member Photo" target="_blank"><img style="height:120px;width:120px" src="<?php echo $loanData['memberPhoto']; ?>" /> </a>             
                     </div>
+					<?php } ?>   
+					 <?php if($loanData['memberDocument'] !="uploads/loanrequest/idendity/") { ?>
 					<div class="form-group col-md-2">
                       <label for="pageTitle">Member Identity</label>
-                      <a href="<?php echo $loanData['memberDocument']; ?>" title="Member Photo" target="_blank"><img style="height:120px;width:120px" src="<?php echo $loanData['memberDocument']; ?>" /> </a>                
+                      <a href="<?php echo $loanData['memberDocument']; ?>" title="Member Photo" target="_blank"><img style="height:120px;width:120px" src="<?php echo $loanData['memberDocument']; ?>" /> </a>    
                     </div>
-                  </div><!-- /.box-body -->
+					 <?php } ?>
+					 </div><!-- /.box-body -->
 				  <?php
 					}
 					if($_SESSION['userType']=="ADMIN")
 					{
 					?>
+					 <div class="box-body">
+						<div class="form-group col-md-2">
+						<label for="pageTitle">Request Status</label>
+						<select class="form-control" name="requestStatus" id="requestStatus"> 
+						<option value="Pending" <?php if($loanData['requestStatus'] =='Pending') { echo 'selected';} ?>>Pending</option>
+						<option value="Approve" <?php if($loanData['requestStatus'] =='Approve') { echo 'selected';} ?>>Approve</option>
+						<option value="Reject" <?php if($loanData['requestStatus'] =='Reject') { echo 'selected';} ?>>Reject</option>
+						</select>	                   
+						</div>
+						<div class="form-group col-md-2">
+                        <label for="pageTitle">Approve Amount</label>
+                        <input type="text" class="form-control" id="approveAmount" name="approveAmount" value="<?php  if($loanData['approveAmount']) { echo $loanData['approveAmount']; } else { echo $loanData['loanAmount']; } ?>" maxlength="10" required />                   
+                        </div>
+						<div class="form-group col-md-2">
+                        <label for="pageTitle">Approve Date</label>
+                        <input type="text" class="form-control date" id="approveDate" name="approveDate" value="<?php  echo date('d/m/Y'); ?>" required />                   
+                        </div>
+						
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Remark</label>
+						<textarea class="form-control" id="requestReason" name="requestReason" placeholder="Note" maxlength="200"><?php if($loanData['requestReason']) { echo $loanData['requestReason']; } ?></textarea>
+						</div>
+						</div>
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary  pull-left" name="addStates">Submit</button>
+                    <button type="submit" class="btn btn-primary  pull-left" name="approveLoan">Submit</button>
                   </div>
 				  <?php 
 						}

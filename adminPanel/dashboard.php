@@ -134,7 +134,7 @@ $(document).ready(function(){
 				
 					<input type="submit" class="btn btn-primary  pull-left"  name="sendMessage" value="Send Message" id="sendMessage">
 				
-                  <table id="category" class=" table table-bordered table-striped display responsive nowrap" cellspacing="0" width="100%">
+                  <table id="category" class=" table table-bordered table-striped " cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>Sr. no.</th>

@@ -99,23 +99,30 @@
                   <a href="#">
                     <!--<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>-->
                   </a>
-              <ul class="treeview-menu">
+              <ul class="treeview-menu mainmenu">
 				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a> </li>
 				<li class="index <?php if(basename($_SERVER['SCRIPT_NAME']) == 'changePassword.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>"><a href="changePassword.php"><i class="fa fa-bars"></i> Change Password</a></li>
 				<?php if($_SESSION['userType']=="ADMIN")
 				{
-				?>		
-                <li class="states  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'states.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="states.php"><i class="fa fa-paperclip"></i>States</a></li> 
-                <li class="districts  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'districts.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="districts.php"><i class="fa fa-sliders"></i>Districts</a></li> 
-				<li class="areas  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'areas.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="areas.php"><i class="fa fa-sliders"></i>Areas</a></li> 
-                <li class="trainingcenter  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'trainingCenter.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="trainingCenter.php"><i class="fa fa-university "></i>Branches</a></li> 
-				 <li class="users  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'users.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="users.php"><i class="fa fa-university "></i>Users</a></li> 
-				<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPlans.php"><i class="fa fa-paperclip"></i>Loan Plan</a></li>
-				<li class="deleteLoanSearch  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php"><i class="fa fa-paperclip"></i>Delete Loan EMI</a></li>
-				<li class="deletedEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php"><i class="fa fa-paperclip"></i>Deleted Loan EMI</a></li>
-				<li class="smsSetting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'smsSetting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="smsSetting.php"><i class="fa fa-paperclip"></i>SMS API Setting</a></li>
-				<li class="web-dashboard  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'web-dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="web-dashboard.php"><i class="fa fa-paperclip"></i>Website Admin</a></li>	
-				<li class="accountingTotal  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accountingTotal.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accountingTotal.php"><i class="fa  fa-bars"></i>Accounting Total</a></li>
+				?>	
+				<li class="states  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'states.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="states.php"><i class="fa fa-paperclip"></i>Defaults</a>
+				<ul class="submenu">
+					<li class="states  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'states.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="states.php">States</a></li> 
+					<li class="districts  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'districts.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="districts.php">Districts</a></li> 
+					<li class="areas  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'areas.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="areas.php">Areas</a></li> 
+					<li class="trainingcenter  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'trainingCenter.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="trainingCenter.php">Branches</a></li> 
+					<li class="users  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'users.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="users.php">Users</a></li> 
+					<li class="loanPlans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPlans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPlans.php">Loan Plan</a></li>
+					<li class="smsSetting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'smsSetting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="smsSetting.php">SMS API Setting</a></li>
+					<li class="web-dashboard  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'web-dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="web-dashboard.php">Website Admin</a></li>
+				</ul>
+				</li> 	
+				<li class="deleteLoanSearch  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php"><i class="fa fa-paperclip"></i>Deleted EMI Data</a>
+				<ul class="submenu">
+					<li class="deleteLoanSearch  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php">Delete Loan EMI</a></li>
+					<li class="deletedEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php">Deleted Loan EMI</a></li>
+				</ul>	
+				</li>	
 				<?php 
 				}
 				if($_SESSION['userRole'] == "FIELDWORKER" || $_SESSION['userRole'] =="BRANCH"  || $_SESSION['userRole'] =="ADMIN")
@@ -129,19 +136,34 @@
 				if($_SESSION['userRole'] =="ADMIN" ||  $_SESSION['userRole'] =="BRANCH")
 				{	
 				?>
-				<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>EMI Due Report</a></li> 
-				<li class="loanDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"><i class="fa fa-circle-o"></i>EMI Detail Due Report</a></li> 	
-				<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php"><i class="fa fa-circle-o"></i>Same Day Report</a></li> 
-				<li class="emiDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php"><i class="fa fa-circle-o"></i>All EMI Due Report</a></li> 
-				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a></li>
-				<li class="loanRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRequest.php"><i class="fa  fa-bars"></i>Loan Request</a></li>
+				<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>Reports</a>
+				<ul class="submenu">
+					<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php">EMI Due Report</a></li> 
+					<li class="loanDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"></i>EMI Detail Due Report</a></li> 	
+					<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php">Same Day Report</a></li> 
+					<li class="emiDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php">All EMI Due Report</a></li> 
+				</ul>	
+				</li>
+				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a>
+				<ul class="submenu">
+					<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php">Accounting</a></li>
+					<?php if($_SESSION['userRole'] =="ADMIN") { ?>
+					<li class="accountingTotal  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accountingTotal.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accountingTotal.php">Accounting Total</a></li>
+					<?php } ?>
+				</ul>
+				</li>
+				<li class="loanRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRequest.php"><i class="fa  fa-bars"></i>Loan Requests</a>
+				<ul class="submenu">
+					<li class="loanRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRequest.php">All Requests</a> </li>
+					<li class="loanApproveRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanApproveRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanApproveRequest.php">Approve Requests</a> </li>
+				  </ul>
+				</li>
 				<?php 
 				}
 				?>
                </ul>  
             </li>
           </ul>
-		 
         </section>
         <!-- /.sidebar -->
       </aside>
@@ -192,11 +214,7 @@ ol.breadcrumb-student li {
     display: block;
     font-size: 14px;
 }
-.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a {
-    color: #fff;
-    background: #3c8dbc;
-    border-left-color: #3c8dbc;
-}
+
 .loading {
   position: fixed;
   z-index: 999;
@@ -371,10 +389,80 @@ body {
     background-color: #4c5363;
 }
 ul.treeview-menu li.active {
-    border-right: 8px solid #378fcb;
+    border-right: 3px solid #378fcb;
 	background-color: #4c5363;
 }
 span.requiredField {
     color: red;
+}
+.main-header {
+    position: fixed;
+    max-height: 100px;
+    z-index: 1030;
+    width: 100%;
+}
+.content-wrapper, .right-side {
+    min-height: 100%;
+    max-height: 100%;
+    background-color: #ecf0f5;
+    z-index: 800;
+    margin-top: 50px;
+}	
+
+/* reset our lists to remove bullet points and padding */
+.mainmenu, .submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* make ALL links (main and submenu) have padding and background color */
+.mainmenu a {
+  display: block;
+  text-decoration: none;
+	padding: 6px 6px 6px 25px;
+  color: #000;
+}
+
+/* add hover behaviour */
+.mainmenu a:hover {
+    color: #fff;
+    background-color: #4c5363;
+}
+
+
+/* when hovering over a .mainmenu item,
+  display the submenu inside it.
+  we're changing the submenu's max-height from 0 to 200px;
+*/
+
+.mainmenu li:hover .submenu {
+  display: block;
+  max-height: 300px;
+}
+
+/*
+  we now overwrite the background-color for .submenu links only.
+  CSS reads down the page, so code at the bottom will overwrite the code at the top.
+*/
+
+.submenu a {
+  background-color: #2c3b41;
+  border-left :1px solid #378fcb;
+  border-right :1px solid #378fcb;
+}
+
+/* hover behaviour for links inside .submenu */
+.submenu a:hover {
+  background-color: #666;
+}
+
+/* this is the initial state of all submenus.
+  we set it to max-height: 0, and hide the overflowed content.
+*/
+.submenu {
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: all 0.5s ease-out;
 }
 </style>

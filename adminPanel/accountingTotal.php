@@ -183,7 +183,7 @@ $(document).ready(function(){
 						<td><?php  echo $tableData['branchName']." - ".$tableData['branchCode']; ?></td>
 						<?php  
 						$branchId = $tableData['branchId'];
-						$query = "SELECT sum(totalPayment), sum(receivePayment), sum(pendingCollection) FROM accountings where branchId='$branchId'";
+						$query = "SELECT sum(totalPayment), sum(receivePayment), sum(pendingCollection) FROM accountings where branchId='$branchId' and deleted='0'";
 						$pagesData=fetchData($query);
 						foreach($pagesData as $loanData)
 						{

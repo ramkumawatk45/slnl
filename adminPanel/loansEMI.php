@@ -44,19 +44,24 @@ function dateRanges( $first, $step = '+1 day', $format = 'Y-m-d' )
 		var result = parseInt(emi+serviceCharge);
 		$("#totalAmount").val(result);
 		$("#paymentAmount").val(emi);
-		
+		var penaltyresult = 0;
 		$('#penaltyDeduct').on('change',function(){
 		if($(this).val() == 'Yes')
 		{
 			var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
 			var dueDate = $('#dueDate').val().split('/');
 			var currentDate = $('#currentDate').val().split('/');
-			var firstDate = new Date(dueDate[2],dueDate[1],dueDate[0]);
-			var secondDate = new Date(currentDate[2],currentDate[1],currentDate[0]);
-			var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)))
-			if(diffDays > 0 && firstDate < secondDate )
+			var firstDate = new Date(dueDate[2]+'/'+dueDate[1]+'/'+dueDate[0]);
+			var secondDate = new Date(currentDate[2]+'/'+currentDate[1]+'/'+currentDate[0]);
+			var diffDays  = 0;
+			if(firstDate <= secondDate)
+			{	
+				diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+			}	
+			if(diffDays > 0 && firstDate <= secondDate )
 			{
-				penaltyresult = (emi*lateFees/100)*diffDays;
+				$("#penaltyDeductDays").val(diffDays);
+				penaltyresult = Math.round((emi*lateFees/100)*diffDays,2);
 			}	
 				serviceCharge = parseInt($("#serviceCharge").val());
 				$("#totalAmount").val(parseInt(penaltyresult+serviceCharge+emi));
@@ -189,7 +194,7 @@ setTimeout(explode, 500);
                         <label for="pageTitle">Branch</label>
 						<select class="form-control" name="branchId" disabled id="branchId" required <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
 						<?php 
-                    	$query="SELECT * FROM branchs where deleted='0' and status='0' ";
+                    	$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode!='0' ";
 						$menuData=fetchData($query);
 						foreach($menuData as $tableData)
 						{ ?><option <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
@@ -618,8 +623,8 @@ setTimeout(explode, 500);
 						foreach($defaultData as $defaults)
 						{
 							?>
-						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
-                        <label for="pageTitle">Penalty Deduct</label>
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
+                        <label for="pageTitle">Penalty Deduct </label>
                         <input type="hidden" class="form-control"  id="lateFees" name="lateFees" value="<?php  echo $defaults['defaultVal']; ?>"  maxlength="15" />                   
 						  <input type="hidden" class="form-control"  id="lateFee" name="lateFee" /> 
 						 <select class="form-control" name="penaltyDeduct" id="penaltyDeduct" >
@@ -627,6 +632,10 @@ setTimeout(explode, 500);
 							<option <?php if($defaults['status']=="0") { echo 'selected';} ?>value="1">Yes</option>
 						</select>
 						</div>
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
+                        <label for="pageTitle" >Penalty Days</label>
+                        <input type="text" class="form-control "  readonly name="penaltyDeductDays" id='penaltyDeductDays' value="0" maxlength="15" />                   
+                        </div>	
 						<?php 
 						}
 						$query="SELECT * FROM defaults where type ='SERVICECHARGE' ";
@@ -634,7 +643,7 @@ setTimeout(explode, 500);
 						foreach($defaultData as $defaults)
 						{
 							?>
-						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle">Service Charges</label>
 						<select class="form-control " name="serviceCharge" id="serviceCharge" >
 							<option value="0">None</option>
@@ -645,7 +654,7 @@ setTimeout(explode, 500);
 						</select>                  
 						</div>
 						<?php } ?>
-						<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
 				  <label for="pageTitle">Payment Mode</label>
 				  <select class="form-control" name="paymentMode" id="paymentMode"> 
 					<option value="cash">Cash</option>

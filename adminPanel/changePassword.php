@@ -44,15 +44,15 @@ if(isset($_POST['changePassword']))
                   <div class="box-body">
 					<div class="form-group">
                       <label for="password">Old Password</label>
-                      <input type="password" class="form-control" id="opassword" name="opassword" placeholder="Old Password" required />
+                      <input type="password" class="form-control" id="opassword" name="opassword" autocomplete="off"  placeholder="Old Password" required />
                     </div>
                     <div class="form-group">
                       <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+                      <input type="password" class="form-control" id="password" name="password" autocomplete="off" placeholder="Password" required />
                     </div>
                     <div class="form-group">
                       <label for="rPassword">Re Type-Password</label>
-                      <input type="password" class="form-control" id="rPassword" name="rPassword" placeholder="Re Type-Password" required />
+                      <input type="password" class="form-control" id="rPassword" name="rPassword" autocomplete="off" placeholder="Re Type-Password" required />
                     </div>
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary" name="changePassword">Submit</button>

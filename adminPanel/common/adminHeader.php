@@ -149,6 +149,8 @@
 					<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php">Accounting</a></li>
 					<?php if($_SESSION['userRole'] =="ADMIN") { ?>
 					<li class="accountingTotal  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accountingTotal.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accountingTotal.php">Accounting Total</a></li>
+					<li class="expenses  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'expenses.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="expenses.php">Expenses</a></li>
+					<li class="incomes  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'incomes.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="incomes.php">Incomes</a></li>
 					<?php } ?>
 				</ul>
 				</li>
@@ -440,7 +442,9 @@ span.requiredField {
   display: block;
   max-height: 300px;
 }
-
+.mainmenu li.active .submenu li.active{
+	 max-height: 300px;
+}
 /*
   we now overwrite the background-color for .submenu links only.
   CSS reads down the page, so code at the bottom will overwrite the code at the top.

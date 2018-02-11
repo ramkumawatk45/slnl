@@ -139,7 +139,17 @@ $(document).ready(function(){
 	sortTableData(); 
    
 });  
-
+setTimeout(function()
+{ 
+	totalCollection()
+}, 1500);
+function totalCollection()
+{
+	totalOfCollection = parseFloat($("#totalCollection").html());
+	incomeTotal = parseFloat($("#incomeTotal").val());
+	expensesTotal = parseFloat($("#expensesTotal").val());
+	$("#calculateCollection").html(parseFloat((totalOfCollection+incomeTotal)-expensesTotal))
+}
 </script>
 <div class="content-wrapper">
         <!-- Main content -->
@@ -205,7 +215,37 @@ $(document).ready(function(){
 					  <tr>
                         <td class="col-md-1"></td>
 						<td class="col-md-1">Total</td>
+						<td class="col-md-1" id="totalCollection"></td>
 						<td class="col-md-1"></td>
+						<td class="col-md-1"></td>
+                      </tr>
+					 <tr>
+                        <td class="col-md-1"></td>
+						<td class="col-md-1">Income(+)</td>
+						<td class="col-md-1"><?php $query = "SELECT sum(penaltyAmount), sum(serviceCharges), sum(insuranceCharges), sum(loanSavings) FROM income_expenses  where type ='Income' and deleted='0'";
+						$pagesData=fetchData($query);
+						foreach($pagesData as $loanData)
+						{ echo round(($loanData['sum(penaltyAmount)'])+($loanData['sum(serviceCharges)'])+($loanData['sum(insuranceCharges)'])+($loanData['sum(loanSavings)'])); ?>
+						<input type="hidden" id="incomeTotal" value="<?php echo round(($loanData['sum(penaltyAmount)'])+($loanData['sum(serviceCharges)'])+($loanData['sum(insuranceCharges)'])+($loanData['sum(loanSavings)'])); ?>" />	
+						<?php } ?>
+						</td>
+						<td class="col-md-1"></td>
+						<td class="col-md-1"></td>
+                      </tr>
+					  <tr>
+                        <td class="col-md-1"></td>
+						<td class="col-md-1">Expenses(-)</td>
+						<td class="col-md-1"><?php $query = "SELECT sum(expensesAmount) FROM income_expenses  where type ='Expenses' and deleted='0'";
+						$pagesData=fetchData($query);
+						foreach($pagesData as $loanData)
+						{ echo round($loanData['sum(expensesAmount)']); ?><input type="hidden" id="expensesTotal" value="<?php echo round($loanData['sum(expensesAmount)']); ?>" /> <?php } ?></td>
+						<td class="col-md-1"></td>
+						<td class="col-md-1"></td>
+                      </tr>
+					 <tr>
+                        <td class="col-md-1"></td>
+						<td class="col-md-1">Total Collection</td>
+						<td class="col-md-1" id="calculateCollection"></td>
 						<td class="col-md-1"></td>
 						<td class="col-md-1"></td>
                       </tr>

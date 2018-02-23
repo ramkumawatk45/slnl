@@ -17,7 +17,7 @@ if(isset($_REQUEST['approveLoan']))
 	 $requestReason = $_REQUEST['requestReason'];
 	$sql=mysql_query("UPDATE loanrequests SET requestStatus='$requestStatus',approveAmount='$approveAmount', approveDate='$approvedDate',requestReason='$requestReason' where id='$id' ");
 	$msg=updated;
-	$pageHrefLink="loanRequest.php";
+	$pageHrefLink="loanPendingRequest.php";
 }
 
 ?>
@@ -215,8 +215,8 @@ if(isset($_REQUEST['approveLoan']))
 						<label for="pageTitle">Request Status</label>
 						<select class="form-control" name="requestStatus" id="requestStatus"> 
 						<option value="Pending" <?php if($loanData['requestStatus'] =='Pending') { echo 'selected';} ?>>Pending</option>
-						<option value="Approve" <?php if($loanData['requestStatus'] =='Approve') { echo 'selected';} ?>>Approve</option>
-						<option value="Reject" <?php if($loanData['requestStatus'] =='Reject') { echo 'selected';} ?>>Reject</option>
+						<option value="Approved" <?php if($loanData['requestStatus'] =='Approved') { echo 'selected';} ?>>Approve</option>
+						<option value="Rejected" <?php if($loanData['requestStatus'] =='Rejected') { echo 'selected';} ?>>Reject</option>
 						</select>	                   
 						</div>
 						<div class="form-group col-md-2">

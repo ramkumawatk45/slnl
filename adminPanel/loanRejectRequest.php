@@ -1,10 +1,10 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "loanApproveRequest";
+$menuType = "loanRequest";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
-	var pagePrintTitle = "Loan Approved Requests List"	
+	var pagePrintTitle = "Loan Rejected Requests List"	
     $('#example').DataTable( {
         dom: 'Bfrtip',
         buttons: [
@@ -82,25 +82,23 @@ $menuType = "loanApproveRequest";
               <div class="box">
 			   
                 <div class="box-header">
-                  <h3 class="box-title">Approved Loan Requests</h3>
+                  <h3 class="box-title">Rejected Loan Requests</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
 				
                   <table id="example" class="table table-bordered table-striped " cellspacing="0" width="100%">
                     <thead>
                       <tr>
-                         <th class="col-md-1">Sr. no.</th>
+                        <th class="col-md-1">Sr. no.</th>
 						<th class="col-md-1">Member Id</th>
 						<th class="col-md-2">Branch</th>
 						<th class="col-md-2">Customer Name</th>
 						<th class="col-md-2">Gurdian Name</th>
 						<th class="col-md-2">Mobile No.</th>
-						<th class="col-md-2">Requested Loan Amount</th>
-						<th class="col-md-2">Approved  Amount</th>
+						<th class="col-md-2">Loan Amount</th>
 						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
-						<th class="col-md-2">Approved Date</th>
-                        <th class="col-md-1">Remark</th>
+                        <th class="col-md-1">Status</th>
                       </tr>
                     </thead>
 					<tbody>
@@ -108,11 +106,11 @@ $menuType = "loanApproveRequest";
 					$branchId = $_SESSION['branchId'];	
 					if($_SESSION['userType']=="ADMIN")
 					{
-						$query="SELECT * FROM loanrequests where requestStatus='Approved' and deleted='0' order by id Desc  ";
+						$query="SELECT * FROM loanrequests where requestStatus='Rejected' and deleted='0' order by id Desc  ";
 					}
 					else
 					{
-							$query=" SELECT * FROM loanrequests  where requestStatus='Approved' and branchCode='$branchId' and  deleted='0' order by id Desc";
+							$query=" SELECT * FROM loanrequests where branchCode='$branchId' and requestStatus='Rejected'  and  deleted='0' order by id Desc";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -132,11 +130,9 @@ $menuType = "loanApproveRequest";
 						<td><?php echo $tableData['gurdianName']; ?> </td>
 						<td><?php echo $tableData['memberMobile']; ?> </td>	
 						<td><?php echo $tableData['loanAmount']; ?> </td>
-						<td><?php echo $tableData['approveAmount']; ?> </td>
 						<td><?php echo $tableData['emi']; ?> </td>
-						<td><?php echo custumDateFormat($tableData['createDate']); ?> </td>	
-						<td><?php echo custumDateFormat($tableData['approveDate']); ?> </td>	
-                        <td><?php echo substr($tableData['requestReason'],0,30); ?></td>
+						<td><?php echo custumDateFormat($tableData['createDate']); ?> </td>								
+                        <td><?php echo $tableData['requestStatus']; ?></td>
                       </tr>
                     <?php } } ?>
 					  </tbody>

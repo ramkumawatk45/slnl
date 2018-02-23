@@ -154,10 +154,11 @@
 					<?php } ?>
 				</ul>
 				</li>
-				<li class="loanRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRequest.php"><i class="fa  fa-bars"></i>Loan Requests</a>
+				<li class="loanPendingRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPendingRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPendingRequest.php"><i class="fa  fa-bars"></i>Loan Requests</a>
 				<ul class="submenu">
-					<li class="loanRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRequest.php">All Requests</a> </li>
-					<li class="loanApproveRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanApproveRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanApproveRequest.php">Approve Requests</a> </li>
+					<li class="loanPendingRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPendingRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPendingRequest.php">Pending Requests</a> </li>
+					<li class="loanApproveRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanApproveRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanApproveRequest.php">Approved Requests</a> </li>
+					<li class="loanRejectRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanRejectRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanRejectRequest.php">Rejected Requests</a> </li>
 				  </ul>
 				</li>
 				<?php 

@@ -237,7 +237,7 @@ if(isset($_REQUEST['approveLoan']))
                         </div>
 						<div class="form-group col-md-2">
                         <label for="pageTitle">Approve Date</label>
-                        <input type="text" class="form-control date" id="approveDate" name="approveDate" value="<?php  echo date('d/m/Y'); ?>" required />                   
+                        <input type="text" class="form-control date" id="approveDate" name="approveDate" value="<?php  if($loanData['approvalDate']) {  echo custumDateFormat($loanData['approvalDate']); } ?>" required />                   
                         </div>
 						
 						<div class="form-group col-md-4">

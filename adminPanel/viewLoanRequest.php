@@ -9,14 +9,26 @@ if(isset($_REQUEST['approveLoan']))
 	 $requestStatus = $_REQUEST['requestStatus'];
 	 $approveAmount = $_REQUEST['approveAmount'];
 	 $approveDate = $_REQUEST['approveDate'];
-	 $approveDate = explode('/', $approveDate);
-	 $month = $approveDate[1];
-	 $day   = $approveDate[0];
-	 $year  = $approveDate[2];
+	 $approveDates = explode('/', $approveDate);
+	 $month = $approveDates[1];
+	 $day   = $approveDates[0];
+	 $year  = $approveDates[2];
 	 $approvedDate = $year.'-'.$month.'-'.$day;
+	 $applicantName = $_REQUEST['applicantName'];
+	 $memberId = $_REQUEST['memberId'];
+	 $memberMobile = $_REQUEST['memberMobile'];
 	 $requestReason = $_REQUEST['requestReason'];
 	$sql=mysql_query("UPDATE loanrequests SET requestStatus='$requestStatus',approveAmount='$approveAmount', approveDate='$approvedDate',requestReason='$requestReason' where id='$id' ");
 	$msg=updated;
+	if($requestStatus == 'Approved')
+	{
+		echo sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName)."<".$memberId."> ,Your loan request success fully approved for the ,Rs-".(round($approveAmount)).",Date-".$approveDate.", Shri Life Nidhi Limited.");
+		echo sms(ADMIN_MOBILE,"SHLIFE ".strtoupper($applicantName)."<".$memberId."> ,Loan request success fully approved for the ,Rs-".(round($approveAmount)).",Date-".$approveDate.", Shri Life Nidhi Limited.");
+	}
+	else if($requestStatus == 'Rejected')	
+	{
+		echo sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName)."<".$memberId."> ,Your loan request Rejected for the ,Rs-".(round($approveAmount)).",Date-".$approveDate.", For more information please contact, Shri Life Nidhi Limited.");
+	}
 	$pageHrefLink="loanPendingRequest.php";
 }
 

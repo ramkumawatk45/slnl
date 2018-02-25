@@ -439,13 +439,13 @@ span.requiredField {
   we're changing the submenu's max-height from 0 to 200px;
 */
 
-.mainmenu li:hover .submenu {
-  display: block;
-  max-height: 300px;
-}
-.mainmenu li.active .submenu li.active{
-	 max-height: 300px;
-}
+// .mainmenu li:hover .submenu {
+  // display: block;
+  // max-height: 300px;
+// }
+// .mainmenu li.active .submenu li.active{
+	 // max-height: 300px;
+// }
 /*
   we now overwrite the background-color for .submenu links only.
   CSS reads down the page, so code at the bottom will overwrite the code at the top.
@@ -471,3 +471,22 @@ span.requiredField {
   -webkit-transition: all 0.5s ease-out;
 }
 </style>
+<script>
+	$(document).ready(function(){
+	$('.mainmenu li > .submenu').parent().hover(function() {
+	var submenu = $(this).children('.submenu');
+	// $(".submenu ").css("display","none");	
+	$(".submenu ").css("max-height","0px");	
+		if ( $(submenu).is(':hidden') ) 
+		{
+			$(submenu).css("display","none");
+			$(submenu).css("max-height","0px");
+		}
+		else 
+		{
+			$(submenu).css("display","block");
+			$(submenu).css("max-height","300px");
+		}
+});
+});
+</script>

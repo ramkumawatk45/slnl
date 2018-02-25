@@ -85,7 +85,9 @@ if(isset($_REQUEST['addLoanRequest']))
 				move_uploaded_file($tmp,$imagepath); 
 				move_uploaded_file($idtmp,$identitypath); 
 				$msg="Data Sucessfully Submited";
-				$pageHrefLink="loanRequest.php";
+				echo sms($memberMobile,"SHLIFE DEAR ".strtoupper($applicantName)."<".$memberId."> ,Your loan request success fully created for the ,Rs-".(round($loanAmount)).",Date-".$cDate.", Shri Life Nidhi Limited.");
+				echo sms(ADMIN_MOBILE,"SHLIFE ".strtoupper($applicantName)."<".$memberId."> ,Loan request success fully created for the ,Rs-".(round($loanAmount)).",Date-".$cDate.", Shri Life Nidhi Limited.");
+				$pageHrefLink="loanPendingRequest.php";
 		}
 }
 

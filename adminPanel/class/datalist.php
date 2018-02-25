@@ -25,4 +25,5 @@ function custumDateFormat( $first, $step = '+0 day', $format = 'd/m/Y' )
 	$dates = date( $format, $current );
 	return $dates;
 }
+define("ADMIN_MOBILE", "9166782146");
 ?>

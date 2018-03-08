@@ -32,11 +32,11 @@ $toDates= $todate[2].'-'.$todate[1].'-'.$todate[0];
 		$branchTableId = $branchData['branchId'];
 		if($_SESSION['userType']=="ADMIN")
 		{
-		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loans.status='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE' and loanemi.branchCode='$branchTableId'";
+		$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loans.status='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE' and loanemi.deleted='0' and loanemi.branchCode='$branchTableId'";
 		}
 		else
 		{
-				$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loans.status='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE'  and loans.branchCode='$branchId'";
+				$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and  loans.deleted='0' and loans.status='0' and loanemi.emiNo =(SELECT max(emiNO) from loanemi where loans.loanId=loanemi.loanId) and loanemi.ndd between '$fromDates'  and '$toDates' and loanemi.emiStatus !='PRE'  and loanemi.deleted='0' and  loans.branchCode='$branchId'";
 		}	
 		$pageData=fetchData($query);
 		if (is_array($pageData) || is_object($pageData))

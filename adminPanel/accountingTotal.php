@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "gallery";
+$menuType = "accountingTotal";
 ?> 
 <script type="text/javascript">
 /*$("#loading").removeClass('hide');
@@ -195,17 +195,18 @@ function totalCollection()
 						$branchId = $tableData['branchId'];
 						$query = "SELECT sum(totalPayment), sum(receivePayment), sum(pendingCollection) FROM accountings where branchId='$branchId' and deleted='0'";
 						$pagesData=fetchData($query);
-						foreach($pagesData as $loanData)
+						if(is_array($pagesData) || is_object($pagesData))
 						{
-						?>	
-						<td><?php echo $loanData['sum(totalPayment)']; ?></td>
-						<td><?php echo $loanData['sum(receivePayment)']; ?></td>
-						<td><?php echo $loanData['sum(pendingCollection)']; ?></td>
-						<?php
-						}
+							foreach($pagesData as $loanData)
+							{
+							?>	
+							<td><?php echo $loanData['sum(totalPayment)']; ?></td>
+							<td><?php echo $loanData['sum(receivePayment)']; ?></td>
+							<td><?php echo $loanData['sum(pendingCollection)']; ?></td>
+							<?php
+							}
+						}	
 						?>
-						
-						
                       </tr>
 					  <?php
 						}
@@ -224,10 +225,17 @@ function totalCollection()
 						<td class="col-md-1">Income(+)</td>
 						<td class="col-md-1"><?php $query = "SELECT sum(penaltyAmount), sum(serviceCharges), sum(insuranceCharges), sum(loanSavings) FROM income_expenses  where type ='Income' and deleted='0'";
 						$pagesData=fetchData($query);
-						foreach($pagesData as $loanData)
-						{ echo round(($loanData['sum(penaltyAmount)'])+($loanData['sum(serviceCharges)'])+($loanData['sum(insuranceCharges)'])+($loanData['sum(loanSavings)'])); ?>
-						<input type="hidden" id="incomeTotal" value="<?php echo round(($loanData['sum(penaltyAmount)'])+($loanData['sum(serviceCharges)'])+($loanData['sum(insuranceCharges)'])+($loanData['sum(loanSavings)'])); ?>" />	
-						<?php } ?>
+						if(is_array($pagesData) || is_object($pagesData))
+						{
+							foreach($pagesData as $loanData)
+							{ 
+								echo round(($loanData['sum(penaltyAmount)'])+($loanData['sum(serviceCharges)'])+($loanData['sum(insuranceCharges)'])+($loanData['sum(loanSavings)'])); 
+							?>
+								<input type="hidden" id="incomeTotal" value="<?php echo round(($loanData['sum(penaltyAmount)'])+($loanData['sum(serviceCharges)'])+($loanData['sum(insuranceCharges)'])+($loanData['sum(loanSavings)'])); ?>" />	
+						<?php
+							} 
+						}	
+							?>
 						</td>
 						<td class="col-md-1"></td>
 						<td class="col-md-1"></td>
@@ -235,10 +243,17 @@ function totalCollection()
 					  <tr>
                         <td class="col-md-1"></td>
 						<td class="col-md-1">Expenses(-)</td>
-						<td class="col-md-1"><?php $query = "SELECT sum(expensesAmount) FROM income_expenses  where type ='Expenses' and deleted='0'";
+						<td class="col-md-1">
+						<?php $query = "SELECT sum(expensesAmount) FROM income_expenses  where type ='Expenses' and deleted='0'";
 						$pagesData=fetchData($query);
-						foreach($pagesData as $loanData)
-						{ echo round($loanData['sum(expensesAmount)']); ?><input type="hidden" id="expensesTotal" value="<?php echo round($loanData['sum(expensesAmount)']); ?>" /> <?php } ?></td>
+						if(is_array($pagesData) || is_object($pagesData))
+						{
+							foreach($pagesData as $loanData)
+							{ 
+								echo round($loanData['sum(expensesAmount)']); ?><input type="hidden" id="expensesTotal" value="<?php echo round($loanData['sum(expensesAmount)']); ?>" /> <?php 
+							} 
+						}	?>
+						</td>
 						<td class="col-md-1"></td>
 						<td class="col-md-1"></td>
                       </tr>
@@ -264,4 +279,4 @@ function totalCollection()
           
         </section><!-- /.content -->
       </div>
-<?php include("common/webAdminFooter.php");?>
+<?php include("common/adminFooter.php");?>

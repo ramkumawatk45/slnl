@@ -1,10 +1,10 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "loanRejectRequest";
+$menuType = "loanRequest";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
-	var pagePrintTitle = "Loan Rejected Requests List"	
+	var pagePrintTitle = "Loan Customer Requests List"	
     $('#example').DataTable( {
         dom: 'Bfrtip',
         buttons: [
@@ -82,7 +82,7 @@ $menuType = "loanRejectRequest";
               <div class="box">
 			   
                 <div class="box-header">
-                  <h3 class="box-title">Rejected Loan Requests</h3>
+                  <h3 class="box-title">Loan Requests</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
 				
@@ -99,6 +99,7 @@ $menuType = "loanRejectRequest";
 						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
                         <th class="col-md-1">Status</th>
+                        <th class="col-md-1">View</th>
                       </tr>
                     </thead>
 					<tbody>
@@ -106,11 +107,11 @@ $menuType = "loanRejectRequest";
 					$branchId = $_SESSION['branchId'];	
 					if($_SESSION['userType']=="ADMIN")
 					{
-						$query="SELECT * FROM loanrequests where requestStatus='Rejected' and deleted='0' order by id Desc  ";
+						$query="SELECT * FROM loanrequests where deleted='0' order by id Desc  ";
 					}
 					else
 					{
-							$query=" SELECT * FROM loanrequests where branchCode='$branchId' and requestStatus='Rejected'  and  deleted='0' order by id Desc";
+							$query=" SELECT * FROM loanrequests where branchCode='$branchId' and  deleted='0' order by id Desc";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -133,6 +134,7 @@ $menuType = "loanRejectRequest";
 						<td><?php echo $tableData['emi']; ?> </td>
 						<td><?php echo custumDateFormat($tableData['createDate']); ?> </td>								
                         <td><?php echo $tableData['requestStatus']; ?></td>
+                        <td><a href='viewloanRequest.php?id=<?php echo  $tableData['id'];?>'>View </a></td>
                       </tr>
                     <?php } } ?>
 					  </tbody>

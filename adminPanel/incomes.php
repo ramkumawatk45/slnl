@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "loanRequest";
+$menuType = "incomes";
 ?>
 <script type="text/javascript">
  function sortTableData()

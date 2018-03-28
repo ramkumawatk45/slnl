@@ -105,7 +105,7 @@
 				<?php if($_SESSION['userType']=="ADMIN")
 				{
 				?>	
-				<li class="states  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'states.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="states.php"><i class="fa fa-paperclip"></i>Defaults</a>
+				<li class="defaults " ><a href="#"><i class="fa fa-paperclip"></i>Defaults</a>
 				<ul class="submenu">
 					<li class="states  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'states.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="states.php">States</a></li> 
 					<li class="districts  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'districts.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="districts.php">Districts</a></li> 
@@ -117,7 +117,7 @@
 					<li class="web-dashboard  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'web-dashboard.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="web-dashboard.php">Website Admin</a></li>
 				</ul>
 				</li> 	
-				<li class="deleteLoanSearch  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php"><i class="fa fa-paperclip"></i>Deleted EMI Data</a>
+				<li class="deletedEmiData " ><a href="#"><i class="fa fa-paperclip"></i>Deleted EMI Data</a>
 				<ul class="submenu">
 					<li class="deleteLoanSearch  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deleteLoanSearch.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deleteLoanSearch.php">Delete Loan EMI</a></li>
 					<li class="deletedEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'deletedEMI.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="deletedEMI.php">Deleted Loan EMI</a></li>
@@ -128,7 +128,14 @@
 				if($_SESSION['userRole'] == "FIELDWORKER" || $_SESSION['userRole'] =="BRANCH"  || $_SESSION['userRole'] =="ADMIN")
 				{	
 				?>
-				<li class="loans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loans.php"><i class="fa fa-user"></i>Loan Customer</a></li> 
+				<li class="LoanCustomers  " ><a href="#"><i class="fa fa-circle-o"></i>Loan Customers</a>
+					<ul class="submenu">
+						<li class="activeLoans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loans.php">Active Customers</a></li> 
+						<li class="disabledLoans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'disabledLoans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="disabledLoans.php">Inactive Customers</a></li>
+						<li class="closedLoans  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'closedLoans.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="closedLoans.php">Closed Customers</a></li>
+					</ul>
+				</li>	
+				
 				<li class="loanEMI  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanEmi.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanEmi.php"><i class="fa fa-money"></i>Loan EMI</a></li>
 				<li class="emiReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiReport.php"><i class="fa fa-money"></i>EMI Collection Report</a></li> 
 				<?php 
@@ -136,15 +143,15 @@
 				if($_SESSION['userRole'] =="ADMIN" ||  $_SESSION['userRole'] =="BRANCH")
 				{	
 				?>
-				<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php"><i class="fa fa-circle-o"></i>Reports</a>
+				<li class="Reports  " ><a href="#"><i class="fa fa-circle-o"></i>Reports</a>
 				<ul class="submenu">
-					<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php">EMI Due Report</a></li> 
-					<li class="loanDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"></i>EMI Detail Due Report</a></li> 	
-					<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php">Same Day Report</a></li> 
+					<li class="dueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'duereport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="duereport.php">All Pending Report</a></li> 
+					<li class="loanDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanDueReport.php"></i>Branches All Due Report</a></li> 	
+					<li class="sameDatePrint  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'sameDatePrint.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="sameDatePrint.php">Date wise Receipt Print</a></li> 
 					<li class="emiDueReport  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'emiDueReport.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="emiDueReport.php">All EMI Due Report</a></li> 
 				</ul>	
 				</li>
-				<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php"><i class="fa  fa-bars"></i>Accounting</a>
+				<li class="accountings " ><a href="#"><i class="fa  fa-bars"></i>Accounting</a>
 				<ul class="submenu">
 					<li class="accounting  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'accounting.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="accounting.php">Accounting</a></li>
 					<?php if($_SESSION['userRole'] =="ADMIN") { ?>
@@ -154,7 +161,7 @@
 					<?php } ?>
 				</ul>
 				</li>
-				<li class="loanPendingRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPendingRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPendingRequest.php"><i class="fa  fa-bars"></i>Loan Requests</a>
+				<li class="loanRequest" ><a href="#"><i class="fa  fa-bars"></i>Loan Requests</a>
 				<ul class="submenu">
 					<li class="loanPendingRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanPendingRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanPendingRequest.php">Pending Requests</a> </li>
 					<li class="loanApproveRequest  <?php if(basename($_SERVER['SCRIPT_NAME']) == 'loanApproveRequest.php'){echo 'active'; }else { echo basename($_SERVER['SCRIPT_NAME']); } ?>" ><a href="loanApproveRequest.php">Approved Requests</a> </li>
@@ -470,14 +477,19 @@ span.requiredField {
   max-height: 0;
   -webkit-transition: all 0.5s ease-out;
 }
+.skin-blue .sidebar a {
+    color: #f6f6f7;
+    font-weight: 600;
+    font-size: 12px;
+}
 </style>
 <script>
 	$(document).ready(function(){
-	$('.mainmenu li > .submenu').parent().hover(function() {
-	var submenu = $(this).children('.submenu');
-	// $(".submenu ").css("display","none");	
-	$(".submenu ").css("max-height","0px");	
-		if ( $(submenu).is(':hidden') ) 
+	$('.mainmenu li > .submenu').parent().click(function() 
+	{
+		var submenu = $(this).children('.submenu');
+		$(".submenu ").css("max-height","0px");	
+		if($(submenu).is(':hidden') ) 
 		{
 			$(submenu).css("display","none");
 			$(submenu).css("max-height","0px");

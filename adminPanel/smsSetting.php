@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType =+"viewPages";
+$menuType ="smsSetting";
 $msg='';
 if(isset($_REQUEST['editStates']))
 {

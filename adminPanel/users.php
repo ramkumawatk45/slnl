@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "viewPages";
+$menuType = "users";
 ?>
 <script src="js/jquery.min.js"></script>   
 <script type="text/javascript">
@@ -16,9 +16,16 @@ $(document).ready(function()
         <!-- Main content -->
         <section class="content-header">
           <h1>&nbsp;          </h1>
-          <ol class="breadcrumb">
-            <li><b><a href="addUser.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add User</a></b></li>
-          </ol>
+		  <?php 
+			if($_SESSION['moduleRole']=="GLOBAL")
+			{ 
+			?>
+			  <ol class="breadcrumb">
+				<li><b><a href="addUser.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add User</a></b></li>
+			  </ol>
+		  <?php 
+			}
+			?>
         </section>
         <section class="content">
           <div class="row">
@@ -37,8 +44,15 @@ $(document).ready(function()
 						<th class="col-md-2">User Role</th>
 						<th class="col-md-2">User Access</th>
                         <th class="col-md-1">Status</th>
-                        <th class="col-md-1">Edit</th>
-						<th class="col-md-1">Delete</th>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
+							<th class="col-md-1">Edit</th>
+							<th class="col-md-1">Delete</th>
+						<?php
+						}
+						?>	
                       </tr>
                     </thead>
 					<tbody>
@@ -57,8 +71,15 @@ $(document).ready(function()
 						<td><?php echo $tableData['usertype']; ?></td>
 						<td><?php echo $tableData['userAccess']; ?></td>
                         <td><?php $status=$tableData['status']; if($status==0){ echo "Enabled"; } else{ echo "Disabled"; } ?></td>
-						<td><?php if($tableData['username'] !="slnl") { ?><a href='editUser.php?id=<?php echo  $tableData['id'];?>'>Edit </a> <?php } ?></td>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
+						<td><a href='editUser.php?id=<?php echo  $tableData['id'];?>'>Edit </a> </td>
                         <td> <?php if($tableData['username'] !="slnl") { ?> <a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteUser.php?id=<?php echo  $tableData['id']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a> <?php } ?></td> 
+						<?php 
+						}
+						?>
                       </tr>
                     <?php } } ?>
 				   </tbody>	

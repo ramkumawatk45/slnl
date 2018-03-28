@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "gallery";
+$menuType = "activeLoans";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -55,8 +55,8 @@ $menuType = "gallery";
             'colvis'
         ],
 		lengthMenu: [
-            [ 10, 25, 50, -1 ],
-            [ '10 ', '25 ', '50 ', 'Show all' ]
+            [ 20, 40, 100, -1 ],
+            [ '20 ', '40 ', '100 ', 'Show all' ]
         ]
     });
 	if(($("#branchAccess").val() =="VIEW") || ($("#userAccess").val() =="VIEW"))
@@ -103,6 +103,7 @@ $menuType = "gallery";
 						<th class="col-md-2">Gurdian Name</th>
 						<th class="col-md-2">Mobile No.</th>
 						<th class="col-md-2">Loan Amount</th>
+						<th class="col-md-2">No.Of EMI</th>
 						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
                         <th class="col-md-1">Status</th>
@@ -115,11 +116,11 @@ $menuType = "gallery";
 					$branchId = $_SESSION['branchId'];	
 					if($_SESSION['userType']=="ADMIN")
 					{
-						$query="SELECT * FROM loans where deleted='0' order by id Desc  ";
+						$query="select loantable.* , loanplantable.planDuration  , plantypestable.planName AS loanPlanType   from loans loantable  inner join loanplan loanplantable on loantable.loanPlanId=loanplantable.id inner join plantypes plantypestable on loanplantable.planType=plantypestable.id where loantable.status='0'  group by loantable.loanId order by loantable.id ";
 					}
 					else
 					{
-							$query=" SELECT * FROM loans where deleted='0' order by id Desc";
+							$query=" select loantable.* , loanplantable.planDuration , plantypestable.planName AS loanPlanType   from loans loantable inner join loanplan loanplantable on loantable.loanPlanId=loanplantable.id inner join plantypes plantypestable on loanplantable.planType=plantypestable.id where loantable.status='0'  and loantable.branchCode='$branchId'   group by loantable.loanId order by loantable.id";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -127,6 +128,11 @@ $menuType = "gallery";
 					$i=1;
 					foreach($pageData as $tableData)
 					{
+						$planDuration = $tableData['planDuration'];
+						if($tableData['loanPlanType'] == "DAILY")
+						{
+							$planDuration = $planDuration * 30; 
+						}
 					?>
                       <tr>
                          <td><?php echo  $i++; ?></td>
@@ -146,9 +152,10 @@ $menuType = "gallery";
 						<td><?php echo $tableData['gurdianName']; ?> </td>
 						<td><?php echo $tableData['memberMobile']; ?> </td>	
 						<td><?php echo $tableData['loanAmount']; ?> </td>
+						<td><?php echo $planDuration; ?> </td>
 						<td><?php echo $tableData['emi']; ?> </td>
 						<td><?php echo $tableData['cDate']; ?> </td>								
-                        <td><?php $status=$tableData['status']; if($status==0){ echo "Enabled"; } else{ echo "Disabled"; } ?></td>
+                        <td><?php $status=$tableData['status']; if($status==0){ echo "Active"; } else{ echo "Inactive"; } ?></td>
                         <td><a href='editloan.php?id=<?php echo  $tableData['id'];?>'>Edit </a></td>
                        <!-- <td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteArea.php?id=<?php echo  $tableData['id']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a></td>-->
                       </tr>

@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "gallery";
+$menuType = "loanDueReport";
 ?>
 <style>
  @media print{

@@ -1,10 +1,10 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "loanRejectRequest";
+$menuType = "closedLoans";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
-	var pagePrintTitle = "Loan Rejected Requests List"	
+	var fileTitle = "Closed Loan customers";
     $('#example').DataTable( {
         dom: 'Bfrtip',
         buttons: [
@@ -12,7 +12,7 @@ $menuType = "loanRejectRequest";
 			{
 			extend: 'pdf',
 			footer: true,
-			title: pagePrintTitle,
+			title: fileTitle,
 			exportOptions: {
 			columns: ':visible',
 			modifier: {
@@ -23,7 +23,7 @@ $menuType = "loanRejectRequest";
             {
                 extend: 'print',
 				footer: true,
-				title:pagePrintTitle,
+				title: fileTitle,
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -34,7 +34,7 @@ $menuType = "loanRejectRequest";
 			{
                 extend: 'copy',
 				footer: true,
-				title: pagePrintTitle,
+				title: fileTitle,
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -45,7 +45,7 @@ $menuType = "loanRejectRequest";
 			{
                 extend: 'excel',
 				footer: true,
-				title: pagePrintTitle,
+				title: fileTitle,
                 exportOptions: {
                 columns: ':visible',
 				modifier: {
@@ -68,13 +68,19 @@ $menuType = "loanRejectRequest";
 </script>
 <div class="content-wrapper">
 	
-        <!-- Main content -->		
+        <!-- Main content -->
+		<?php if($_SESSION['userType']=="ADMIN")
+				{
+		?>			
         <section class="content-header" id="addLoan">
           <h1>&nbsp;          </h1>
           <ol class="breadcrumb">
-            <li><b><a href="addLoanRequest.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Loan Request </a></b></li>
+            <li><b><a href="addLoan.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Loan </a></b></li>
           </ol>
-        </section>	
+        </section>
+		<?php 
+				}
+		?>		
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
@@ -82,7 +88,7 @@ $menuType = "loanRejectRequest";
               <div class="box">
 			   
                 <div class="box-header">
-                  <h3 class="box-title">Rejected Loan Requests</h3>
+                  <h3 class="box-title">Closed Loan customers</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
 				
@@ -90,15 +96,19 @@ $menuType = "loanRejectRequest";
                     <thead>
                       <tr>
                         <th class="col-md-1">Sr. no.</th>
+                        <th class="col-md-1">Loan Id</th>
 						<th class="col-md-1">Member Id</th>
 						<th class="col-md-2">Branch</th>
+						<th class="col-md-1">Area</th>
 						<th class="col-md-2">Customer Name</th>
 						<th class="col-md-2">Gurdian Name</th>
 						<th class="col-md-2">Mobile No.</th>
 						<th class="col-md-2">Loan Amount</th>
+						<th class="col-md-2">No.Of EMI</th>
 						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
                         <th class="col-md-1">Status</th>
+                        <!--<th class="col-md-1">Delete</th> -->
                       </tr>
                     </thead>
 					<tbody>
@@ -106,11 +116,11 @@ $menuType = "loanRejectRequest";
 					$branchId = $_SESSION['branchId'];	
 					if($_SESSION['userType']=="ADMIN")
 					{
-						$query="SELECT * FROM loanrequests where requestStatus='Rejected' and deleted='0' order by id Desc  ";
+						$query="select loantable.* , loanplantable.planDuration , max(emitable.emiNO) AS maxEmiNO , plantypestable.planName AS loanPlanType   from loans loantable inner join loanemi emitable on loantable.loanId=emitable.loanId inner join loanplan loanplantable on loantable.loanPlanId=loanplantable.id inner join plantypes plantypestable on loanplantable.planType=plantypestable.id where loantable.status='1'  group by loantable.loanId order by loantable.id ";
 					}
 					else
 					{
-							$query=" SELECT * FROM loanrequests where branchCode='$branchId' and requestStatus='Rejected'  and  deleted='0' order by id Desc";
+							$query=" select loantable.* , loanplantable.planDuration , max(emitable.emiNO) AS maxEmiNO , plantypestable.planName AS loanPlanType   from loans loantable inner join loanemi emitable on loantable.loanId=emitable.loanId inner join loanplan loanplantable on loantable.loanPlanId=loanplantable.id inner join plantypes plantypestable on loanplantable.planType=plantypestable.id where loantable.status='1'  and loantable.branchCode='$branchId'   group by loantable.loanId order by loantable.id";
 					}	
 					$pageData=fetchData($query);
 					if (is_array($pageData) || is_object($pageData))
@@ -118,23 +128,38 @@ $menuType = "loanRejectRequest";
 					$i=1;
 					foreach($pageData as $tableData)
 					{
+						$planDuration = $tableData['planDuration'];
+						if($tableData['loanPlanType'] == "DAILY")
+						{
+							$planDuration = $planDuration * 30; 
+						}	
+						if($planDuration  == $tableData['maxEmiNO'])
+						{	
 					?>
                       <tr>
                          <td><?php echo  $i++; ?></td>
-						 <td><a Title="Pay EMI"><?php echo $tableData['memberId']; ?></a></td>
-						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' and branchCode!='0' ";
+						 <td><a href="loansEMI.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['loanId']; ?> </a></td>
+						 <td><a href="custDueReport.php?id=<?php echo $tableData['loanId']; ?>" Title="Pay EMI"><?php echo $tableData['memberId']; ?></a></td>
+						<td><?php $branchCode = $tableData['branchCode']; $queryBranch="SELECT * FROM branchs where branchId='$branchCode' and status='0' and deleted='0' ";
 						$menuDatas=fetchData($queryBranch);
 						foreach($menuDatas as $branchData)
 						{  echo $branchData['branchName']." - ".$branchData['branchCode']; } ?> </td>
+						<td><?php $areaId = $tableData['areaId']; $queryBranch="SELECT * FROM areas where areaId='$areaId' and status='0' and deleted='0' ";
+						$menuDatas=fetchData($queryBranch);
+						if($menuDatas)
+						{
+						foreach($menuDatas as $branchData)
+						{  echo $branchData['areaName']; } } ?> </td>
 						<td><?php echo $tableData['applicantName']; ?> </td>
 						<td><?php echo $tableData['gurdianName']; ?> </td>
 						<td><?php echo $tableData['memberMobile']; ?> </td>	
 						<td><?php echo $tableData['loanAmount']; ?> </td>
+						<td><?php echo $planDuration; ?> </td>
 						<td><?php echo $tableData['emi']; ?> </td>
-						<td><?php echo custumDateFormat($tableData['createDate']); ?> </td>								
-                        <td><?php echo $tableData['requestStatus']; ?></td>
+						<td><?php echo $tableData['cDate']; ?> </td>								
+                        <td><?php $status=$tableData['status']; if($status==0){ echo "Active"; } else{ echo "Closed"; } ?></td>
                       </tr>
-                    <?php } } ?>
+						<?php }} } ?>
 					  </tbody>
                   </table>
                 </div><!-- /.box-body -->
@@ -148,5 +173,4 @@ $menuType = "loanRejectRequest";
           
         </section><!-- /.content -->
       </div>
-	  
 <?php include("common/adminFooter.php");?>

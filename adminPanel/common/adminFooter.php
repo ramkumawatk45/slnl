@@ -69,7 +69,10 @@
 </html>
 <script>
 var menuType = "<?php echo $menuType ?>";
+console.log(menuType);
 $("."+menuType).addClass("active");
+$("."+menuType).parent().css("display","block");
+$("."+menuType).parent().css("max-height","300px");
 </script>
 <?php
  if($msg){?>

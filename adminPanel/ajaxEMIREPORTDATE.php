@@ -9,7 +9,7 @@ $todate = explode('/',$_GET["to_date"]);
 $toDates= $todate[2].'-'.$todate[1].'-'.$todate[0];
 if($_SESSION['userType']=="ADMIN")
 {
-	$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' and loanemi.deleted='0' where loanemi.newPaymentDate between '$fromDates'  and '$toDates' order by loanemi.emiNo,loanemi.newPaymentDate Desc  ";
+	$query="SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loans.deleted='0' where loanemi.newPaymentDate between '$fromDates'  and '$toDates' and loanemi.deleted='0' order by loanemi.emiNo,loanemi.newPaymentDate Desc  ";
 	
 }
 else

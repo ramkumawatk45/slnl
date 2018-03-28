@@ -16,9 +16,16 @@ $(document).ready(function()
         <!-- Main content -->
         <section class="content-header">
           <h1>&nbsp;          </h1>
-          <ol class="breadcrumb">
-            <li><b><a href="addTrainingCenter.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Branch</a></b></li>
-          </ol>
+		  <?php 
+			if($_SESSION['moduleRole']=="GLOBAL")
+			{ 
+			?>
+			  <ol class="breadcrumb">
+				<li><b><a href="addTrainingCenter.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Branch</a></b></li>
+			  </ol>
+		   <?php 
+			}
+			?>
         </section>
         <section class="content">
           <div class="row">
@@ -35,10 +42,16 @@ $(document).ready(function()
                         <th class="col-md-1">Sr. no.</th>
                         <th>Branch Name </th>
                         <th class="col-md-2">Contact No</th>
-                        
                         <th class="col-md-1">Status</th>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
                         <th class="col-md-1">Edit</th>
 						<th class="col-md-1">Delete</th>
+						<?php
+						}
+						?>
                       </tr>
                     </thead>
 					<tbody>
@@ -56,8 +69,15 @@ $(document).ready(function()
                         <td><?php echo $tableData['branchName']; ?></td>
                         <td><?php echo $tableData['phoneNo']; ?> </td>
                         <td><?php $status=$tableData['status']; if($status==0){ echo "Enabled"; } else{ echo "Disabled"; } ?></td>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
 						<td><a href='editTrainingCenter.php?id=<?php echo  $tableData['branchId'];?>&districtId=<?php echo  $tableData['districtId'];?>&areacode=<?php echo  $tableData['areacode'];?> '>Edit </a></td>
                         <td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteTrainingCenter.php?id=<?php echo  $tableData['branchId']; ?>&branchCode=<?php echo  $tableData['branchCode']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']) ?>' name="subDelete">Delete</a></td> 
+						<?php 
+						}
+						?>
                       </tr>
                     <?php } } ?>
 				   </tbody>	

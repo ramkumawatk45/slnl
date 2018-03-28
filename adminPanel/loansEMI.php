@@ -66,6 +66,11 @@ function dateRanges( $first, $step = '+1 day', $format = 'Y-m-d' )
 				serviceCharge = parseInt($("#serviceCharge").val());
 				$("#totalAmount").val(parseInt(penaltyresult+serviceCharge+emi));
 				$("#lateFee").val(penaltyresult);
+				var branchCode = "<?php echo $_SESSION['branchCode']; ?>";
+				if(branchCode == 0)
+				{	
+					$("#lateFee").removeAttr("readonly");
+				}	
 		}	
 		else
 		{
@@ -92,6 +97,18 @@ function dateRanges( $first, $step = '+1 day', $format = 'Y-m-d' )
 			//$("#loanEMI").addClass("readWriteAccess");
 			$("#Emi-Details").addClass("readWriteAccess");
 		}		
+		$('#lateFee').on('keyup change',function()
+		{
+			var lateFees =0;
+			if($("#lateFee").val())
+			{	
+				lateFees = parseInt($("#lateFee").val());
+			}
+			var serviceCharges = parseInt($("#serviceCharge").val());
+			var totalAmout = parseInt(serviceCharges+emi+lateFees);
+			$("#totalAmount").val(totalAmout);
+		});	
+		
 	})
 	
 
@@ -601,7 +618,7 @@ setTimeout(explode, 500);
                         </div>
 						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle" >Date</label>
-                        <input type="text" class="form-control  <?php if($_SESSION['branchCode']){echo "disabled";} else{ echo 'date';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
+                        <input type="text" class="form-control  <?php if($_SESSION['branchCode'] =='0' && ($_SESSION['moduleRole']) =="NORMAL"){echo "disabled";} else{ echo 'date';} ?>"  readonly name="cDate" id='currentDate' value="<?php echo date('d/m/Y')?>" maxlength="15" required />                   
                         </div>
 						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle" >Due Date</label>
@@ -626,7 +643,6 @@ setTimeout(explode, 500);
 						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle">Penalty Deduct </label>
                         <input type="hidden" class="form-control"  id="lateFees" name="lateFees" value="<?php  echo $defaults['defaultVal']; ?>"  maxlength="15" />                   
-						  <input type="hidden" class="form-control"  id="lateFee" name="lateFee" /> 
 						 <select class="form-control" name="penaltyDeduct" id="penaltyDeduct" >
 							<option <?php if($defaults['status']=="1") { echo 'selected';} ?>value="0">No</option>
 							<option <?php if($defaults['status']=="0") { echo 'selected';} ?>value="1">Yes</option>
@@ -635,6 +651,10 @@ setTimeout(explode, 500);
 						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                         <label for="pageTitle" >Penalty Days</label>
                         <input type="text" class="form-control "  readonly name="penaltyDeductDays" id='penaltyDeductDays' value="0" maxlength="15" />                   
+                        </div>	
+						<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
+                        <label for="pageTitle" >Penalty Rs</label>
+                        <input type="text" class="form-control "  readonly name="lateFee" id='lateFee' value="0" maxlength="15" />                   
                         </div>	
 						<?php 
 						}
@@ -661,15 +681,15 @@ setTimeout(explode, 500);
 					<option value="cheque">Cheque</option>
 					</select>
                     </div>
-					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
+					<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                       <label for="pageTitle">Cheque No</label>
                       <input type="text" class="form-control" id="chequeNo" name="chequeNo" placeholder="Cheque No" maxlength="10"  />                  
                     </div>
-					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
+					<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                       <label for="pageTitle">Cheque Date</label>
                       <input type="text" class="form-control date" id="chequeDate" name="chequeDate" placeholder="Cheque Date " />                  
                     </div>
-					<div class="form-group col-md-4  col-sm-4 col-xs-4 ">
+					<div class="form-group col-md-3  col-sm-3 col-xs-3 ">
                       <label for="pageTitle">Bank Name</label>
                       <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank Name" />                  
                     </div>
@@ -685,11 +705,12 @@ setTimeout(explode, 500);
                   <table id="category" class="table table-bordered table-striped" >
                     <thead>
                       <tr>
-                        <th class="col-md-1">EMI No.</th>
-                        <th class="col-md-1">Due Date</th>
-						<th class="col-md-1">Pay Date</th>
-						<th class="col-md-1">Amount</th>
-						<th class="col-md-1">LateFine</th>
+                        <th class="col-md-1">EMINo.</th>
+                        <th class="col-md-1">DueDate</th>
+						<th class="col-md-1">PayDate</th>
+						<th class="col-md-1">EMIAmt</th>
+						<th class="col-md-1">LateAmt</th>
+						<th class="col-md-1">ServiceCh.</th>
 						<th class="col-md-1">Print MR</th>
                       </tr>
                     </thead>
@@ -707,6 +728,7 @@ setTimeout(explode, 500);
 						<td><?php echo $emiData['paymentDate'];?></td>
 						<td><?php echo $emiData['emiAmount']; ?></td>
 						<td><?php echo $emiData['lateFee'];?></td>
+						<td><?php echo $emiData['serviceCharge'];?></td>
 						<td><a target="_blank" href="print_emireceipt.php?emiNo=<?php echo $emiData['emiNo'];?>&loanId=<?php echo $loanData['loanId']; ?>">Print MR</a></td>
 					</tr>
 						<?php 

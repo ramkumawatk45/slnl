@@ -110,7 +110,14 @@ $(document).ready(function() {
 						<th>EMI Date</th>
 						<th>Payment Date</th>
                         <th>EMI(RS.)</th>
-						<th>Delete</th>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
+							<th>Delete</th>
+						<?php
+						}
+						?>
                       </tr>
                     </thead>
 					
@@ -122,7 +129,7 @@ $(document).ready(function() {
 						$today=date('Y-m-d');
 						if($_SESSION['userType']=="ADMIN")
 						{
-							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loanemi.deleted='0'and loans.deleted='0'where loans.loanId='$loanId' ";
+							$query=" SELECT * FROM loans inner join loanemi on loans.loanId=loanemi.loanId and loanemi.deleted='0'and loans.deleted='0'where loans.loanId='$loanId' order by loanemi.emiNo Desc";
 						}
 						else
 						{
@@ -153,7 +160,14 @@ $(document).ready(function() {
 								<td> <?php echo $tableData['dueDate'];   ?></td>
 								<td> <?php echo $tableData['paymentDate'];   ?></td>
 								<td><?php echo $tableData['emi']; ?> </td>
+								<?php 
+								if($_SESSION['moduleRole']=="GLOBAL")
+								{ 
+								?>
 								<td><a  onClick="javascript: return confirm('Please confirm deletion');" href='deleteLoanEMI.php?id=<?php echo  $tableData['loanId']; ?>&emiNo=<?php echo  $tableData['emiNo']; ?>&url=<?php echo basename($_SERVER['PHP_SELF']); ?>' name="subDelete">Delete</a></td>
+								<?php
+								}
+								?>
 						  </tr>
 						  
 						<?php  }} ?>

@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "loanRequest";
+$menuType = "loanPendingRequest";
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -99,7 +99,14 @@ $menuType = "loanRequest";
 						<th class="col-md-2">EMI</th>
 						<th class="col-md-2">Create Date</th>
                         <th class="col-md-1">Status</th>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
                         <th class="col-md-1">View</th>
+						<?php 
+						}
+						?>
                       </tr>
                     </thead>
 					<tbody>
@@ -134,7 +141,14 @@ $menuType = "loanRequest";
 						<td><?php echo $tableData['emi']; ?> </td>
 						<td><?php echo custumDateFormat($tableData['createDate']); ?> </td>								
                         <td><?php echo $tableData['requestStatus']; ?></td>
+						<?php 
+						if($_SESSION['moduleRole']=="GLOBAL")
+						{ 
+						?>
                         <td><a href='viewloanRequest.php?id=<?php echo  $tableData['id'];?>'>View </a></td>
+						<?php 
+						}
+						?>
                       </tr>
                     <?php } } ?>
 					  </tbody>

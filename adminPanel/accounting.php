@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType = "gallery";
+$menuType = "accounting";
 ?> 
 <script type="text/javascript">
  // $("#loading").removeClass('hide');
@@ -308,4 +308,4 @@ $(document).ready(function(){
           
         </section><!-- /.content -->
       </div>
-<?php include("common/webAdminFooter.php");?>
+<?php include("common/adminFooter.php");?>

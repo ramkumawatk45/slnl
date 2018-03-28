@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType ="loans";
+$menuType ="activeLoans";
 $id=$_REQUEST['id'];
 $msg='';
 $pageHrefLink='';
@@ -14,43 +14,43 @@ function dateRange( $first, $step = '+1 day', $format = 'Y-m-d' )
 }
 if(isset($_REQUEST['addStates']))
 {
-	 $branchId = $_REQUEST['branchId'];
-	 $loanId = $_REQUEST['loanId'];
-	 $formNo = $_REQUEST['formNo'];
-	 $memberId = $_REQUEST['memberId'];
-	 $cDate = $_REQUEST['cDate'];
+	 $branchId = trim($_REQUEST['branchId']);
+	 $loanId = trim($_REQUEST['loanId']);
+	 $formNo = trim($_REQUEST['formNo']);
+	 $memberId = trim($_REQUEST['memberId']);
+	 $cDate = trim($_REQUEST['cDate']);
 	 $createdate = explode('/', $cDate);
 	 $month = $createdate[1];
 	 $day   = $createdate[0];
 	 $year  = $createdate[2];
 	 $joincDate = $year.'-'.$month.'-'.$day;
-	 $applicantName = $_REQUEST['applicantName'];
-	 $gurdianName = $_REQUEST['gurdianName'];
-	 $applicantDob = $_REQUEST['applicantDob'];
-	 $applicantAge = $_REQUEST['applicantAge'];
-	 $address = $_REQUEST['address'];
+	 $applicantName = trim($_REQUEST['applicantName']);
+	 $gurdianName = trim($_REQUEST['gurdianName']);
+	 $applicantDob = trim($_REQUEST['applicantDob']);
+	 $applicantAge = trim($_REQUEST['applicantAge']);
+	 $address = trim($_REQUEST['address']);
 	 $state = $_REQUEST['state'];
 	 $district = $_REQUEST['district'];
 	 $area = $_REQUEST['area'];
-	 $zipCode = $_REQUEST['zipCode'];
+	 $zipCode = trim($_REQUEST['zipCode']);
 	 $gender = $_REQUEST['gender'];
 	 $maritalStatus = $_REQUEST['maritalStatus'];
-	 $gMemberNo = $_REQUEST['gMemberNo'];
-	 $gMemberName = $_REQUEST['gMemberName'];
-	 $gMemberMobile = $_REQUEST['gMemberMobile'];
+	 $gMemberNo = trim($_REQUEST['gMemberNo']);
+	 $gMemberName = trim($_REQUEST['gMemberName']);
+	 $gMemberMobile = trim($_REQUEST['gMemberMobile']);
 	 $planId = $_REQUEST['planId'];
 	 $planType = $_REQUEST['planType'];
-	 $loanAmount = $_REQUEST['loanAmount'];
-	 $rateOfInterest = $_REQUEST['rateOfInterest'];
-	 $emi = $_REQUEST['emi'];
-	 $paymentMode = $_REQUEST['paymentMode'];
-	 $chequeNo = $_REQUEST['chequeNo'];
-	 $chequeDate = $_REQUEST['chequeDate'];
-	 $bankAc = $_REQUEST['bankAc'];
-	 $bankName = $_REQUEST['bankName'];
-	 $loanPurpose = $_REQUEST['loanPurpose'];
-	 $memberMobile = $_REQUEST['memberMobile'];
-	 $memberEmail = $_REQUEST['memberEmail'];
+	 $loanAmount = trim($_REQUEST['loanAmount']);
+	 $rateOfInterest = trim($_REQUEST['rateOfInterest']);
+	 $emi = trim($_REQUEST['emi']);
+	 $paymentMode = trim($_REQUEST['paymentMode']);
+	 $chequeNo = trim($_REQUEST['chequeNo']);
+	 $chequeDate = trim($_REQUEST['chequeDate']);
+	 $bankAc = trim($_REQUEST['bankAc']);
+	 $bankName = trim($_REQUEST['bankName']);
+	 $loanPurpose = trim($_REQUEST['loanPurpose']);
+	 $memberMobile = trim($_REQUEST['memberMobile']);
+	 $memberEmail = trim($_REQUEST['memberEmail']);
 	 $status = $_REQUEST['status'];
 	 $planTypes ="";
 	$planQuery="SELECT * FROM plantypes where id='$planType' and deleted='0' ";
@@ -190,8 +190,9 @@ $(document).ready(function(){
 					<input type="hidden" id="districtId" value="<?php echo $loanData['districtId']; ?>">
 					<input type="hidden" id="areaCode" value="<?php echo $loanData['areaId']; ?>">
                  <div class="box-body">
-						<div class="form-group col-md-2">
-                        <label for="pageTitle">Branch</label>
+					<div class="col-md-6 ">
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Branch <span class="requiredField">*</span></label>
 						<select class="form-control" name="branchId" id="branchId" required <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
 						<?php 
                     	$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode!='0' ";
@@ -200,105 +201,33 @@ $(document).ready(function(){
 						{ ?><option <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
 						</select>
 						</div>
-						<div class="form-group col-md-2">
-                        <label for="pageTitle">Loan Id</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Loan Id <span class="requiredField">*</span></label>
                         <input type="text" class="form-control" id="loanId" name="loanId" value="<?php echo $loanData['loanId']; ?>"  maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-2">
-                        <label for="pageTitle">Form No.</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Form No. <span class="requiredField">*</span></label>
                         <input type="text" class="form-control" id="formNo" name="formNo" value="<?php echo $loanData['formId']; ?>" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Member Id</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Member Id <span class="requiredField">*</span></label>
                         <input type="text" class="form-control" id="memberId" name="memberId" value="<?php echo $loanData['memberId']; ?>" maxlength="15" required />                   
-                        </div><div class="form-group col-md-3">
-                        <label for="pageTitle" >Date</label>
+                        </div><div class="form-group col-md-4">
+                        <label for="pageTitle" >Date <span class="requiredField">*</span></label>
                         <input type="text" class="form-control date" id="cDate" name="cDate" value="<?php echo $loanData['cDate']; ?>" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Applicant Name</label>
-                        <input type="text" class="form-control" id="applicantName" name="applicantName" value="<?php echo $loanData['applicantName']; ?>" maxlength="150" required />                   
-                        </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Gurdian Name</label>
-                        <input type="text" class="form-control" id="gurdianName" name="gurdianName" value="<?php echo $loanData['gurdianName']; ?>" maxlength="150" required />                   
-                        </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Holders's DOB</label>
-                        <input type="text" class="form-control date" id="applicantDob" name="applicantDob" value="<?php echo $loanData['dob']; ?>" maxlength="150" required />                   
-                        </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Holders's Age</label>
-                        <input type="text" class="form-control" id="applicantAge" name="applicantAge" value="<?php echo $loanData['age']; ?>" maxlength="150" required />                   
-                        </div>
-						<div class="form-group col-md-3">
-                      <label for="pageTitle">Address</label>
-                      <textarea class="form-control" id="address" name="address" placeholder="Address " maxlength="100"><?php echo $loanData['address']; ?></textarea>                  
-						</div>
-						<div class="form-group col-md-2">
-                      <label>State</label>
-                      <select class="form-control" name="state" id="state" required>
-                      <option value="0" >Select State</option>
-                     <?php 
-                    $query="SELECT * FROM states where deleted='0' and status='0'";
-					$stateData=fetchData($query);
-					foreach($stateData as $tableData)
-					{ ?><option <?php if($tableData['stateId'] == $loanData['stateId']) { echo 'selected';} ?> value="<?php echo $tableData['stateId']; ?>"><?php  echo $tableData['stateName'] ?></option> <?php } ?>
-                      </select>
-                    </div>
-					<div class="form-group col-md-2">
-                      <label>District</label>
-                      <select class="form-control" name="district" id="district" required> </select>
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Area</label>
-                      <select class="form-control" name="area" id="area" required>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Loan plan <span class="requiredField">*</span></label>
+						<select class="form-control" name="planId" id="planId" required>
+						 <?php 
+							$query="SELECT * FROM loanplan where deleted='0' and status='0'";
+							$menuData=fetchData($query);
+							foreach($menuData as $tableData)
+							{ ?><option <?php if($tableData['id'] ==$loanData['loanPlanId']) { echo 'selected';} ?> value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
 						</select>
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle"> Zip Code </label>
-                      <input type="text" class="form-control" id="zipCode" name="zipCode" value="<?php echo $loanData['zipCode']; ?>" maxlength="6"  required />                  
-                    </div>
-					<div class="form-group col-md-3">
-                    <label for="pageTitle">Gender </label>
-					<select class="form-control" name="gender" id="gender"> 
-					<option value=""></option>
-					<option value="male"<?php if($loanData['sex'] =='male') { echo 'selected';} ?>>Male</option>
-					<option value="female" <?php if($loanData['sex'] =='female') { echo 'selected'; } ?>>Female</option>
-					</select>                    
-					</div>
-					<div class="form-group col-md-2">
-                    <label for="pageTitle">Marital Status</label>
-					<select class="form-control" name="maritalStatus" id="maritalStatus"> 
-					<option value=""></option>
-					<option value="married" <?php if($loanData['maritalStatus'] =='married') { echo 'selected';} ?>>Married</option>
-					<option value="single" <?php if($loanData['maritalStatus'] =='single') { echo 'selected';} ?>>Single</option>
-					<option value="others" <?php if($loanData['maritalStatus'] =='others') { echo 'selected';} ?>>Others</option>
-					</select>	                   
-					</div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle"> Guarantor Member No </label>
-                      <input type="text" class="form-control" id="gMemberNo" name="gMemberNo" value="<?php echo $loanData['gMemberNo']; ?>" maxlength="15"  required />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle"> Guarantor Name</label>
-                      <input type="text" class="form-control" id="gMemberName" name="gMemberName" value="<?php echo $loanData['gName']; ?>" maxlength="100"  required />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Guarantor Mobile No.</label>
-                      <input type="text" class="form-control" id="gMemberMobile" name="gMemberMobile" value="<?php echo $loanData['gMobile']; ?>" maxlength="13"  required />                  
-                    </div>
-						 <div class="form-group col-md-3">
-                        <label for="pageTitle">Loan plan </label>
-					<select class="form-control" name="planId" id="planId" required>
-                     <?php 
-                    	$query="SELECT * FROM loanplan where deleted='0' and status='0'";
-						$menuData=fetchData($query);
-						foreach($menuData as $tableData)
-						{ ?><option <?php if($tableData['id'] ==$loanData['loanPlanId']) { echo 'selected';} ?> value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
-                      </select>                        </div>
-                       <div class="form-group col-md-2">
-                      <label>Plan Type</label>
+						</div>
+                    <div class="form-group col-md-4">
+                      <label>Plan Type <span class="requiredField">*</span></label>
                       <select class="form-control" name="planType" id="planType" required>
                      <?php 
                     	$query="SELECT * FROM plantypes where deleted='0' and status='0' and planType='LOAN'";
@@ -306,65 +235,137 @@ $(document).ready(function(){
 						foreach($menuData as $tableData)
 						{ ?><option <?php if($tableData['id'] ==$loanData['planTypeId']) { echo 'selected';} ?> value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
                       </select>
-						</div>
-                       <div class="form-group col-md-2">
-                      <label for="pageTitle">Loan Amount  </label>
+					</div>
+                    <div class="form-group col-md-4">
+                      <label for="pageTitle">Loan Amount  <span class="requiredField">*</span></label>
                       <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="<?php echo $loanData['loanAmount']; ?>" maxlength="10" required />                  
                     </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Rate Of Interest(%)  </label>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Rate Of Interest(%)  <span class="requiredField">*</span></label>
                       <input type="text" class="form-control" id="rateOfInterest" name="rateOfInterest" value="<?php echo $loanData['rateOfInterest']; ?>" maxlength="5"  required />                  
                     </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">EMI  </label>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">EMI  <span class="requiredField">*</span></label>
                       <input type="text" class="form-control" id="emi" name="emi" value="<?php echo $loanData['emi']; ?>" maxlength="5"  required />                  
                     </div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
 				  <label for="pageTitle">Payment Mode</label>
 				  <select class="form-control" name="paymentMode" id="paymentMode"> 
 					<option value="cash" <?php if($loanData['pMode'] =="cash") { echo 'selected';} ?>>Cash</option>
 					<option value="cheque" <?php if($loanData['pMode'] =="cheque") { echo 'selected';} ?>>Cheque</option>
 					</select>
                     </div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
                       <label for="pageTitle">Cheque No</label>
                       <input type="text" class="form-control" id="chequeNo" name="chequeNo" value="<?php echo $loanData['chequeNo']; ?>" maxlength="10"  />                  
                     </div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
                       <label for="pageTitle">Cheque Date</label>
                       <input type="text" class="form-control date" id="chequeDate" name="chequeDate" value="<?php echo $loanData['chequeDate']; ?>" />                  
                     </div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
                       <label for="pageTitle">Bank A/C</label>
                       <input type="text" class="form-control" id="bankAc" name="bankAc" value="<?php echo $loanData['bankAC']; ?>" />                  
                     </div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
                       <label for="pageTitle">Bank Name</label>
                       <input type="text" class="form-control" id="bankName" name="bankName" value="<?php echo $loanData['bankName']; ?>" />                  
                     </div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
                       <label for="pageTitle">Loan Purpose</label>
                       <input type="text" class="form-control" id="loanPurpose" name="loanPurpose" value="<?php echo $loanData['loanPurpose']; ?>" />                  
                     </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Member Mobile No</label>
-                      <input type="text" class="form-control" id="memberMobile" name="memberMobile" value="<?php echo $loanData['memberMobile']; ?>" />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Member Email</label>
-                      <input type="text" class="form-control" id="memberEmail" name="memberEmail" value="<?php echo $loanData['memberEmail']; ?>" />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Member Photo</label>
-                      <input type="File" class="form-control" id="memberPhoto" name="memberPhoto" value="<?php echo $loanData['loanId']; ?>" />                  
-                    </div>
-                        <div class="form-group col-md-3">
+				</div>
+				<div class="col-md-6 ">	
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Applicant Name <span class="requiredField">*</span></label>
+                        <input type="text" class="form-control" id="applicantName" name="applicantName" value="<?php echo $loanData['applicantName']; ?>" maxlength="150" required /> </div>
+						
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Gurdian Name <span class="requiredField">*</span></label>
+                        <input type="text" class="form-control" id="gurdianName" name="gurdianName" value="<?php echo $loanData['gurdianName']; ?>" maxlength="150" required />     </div>
+						
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Holders's DOB <span class="requiredField">*</span></label>
+                        <input type="text" class="form-control date" id="applicantDob" name="applicantDob" value="<?php echo $loanData['dob']; ?>" maxlength="150" required />       </div>
+						
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Holders's Age <span class="requiredField">*</span></label>
+                        <input type="text" class="form-control" id="applicantAge" name="applicantAge" value="<?php echo $loanData['age']; ?>" maxlength="150" required />          </div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Address <span class="requiredField">*</span></label>
+						<textarea class="form-control" id="address" name="address" placeholder="Address " maxlength="100" required><?php echo $loanData['address']; ?></textarea>   </div>
+						<div class="form-group col-md-4">
+						<label>State <span class="requiredField">*</span></label>
+						<select class="form-control" name="state" id="state" required>
+						  <option value="0" >Select State</option>
+						 <?php 
+						$query="SELECT * FROM states where deleted='0' and status='0'";
+						$stateData=fetchData($query);
+						foreach($stateData as $tableData)
+						{ ?><option <?php if($tableData['stateId'] == $loanData['stateId']) { echo 'selected';} ?> value="<?php echo $tableData['stateId']; ?>"><?php  echo $tableData['stateName'] ?></option> <?php } ?>
+						  </select>
+						</div>
+						<div class="form-group col-md-4">
+						  <label>District <span class="requiredField">*</span></label>
+						  <select class="form-control" name="district" id="district" required> </select>
+						</div>
+						<div class="form-group col-md-4">
+						  <label for="pageTitle">Area <span class="requiredField">*</span></label>
+						  <select class="form-control" name="area" id="area" required>
+							</select>
+						</div>
+						<div class="form-group col-md-4">
+						  <label for="pageTitle"> Zip Code <span class="requiredField">*</span></label>
+						  <input type="text" class="form-control" id="zipCode" name="zipCode" value="<?php echo $loanData['zipCode']; ?>" maxlength="6"  required />                  
+						</div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Gender <span class="requiredField">*</span></label>
+						<select class="form-control" name="gender" id="gender" required> 
+						<option value=""></option>
+						<option value="male"<?php if($loanData['sex'] =='male') { echo 'selected';} ?>>Male</option>
+						<option value="female" <?php if($loanData['sex'] =='female') { echo 'selected'; } ?>>Female</option>
+						</select>                    
+						</div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Marital Status <span class="requiredField">*</span></label>
+						<select class="form-control" name="maritalStatus" id="maritalStatus" required> 
+						<option value=""></option>
+						<option value="married" <?php if($loanData['maritalStatus'] =='married') { echo 'selected';} ?>>Married</option>
+						<option value="single" <?php if($loanData['maritalStatus'] =='single') { echo 'selected';} ?>>Single</option>
+						<option value="others" <?php if($loanData['maritalStatus'] =='others') { echo 'selected';} ?>>Others</option>
+						</select>	                   
+						</div>
+						 <div class="form-group col-md-4">
                         <label>Status</label>
                         <select class="form-control" name="status">
-                        <option value="0" <?php if($loanData['status'] =="0") { echo 'selected';} ?>>Enabled </option>
-                        <option value="1" <?php if($loanData['status'] =="1") { echo 'selected';} ?> >Disabled</option>
+                        <option value="0" <?php if($loanData['status'] =="0") { echo 'selected';} ?>>Active </option>
+                        <option value="1" <?php if($loanData['status'] =="1") { echo 'selected';} ?> >Inactive</option>
                         </select>
                         </div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Member Mobile No <span class="requiredField">*</span></label>
+						<input type="text" class="form-control" id="memberMobile" name="memberMobile" value="<?php echo $loanData['memberMobile']; ?>" required />                  
+						</div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Member Email</label>
+						<input type="text" class="form-control" id="memberEmail" name="memberEmail" value="<?php echo $loanData['memberEmail']; ?>" />                  
+						</div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Member Photo</label>
+						<input type="File" class="form-control" id="memberPhoto" name="memberPhoto" value="<?php echo $loanData['loanId']; ?>" />                  
+						</div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle"> Guarantor Member No <span class="requiredField">*</span></label>
+						<input type="text" class="form-control" id="gMemberNo" name="gMemberNo" value="<?php echo $loanData['gMemberNo']; ?>" maxlength="15"  required />           </div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle"> Guarantor Name <span class="requiredField">*</span></label>
+						<input type="text" class="form-control" id="gMemberName" name="gMemberName" value="<?php echo $loanData['gName']; ?>" maxlength="100"  required />          </div>
+						<div class="form-group col-md-4">
+						<label for="pageTitle">Guarantor Mobile No. <span class="requiredField">*</span></label>
+						<input type="text" class="form-control" id="gMemberMobile" name="gMemberMobile" value="<?php echo $loanData['gMobile']; ?>" maxlength="13"  required />   
+						</div>   
+					</div>	
                   </div><!-- /.box-body -->
 				  <?php
 					}

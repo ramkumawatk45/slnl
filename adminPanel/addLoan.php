@@ -1,6 +1,6 @@
 <?php
 include("controller/pages_controller.php");
-$menuType ="loans";
+$menuType ="activeLoans";
 $msg='';
 $pageHrefLink='';
 function dateRange( $first, $step = '+1 day', $format = 'd/m/Y' ) 
@@ -14,42 +14,42 @@ function dateRange( $first, $step = '+1 day', $format = 'd/m/Y' )
 if(isset($_REQUEST['addStates']))
 {
 	 $branchId = $_REQUEST['branchId'];
-	 $loanId = $_REQUEST['loanId'];
-	 $formNo = $_REQUEST['formNo'];
-	 $memberId = $_REQUEST['memberId'];
-	 $cDate = $_REQUEST['cDate'];
+	 $loanId = trim($_REQUEST['loanId']);
+	 $formNo = trim($_REQUEST['formNo']);
+	 $memberId = trim($_REQUEST['memberId']);
+	 $cDate = trim($_REQUEST['cDate']);
 	 $createdate = explode('/', $cDate);
 	 $month = $createdate[1];
 	 $day   = $createdate[0];
 	 $year  = $createdate[2];
 	 $joincDate = $year.'-'.$month.'-'.$day;
-	 $applicantName = $_REQUEST['applicantName'];
-	 $gurdianName = $_REQUEST['gurdianName'];
-	 $applicantDob = $_REQUEST['applicantDob'];
-	 $applicantAge = $_REQUEST['applicantAge'];
-	 $address = $_REQUEST['address'];
+	 $applicantName = trim($_REQUEST['applicantName']);
+	 $gurdianName = trim($_REQUEST['gurdianName']);
+	 $applicantDob = trim($_REQUEST['applicantDob']);
+	 $applicantAge = trim($_REQUEST['applicantAge']);
+	 $address = trim($_REQUEST['address']);
 	 $state = $_REQUEST['state'];
 	 $district = $_REQUEST['district'];
 	 $area = $_REQUEST['area'];
-	 $zipCode = $_REQUEST['zipCode'];
+	 $zipCode = trim($_REQUEST['zipCode']);
 	 $gender = $_REQUEST['gender'];
 	 $maritalStatus = $_REQUEST['maritalStatus'];
-	 $gMemberNo = $_REQUEST['gMemberNo'];
-	 $gMemberName = $_REQUEST['gMemberName'];
-	 $gMemberMobile = $_REQUEST['gMemberMobile'];
+	 $gMemberNo = trim($_REQUEST['gMemberNo']);
+	 $gMemberName = trim($_REQUEST['gMemberName']);
+	 $gMemberMobile = trim($_REQUEST['gMemberMobile']);
 	 $planId = $_REQUEST['planId'];
 	 $planType = $_REQUEST['planType'];
-	 $loanAmount = $_REQUEST['loanAmount'];
-	 $rateOfInterest = $_REQUEST['rateOfInterest'];
-	 $emi = $_REQUEST['emi'];
-	 $paymentMode = $_REQUEST['paymentMode'];
-	 $chequeNo = $_REQUEST['chequeNo'];
-	 $chequeDate = $_REQUEST['chequeDate'];
-	 $bankAc = $_REQUEST['bankAc'];
-	 $bankName = $_REQUEST['bankName'];
-	 $loanPurpose = $_REQUEST['loanPurpose'];
-	 $memberMobile = $_REQUEST['memberMobile'];
-	 $memberEmail = $_REQUEST['memberEmail'];
+	 $loanAmount = trim($_REQUEST['loanAmount']);
+	 $rateOfInterest = trim($_REQUEST['rateOfInterest']);
+	 $emi = trim($_REQUEST['emi']);
+	 $paymentMode = trim($_REQUEST['paymentMode']);
+	 $chequeNo = trim($_REQUEST['chequeNo']);
+	 $chequeDate = trim($_REQUEST['chequeDate']);
+	 $bankAc = trim($_REQUEST['bankAc']);
+	 $bankName = trim($_REQUEST['bankName']);
+	 $loanPurpose = trim($_REQUEST['loanPurpose']);
+	 $memberMobile = trim($_REQUEST['memberMobile']);
+	 $memberEmail = trim($_REQUEST['memberEmail']);
 	 $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp'); // valid extensions
 	$path ="uploads/"; // upload directory
 	$img = $_FILES['memberPhoto']['name'];
@@ -170,8 +170,9 @@ $(document).ready(function(){
                 <!-- form start -->
                 <form role="form"  action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
                  <div class="box-body">
-						<div class="form-group col-md-2">
-                        <label for="pageTitle">Branch</label>
+					<div class="col-md-6 ">
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Branch <span class="requiredField">*</span> </label>
 						<select class="form-control" name="branchId" id="branchId" required <?php if($_SESSION['branchCode']){echo "disabled";} ?>>
 						<?php 
                     	$query="SELECT * FROM branchs where deleted='0' and status='0' and branchCode!='0'";
@@ -180,43 +181,104 @@ $(document).ready(function(){
 						{ ?><option <?php if($_SESSION['branchCode'] ==$tableData['branchCode']){echo "selected";} ?> value="<?php echo $tableData['branchId']; ?>"><?php  echo $tableData['branchName']." - ".$tableData['branchCode'] ?></option>	<?php } ?>
 						</select>
 						</div>
-						<div class="form-group col-md-2">
-                        <label for="pageTitle">Loan Id</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Loan Id <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control" id="loanId" name="loanId" placeholder="Loan Id" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-2">
-                        <label for="pageTitle">Form No.</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Form No. <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control" id="formNo" name="formNo" placeholder="Form  No" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Member Id</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Member Id <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control" id="memberId" name="memberId" placeholder="Member Id" maxlength="15" required />                   
-                        </div><div class="form-group col-md-3">
-                        <label for="pageTitle" >Date</label>
+                        </div><div class="form-group col-md-4">
+                        <label for="pageTitle" >Date <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control date" id="cDate" name="cDate" placeholder="Date" maxlength="15" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Applicant Name</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Loan plan <span class="requiredField">*</span> </label>
+							<select class="form-control" required name="planId" id="planId" required>
+							 <?php 
+								$query="SELECT * FROM loanplan where deleted='0' and status='0'";
+								$menuData=fetchData($query);
+								foreach($menuData as $tableData)
+								{ ?><option value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
+							 </select>                        
+						</div>
+					   <div class="form-group col-md-4">
+						<label>Plan Type <span class="requiredField">*</span> </label>
+						  <select class="form-control"  name="planType" id="planType" required>
+						 <?php 
+                    	$query="SELECT * FROM plantypes where deleted='0' and status='0' and planType='LOAN'";
+						$menuData=fetchData($query);
+						foreach($menuData as $tableData)
+						{ ?><option value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
+						</select>
+						</div>
+                       <div class="form-group col-md-4">
+                      <label for="pageTitle">Loan Amount <span class="requiredField">*</span>  </label>
+                      <input type="text" class="form-control" id="loanAmount" name="loanAmount" placeholder="Loan Amount " maxlength="10" required />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Rate Of Interest(%) <span class="requiredField">*</span>  </label>
+                      <input type="text" class="form-control" id="rateOfInterest" name="rateOfInterest" placeholder="Rate Of Interest " maxlength="5"  required />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">EMI  <span class="requiredField">*</span> </label>
+                      <input type="text" class="form-control" id="emi" name="emi" placeholder="EMI " maxlength="5"  required />                  
+                    </div>
+					<div class="form-group col-md-4">
+				  <label for="pageTitle">Payment Mode</label>
+				  <select class="form-control" name="paymentMode" id="paymentMode"> 
+					<option value="cash">Cash</option>
+					<option value="cheque">Cheque</option>
+					</select>
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Cheque No</label>
+                      <input type="text" class="form-control" id="chequeNo" name="chequeNo" placeholder="Cheque No" maxlength="10"  />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Cheque Date</label>
+                      <input type="text" class="form-control date" id="chequeDate" name="chequeDate" placeholder="Cheque Date " />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Bank A/C</label>
+                      <input type="text" class="form-control" id="bankAc" name="bankAc" placeholder="Bank Account" />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Bank Name</label>
+                      <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank Name" />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Loan Purpose</label>
+                      <input type="text" class="form-control" id="loanPurpose" name="loanPurpose" placeholder="Loan Purpose" />                  
+                    </div>
+					</div>
+					<div class="col-md-6 ">	
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Applicant Name <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control" id="applicantName" name="applicantName" placeholder="Applicant Name" maxlength="150" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Gurdian Name</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Gurdian Name <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control" id="gurdianName" name="gurdianName" placeholder="Gurdian Name" maxlength="150" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Holders's DOB</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Holders's DOB <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control date" id="applicantDob" name="applicantDob" placeholder="Holders's DOB" maxlength="150" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                        <label for="pageTitle">Holders's Age</label>
+						<div class="form-group col-md-4">
+                        <label for="pageTitle">Holders's Age <span class="requiredField">*</span> </label>
                         <input type="text" class="form-control" id="applicantAge" name="applicantAge" placeholder="Holders's Age" maxlength="150" required />                   
                         </div>
-						<div class="form-group col-md-3">
-                      <label for="pageTitle">Address</label>
-                      <textarea class="form-control" id="address" name="address" placeholder="Address " maxlength="100"></textarea>                  
+						<div class="form-group col-md-4">
+                      <label for="pageTitle">Address <span class="requiredField">*</span> </label>
+                      <textarea class="form-control" id="address" name="address" placeholder="Address " maxlength="100" required></textarea>                  
 						</div>
-						<div class="form-group col-md-2">
-                      <label>State</label>
+						<div class="form-group col-md-4">
+                      <label>State <span class="requiredField">*</span> </label>
                       <select class="form-control" name="state" id="state" required>
                       <option value="0" >Select State</option>
                      <?php 
@@ -226,125 +288,68 @@ $(document).ready(function(){
 					{ ?><option value="<?php echo $tableData['stateId']; ?>"><?php  echo $tableData['stateName'] ?></option> <?php } ?>
                       </select>
                     </div>
-					<div class="form-group col-md-2">
-                      <label>District</label>
+					<div class="form-group col-md-4">
+                      <label>District <span class="requiredField">*</span> </label>
                       <select class="form-control" name="district" id="district" required> </select>
                     </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Area</label>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Area <span class="requiredField">*</span> </label>
                       <select class="form-control" name="area" id="area" required>
 						</select>
                     </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle"> Zip Code </label>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle"> Zip Code <span class="requiredField">*</span> </label>
                       <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code " maxlength="6"  required />                  
                     </div>
-					<div class="form-group col-md-3">
-                    <label for="pageTitle">Gender </label>
-					<select class="form-control" name="gender" id="gender"> 
+					<div class="form-group col-md-4">
+                    <label for="pageTitle">Gender <span class="requiredField">*</span> </label>
+					<select class="form-control" required name="gender" id="gender"> 
 					<option value=""></option>
 					<option value="male">Male</option>
 					<option value="female">Female</option>
 					</select>                    
 					</div>
-					<div class="form-group col-md-2">
-                    <label for="pageTitle">Marital Status</label>
-					<select class="form-control" name="maritalStatus" id="maritalStatus"> 
+					<div class="form-group col-md-4">
+                    <label for="pageTitle">Marital Status <span class="requiredField">*</span> </label>
+					<select class="form-control" required name="maritalStatus" id="maritalStatus"> 
 					<option value=""></option>
 					<option value="married">Married</option>
 					<option value="single">Single</option>
 					<option value="single">Others</option>
 					</select>	                   
-					</div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle"> Guarantor Member No </label>
-                      <input type="text" class="form-control" id="gMemberNo" name="gMemberNo" placeholder="Guarantor Member No" maxlength="15"  required />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle"> Guarantor Name</label>
-                      <input type="text" class="form-control" id="gMemberName" name="gMemberName" placeholder=" Guarantor Name " maxlength="100"  required />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Guarantor Mobile No.</label>
-                      <input type="text" class="form-control" id="gMemberMobile" name="gMemberMobile" placeholder="Guarantor Mobile No." maxlength="13"  required />                  
-                    </div>
-						 <div class="form-group col-md-3">
-                        <label for="pageTitle">Loan plan </label>
-					<select class="form-control" required name="planId" id="planId" required>
-                     <?php 
-                    	$query="SELECT * FROM loanplan where deleted='0' and status='0'";
-						$menuData=fetchData($query);
-						foreach($menuData as $tableData)
-						{ ?><option value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
-                      </select>                        </div>
-                       <div class="form-group col-md-2">
-                      <label>Plan Type</label>
-                      <select class="form-control"  name="planType" id="planType" required>
-                     <?php 
-                    	$query="SELECT * FROM plantypes where deleted='0' and status='0' and planType='LOAN'";
-						$menuData=fetchData($query);
-						foreach($menuData as $tableData)
-						{ ?><option value="<?php echo $tableData['id']; ?>"><?php  echo $tableData['planName'] ?></option>	<?php } ?>
-                      </select>
-						</div>
-                       <div class="form-group col-md-2">
-                      <label for="pageTitle">Loan Amount  </label>
-                      <input type="text" class="form-control" id="loanAmount" name="loanAmount" placeholder="Loan Amount " maxlength="10" required />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Rate Of Interest(%)  </label>
-                      <input type="text" class="form-control" id="rateOfInterest" name="rateOfInterest" placeholder="Rate Of Interest " maxlength="5"  required />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">EMI  </label>
-                      <input type="text" class="form-control" id="emi" name="emi" placeholder="EMI " maxlength="5"  required />                  
-                    </div>
-					<div class="form-group col-md-2">
-				  <label for="pageTitle">Payment Mode</label>
-				  <select class="form-control" name="paymentMode" id="paymentMode"> 
-					<option value="cash">Cash</option>
-					<option value="cheque">Cheque</option>
+					</div> 
+					<div class="form-group col-md-4">
+					<label>Status</label>
+					<select class="form-control" name="status">
+					<option value="0">Active </option>
+					<option value="1" >Inactive</option>
 					</select>
+					</div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Member Mobile No <span class="requiredField">*</span> </label>
+                      <input type="text" class="form-control" id="memberMobile" name="memberMobile" placeholder="Member Mobile No" required />                  
                     </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Cheque No</label>
-                      <input type="text" class="form-control" id="chequeNo" name="chequeNo" placeholder="Cheque No" maxlength="10"  />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Cheque Date</label>
-                      <input type="text" class="form-control date" id="chequeDate" name="chequeDate" placeholder="Cheque Date " />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Bank A/C</label>
-                      <input type="text" class="form-control" id="bankAc" name="bankAc" placeholder="Bank Account" />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Bank Name</label>
-                      <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Bank Name" />                  
-                    </div>
-					<div class="form-group col-md-2">
-                      <label for="pageTitle">Loan Purpose</label>
-                      <input type="text" class="form-control" id="loanPurpose" name="loanPurpose" placeholder="Loan Purpose" />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Member Mobile No</label>
-                      <input type="text" class="form-control" id="memberMobile" name="memberMobile" placeholder="Member Mobile No" />                  
-                    </div>
-					<div class="form-group col-md-3">
-                      <label for="pageTitle">Member Email</label>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Member Email </label>
                       <input type="text" class="form-control" id="memberEmail" name="memberEmail" placeholder="Member Email" />                  
                     </div>
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-4">
                       <label for="pageTitle">Member Photo</label>
                       <input type="File" class="form-control" id="memberPhoto" name="memberPhoto" placeholder="Member Photo" />                  
                     </div>
-                        <div class="form-group col-md-3">
-                        <label>Status</label>
-                        <select class="form-control" name="status">
-                        <option value="0">Enabled </option>
-                        <option value="1" >Disabled</option>
-                        </select>
-                        </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle"> Guarantor Member No  <span class="requiredField">*</span> </label>
+                      <input type="text" class="form-control" id="gMemberNo" name="gMemberNo" placeholder="Guarantor Member No" maxlength="15"  required />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle"> Guarantor Name <span class="requiredField">*</span> </label>
+                      <input type="text" class="form-control" id="gMemberName" name="gMemberName" placeholder=" Guarantor Name " maxlength="100"  required />                  
+                    </div>
+					<div class="form-group col-md-4">
+                      <label for="pageTitle">Guarantor Mobile No. <span class="requiredField">*</span> </label>
+                      <input type="text" class="form-control" id="gMemberMobile" name="gMemberMobile" placeholder="Guarantor Mobile No." maxlength="13"  required />                  
+                    </div>
+					</div>	
                   </div><!-- /.box-body -->
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary  pull-left" name="addStates">Submit</button>

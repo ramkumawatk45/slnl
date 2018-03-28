@@ -19,6 +19,7 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 		 $branchId='';
 		 $branchAccess='';
 		 $userAccess='';
+		 $moduleRole='';
 		 $userData=fetchData($sql);
 		if (is_array($userData) || is_object($userData))
 		{
@@ -28,6 +29,7 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 				$branchCode = $tableData['branchCode'];
 				$userAccess = $tableData['userAccess'];
 				$userRole = $tableData['userRole'];
+				$moduleRole = $tableData['moduleRole'];
 			}
 		}
 		 $sql3="SELECT * FROM branchs WHERE branchCode='$branchCode' and deleted='0' and status='0'";
@@ -44,6 +46,7 @@ if(!empty($_POST['userName']) || !empty($_POST['password']))
 				  $_SESSION['branchAccess'] = $branchAccess;
 				  $_SESSION['userAccess'] = $userAccess;
 				  $_SESSION['userRole'] = $userRole;
+				  $_SESSION['moduleRole'] = $moduleRole;
 				  header("location:dashboard.php");
 			}
 			else {
